@@ -105,7 +105,7 @@ const QuickStats = () => {
     };
 
     calculateStats();
-  }, [checkins, weightEntries, getWeightTrend]);
+  }, [checkins, weightEntries]);
 
   const statItems = [
     { label: "Avg. Water", value: stats.avgWater, emoji: '💧', requiredPlan: 1, color: 'blue' },
