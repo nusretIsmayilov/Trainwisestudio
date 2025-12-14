@@ -1,0 +1,154 @@
+/* ✅ 1. Figtree font is loaded in index.html for optimal performance */
+
+/* Import external CSS before Tailwind to avoid build errors */
+@import 'react-circular-progressbar/dist/styles.css';
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  /* ==========================================================================
+     "TrainWiseStudio" THEME 
+     Light theme: beige & organic teal
+     Dark theme: deep blue & teal
+     ========================================================================== */
+
+  /* ## LIGHT THEME ## */
+  :root {
+    /* Base & Foreground */
+    --background: 37 88% 97%; /* Warm beige (#FAF5F0) */
+    --foreground: 210 14% 12%; /* Dark charcoal for text (#1F2937) */
+    
+    /* Containers (Cards, Sidebars, Popovers) */
+    --card: 0 0% 100%; /* White */
+    --card-foreground: 210 14% 12%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 210 14% 12%;
+    --sidebar-background: 37 88% 95%; /* Slightly darker beige */
+    --sidebar-foreground: 210 14% 12%;
+
+    /* Primary Colors & Gradient (Organic Teal) */
+    --primary-light: 173 72% 55%; /* Lighter teal (#3DD9C1) */
+    --primary: 173 72% 45%; /* Main teal (#14B8A6) */
+    --primary-dark: 173 72% 35%; /* Darker teal (#0E7D71) */
+    --primary-foreground: 0 0% 100%; /* White text on teal */
+    --gradient-primary: linear-gradient(135deg, hsl(var(--primary-light)), hsl(var(--primary-dark)));
+
+    /* Secondary Elements */
+    --secondary: 210 50% 70%; /* Soft blue for secondary buttons/links (#3B82F6) */
+    --secondary-foreground: 0 0% 100%;
+
+    /* Muted Elements */
+    --muted: 37 88% 95%;
+    --muted-foreground: 210 14% 50%;
+    
+    /* Borders & Rings */
+    --border: 37 88% 90%;
+    --input: 37 88% 95%;
+    --ring: 173 72% 45%;
+
+    /* Active / Accent */
+    --accent: 173 72% 45% / 0.1;
+    --accent-foreground: 173 72% 40%;
+
+    /* Sidebar Specifics */
+    --sidebar-accent: 37 88% 94%;
+    --sidebar-accent-foreground: 210 14% 15%;
+    --sidebar-primary: 173 72% 45%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-border: 37 88% 90%;
+    
+    --radius: 1.25rem;
+  }
+
+  /* ## DARK THEME ## */
+  .dark {
+    /* Base & Foreground */
+    --background: 210 30% 7%; /* Deep navy (#0F172A) */
+    --foreground: 0 0% 98%; /* Soft white (#F9FAFB) */
+    
+    /* Containers (Cards, Popovers, Sidebars) */
+    --card: 210 20% 15%; /* Slightly lighter navy (#1E293B) */
+    --card-foreground: 0 0% 98%;
+    --popover: 210 30% 7%;
+    --popover-foreground: 0 0% 98%;
+    --sidebar-background: 210 30% 9%;
+    --sidebar-foreground: 0 0% 98%;
+
+    /* Primary Colors & Gradient (Teal) */
+    --primary-light: 173 72% 55%; /* Lighter teal (#3DD9C1) */
+    --primary: 173 72% 45%;       /* Main teal (#14B8A6) */
+    --primary-dark: 173 72% 35%;  /* Darker teal (#0E7D71) */
+    --primary-foreground: 0 0% 100%;
+    --gradient-primary: linear-gradient(135deg, hsl(var(--primary-light)), hsl(var(--primary-dark)));
+
+    /* Secondary Elements */
+    --secondary: 210 50% 70%; /* Blue for links/buttons (#3B82F6) */
+    --secondary-foreground: 0 0% 98%;
+
+    /* Muted Elements */
+    --muted: 210 20% 25%;
+    --muted-foreground: 0 0% 60%;
+    
+    /* Borders & Rings */
+    --border: 210 20% 25%;
+    --input: 210 20% 25%;
+    --ring: 173 72% 45%;
+
+    /* Active / Accent */
+    --accent: 173 72% 45% / 0.1;
+    --accent-foreground: 173 72% 50%;
+
+    /* Sidebar Specifics */
+    --sidebar-accent: 210 20% 22%;
+    --sidebar-accent-foreground: 173 72% 50%;
+    --sidebar-primary: 173 72% 45%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-border: 210 20% 22%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  body {
+    @apply bg-background text-foreground;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* Helper class to easily apply the primary gradient */
+  .bg-gradient-primary {
+    background: var(--gradient-primary);
+  }
+
+  /* Hide number input spinners for cleaner mobile appearance */
+  input[type="number"].no-spinner::-webkit-outer-spin-button,
+  input[type="number"].no-spinner::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+
+  input[type="number"].no-spinner {
+    -moz-appearance: textfield;
+  }
+
+  /* Responsive scrollbar hiding for iPad and below */
+  @media (max-width: 1024px) {
+    .scrollbar-hide-tablet {
+      scrollbar-width: none;
+      -ms-overflow-style: none;
+    }
+    .scrollbar-hide-tablet::-webkit-scrollbar {
+      display: none;
+    }
+    .custom-scrollbar {
+      scrollbar-width: none;
+      -ms-overflow-style: none;
+    }
+    .custom-scrollbar::-webkit-scrollbar {
+      display: none;
+    }
+  }
+}

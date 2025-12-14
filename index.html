@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>TrainWiseStudio – Fitness, Nutrition & Mind</title>
+    <meta name="description" content="Personalized coaching across fitness, nutrition and mental clarity. Transform your life with our wellness app." />
+    <meta name="author" content="Lovable" />
+
+    <meta property="og:title" content="TrainWiseStudio – Fitness, Nutrition & Mind" />
+    <meta property="og:description" content="Personalized coaching across fitness, nutrition and mental clarity. Transform your life with our wellness app." />
+    <meta property="og:type" content="website" />
+    <meta property="og:image" content="https://lovable.dev/opengraph-image-p98pqg.png" />
+
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:site" content="@lovable_dev" />
+    <meta name="twitter:image" content="https://lovable.dev/opengraph-image-p98pqg.png" />
+
+    <!-- Preconnect to Google Fonts for faster font loading -->
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    
+    <!-- Inline critical font CSS to eliminate render-blocking request -->
+    <style>
+      @font-face {
+        font-family: 'Figtree';
+        font-style: normal;
+        font-weight: 400;
+        font-display: swap;
+        src: url(https://fonts.gstatic.com/s/figtree/v9/_Xms-HUzqDCFdgfMm4S9DaRvzig.woff2) format('woff2');
+      }
+      @font-face {
+        font-family: 'Figtree';
+        font-style: normal;
+        font-weight: 500;
+        font-display: swap;
+        src: url(https://fonts.gstatic.com/s/figtree/v9/_Xms-HUzqDCFdgfMm4S9DaRvzig.woff2) format('woff2');
+      }
+      @font-face {
+        font-family: 'Figtree';
+        font-style: normal;
+        font-weight: 600;
+        font-display: swap;
+        src: url(https://fonts.gstatic.com/s/figtree/v9/_Xms-HUzqDCFdgfMm4S9DaRvzig.woff2) format('woff2');
+      }
+      @font-face {
+        font-family: 'Figtree';
+        font-style: normal;
+        font-weight: 700;
+        font-display: swap;
+        src: url(https://fonts.gstatic.com/s/figtree/v9/_Xms-HUzqDCFdgfMm4S9DaRvzig.woff2) format('woff2');
+      }
+      @font-face {
+        font-family: 'Figtree';
+        font-style: normal;
+        font-weight: 800;
+        font-display: swap;
+        src: url(https://fonts.gstatic.com/s/figtree/v9/_Xms-HUzqDCFdgfMm4S9DaRvzig.woff2) format('woff2');
+      }
+      @font-face {
+        font-family: 'Figtree';
+        font-style: normal;
+        font-weight: 900;
+        font-display: swap;
+        src: url(https://fonts.gstatic.com/s/figtree/v9/_Xms-HUzqDCFdgfMm4S9DaRvzig.woff2) format('woff2');
+      }
+    </style>
+    
+    <!-- Preload the actual font file for fastest loading -->
+    <link 
+      rel="preload" 
+      as="font"
+      type="font/woff2"
+      href="https://fonts.gstatic.com/s/figtree/v9/_Xms-HUzqDCFdgfMm4S9DaRvzig.woff2"
+      crossorigin
+    />
+  </head>
+
+  <body>
+    <!-- Critical above-the-fold content for instant LCP -->
+    <style>
+      @keyframes pulse {
+        0%, 100% { opacity: 1; transform: scale(1); }
+        50% { opacity: 0.8; transform: scale(1.05); }
+      }
+      
+      #app-loader {
+        position: fixed;
+        inset: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: linear-gradient(135deg, #3DD9C1, #0E7D71);
+        z-index: 9999;
+        opacity: 1;
+        transition: opacity 0.3s ease-out;
+      }
+      #app-loader.hidden {
+        opacity: 0;
+        pointer-events: none;
+      }
+      
+      /* Hero skeleton with actual content for instant LCP */
+      #hero-skeleton {
+        position: fixed;
+        inset: 0;
+        background: linear-gradient(to bottom, rgba(0,0,0,0.3), rgba(0,0,0,0.5));
+        display: flex;
+        align-items: center;
+        z-index: 1;
+      }
+      #hero-skeleton .hero-content {
+        max-width: 1280px;
+        margin: 0 auto;
+        padding: 0 1rem;
+        width: 100%;
+      }
+      #hero-skeleton h1 {
+        font-size: clamp(2rem, 5vw, 3.5rem);
+        font-weight: 900;
+        line-height: 1.1;
+        color: white;
+        text-shadow: 0 2px 20px rgba(0, 0, 0, 0.5);
+        margin-bottom: 1.5rem;
+        font-family: 'Figtree', system-ui, sans-serif;
+      }
+      #hero-skeleton p {
+        font-size: clamp(1rem, 2vw, 1.25rem);
+        color: rgba(255, 255, 255, 0.9);
+        text-shadow: 0 2px 20px rgba(0, 0, 0, 0.5);
+        max-width: 36rem;
+        font-family: 'Figtree', system-ui, sans-serif;
+      }
+    </style>
+    
+    <!-- Hero content that appears instantly for LCP optimization -->
+    <div id="hero-skeleton">
+      <div class="hero-content">
+        <h1>Strong Starts Here</h1>
+        <p>Fitness isn't about size—it's about unlocking your energy, confidence, and power. Step into movement that feels good and finally see results that stick.</p>
+      </div>
+    </div>
+    
+    <!-- Loading overlay -->
+    <div id="app-loader">
+      <div style="font-size: 2.5rem; font-weight: 900; color: white; font-family: 'Figtree', system-ui, sans-serif; animation: pulse 1.5s ease-in-out infinite;">
+        TrainWise<span style="color: #FAF5F0;">Studio</span>
+      </div>
+    </div>
+    
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>
