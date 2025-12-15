@@ -4,13 +4,15 @@ import { Button } from '@/components/ui/button';
 import { Weight, TrendingUp, TrendingDown, Minus } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { useWeightTracking } from '@/hooks/useWeightTracking';
+import { useMemo } from 'react'; // ✅ EKLENDİ
 
 export default function WeightTrendCard() {
   const { entries, getLatestWeight, getWeightTrend, getWeightHistory } = useWeightTracking();
-  
-  const latestWeight = getLatestWeight();
-  const weightTrend = getWeightTrend();
-  const weightHistory = getWeightHistory(7); // Last 7 days
+
+  // ✅ FIX: render sırasında tekrar çağrılmasını engelle
+  const latestWeight = useMemo(() => getLatestWeight(), [entries]);
+  const weightTrend = useMemo(() => getWeightTrend(), [entries]);
+  const weightHistory = useMemo(() => getWeightHistory(7), [entries]);
 
   const getTrendIcon = () => {
     if (weightTrend > 0) return <TrendingUp className="h-4 w-4 text-red-500" />;
@@ -43,7 +45,7 @@ export default function WeightTrendCard() {
           Weight Progress
         </CardTitle>
       </CardHeader>
-      
+
       <CardContent className="space-y-4">
         {latestWeight ? (
           <>
@@ -65,7 +67,7 @@ export default function WeightTrendCard() {
               <div className="space-y-2">
                 <p className="text-sm font-medium">Last 7 days</p>
                 <div className="space-y-1">
-                  {weightHistory.slice(0, 3).map((entry, index) => (
+                  {weightHistory.slice(0, 3).map((entry) => (
                     <div key={entry.id} className="flex justify-between items-center text-sm">
                       <span className="text-muted-foreground">
                         {new Date(entry.date).toLocaleDateString()}
