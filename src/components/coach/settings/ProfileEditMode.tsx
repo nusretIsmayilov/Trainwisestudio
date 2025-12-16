@@ -72,6 +72,8 @@ export const ProfileEditMode: React.FC<ProfileEditModeProps> = ({
     setFormData({ ...formData, certifications: newCerts });
   };
   
+
+  
   const addCert = () => {
     setFormData({ 
       ...formData, 
