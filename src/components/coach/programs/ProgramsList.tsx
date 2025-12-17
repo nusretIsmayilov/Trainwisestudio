@@ -1,5 +1,7 @@
 'use client';
 
+import { useLocation } from 'react-router-dom';
+import { useEffect } from 'react';
 import React, { useState, useMemo, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Badge } from '@/components/ui/badge';
@@ -38,6 +40,7 @@ const ProgramsList = () => {
   const [activeCategory, setActiveCategory] = useState<ProgramCategory | 'all'>('all');
   const [searchQuery, setSearchQuery] = useState('');
   const navigate = useNavigate();
+  const location = useLocation(); // 👈 BURASI
   const { programs, loading, error, refetch } = useCoachPrograms();
   const { deleteProgram, loading: mutationLoading } = useProgramMutations();
 
@@ -86,6 +89,10 @@ const ProgramsList = () => {
         console.log(`Action: ${action} on program:`, program);
     }
   }, [navigate, deleteProgram]);
+
+    useEffect(() => {
+    refetch();
+  }, [location.key]);
 
   return (
     <motion.div

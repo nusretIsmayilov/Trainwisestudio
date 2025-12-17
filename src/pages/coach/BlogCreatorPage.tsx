@@ -22,6 +22,62 @@ interface BlogCreatorPageProps {
 
 const allCategories: BlogCategory[] = ['fitness', 'nutrition', 'mental health'];
 
+// ✅ NEW: Normalize whatever comes from DB into BlogContentItem[] for the editor
+const normalizeContentForEditor = (raw: any): BlogContentItem[] => {
+  const ensureShape = (arr: any[]): BlogContentItem[] => {
+    return arr
+      .filter(Boolean)
+      .map((it: any, idx: number) => {
+        const type = it?.type === 'file' ? 'file' : 'text';
+        return {
+          id: typeof it?.id === 'string' && it.id.trim() ? it.id : `c-${Date.now()}-${idx}`,
+          type,
+          mediaType: type === 'file' ? it?.mediaType : undefined,
+          value: typeof it?.value === 'string' ? it.value : String(it?.value ?? ''),
+        } as BlogContentItem;
+      });
+  };
+
+  if (!raw) return [{ id: 'c-1', type: 'text', value: '' }];
+
+  // Already an array (maybe from state)
+  if (Array.isArray(raw)) {
+    const shaped = ensureShape(raw);
+    return shaped.length ? shaped : [{ id: 'c-1', type: 'text', value: '' }];
+  }
+
+  // JSON string (the normal saved format from your submit)
+  if (typeof raw === 'string') {
+    try {
+      const parsedOnce = JSON.parse(raw);
+      if (Array.isArray(parsedOnce)) {
+        const shaped = ensureShape(parsedOnce);
+        return shaped.length ? shaped : [{ id: 'c-1', type: 'text', value: '' }];
+      }
+
+      // Sometimes content is double-encoded JSON
+      if (typeof parsedOnce === 'string') {
+        try {
+          const parsedTwice = JSON.parse(parsedOnce);
+          if (Array.isArray(parsedTwice)) {
+            const shaped = ensureShape(parsedTwice);
+            return shaped.length ? shaped : [{ id: 'c-1', type: 'text', value: '' }];
+          }
+        } catch {}
+      }
+    } catch {}
+
+    // HTML fallback -> strip tags and keep as plain text
+    const text = raw.replace(/<[^>]+>/g, '').trim();
+    return text
+      ? [{ id: 'c-1', type: 'text', value: text }]
+      : [{ id: 'c-1', type: 'text', value: '' }];
+  }
+
+  // Unknown type -> safe default
+  return [{ id: 'c-1', type: 'text', value: '' }];
+};
+
 const BlogCreatorPage: React.FC<BlogCreatorPageProps> = ({ onBack, onSubmit, initialPost }) => {
   const [formData, setFormData] = useState<Partial<BlogPost>>({});
   const [contentItems, setContentItems] = useState<BlogContentItem[]>([]);
@@ -38,12 +94,9 @@ const BlogCreatorPage: React.FC<BlogCreatorPageProps> = ({ onBack, onSubmit, ini
       category: initialPost?.category || 'fitness',
       isPublished: initialPost?.isPublished ?? false,
     });
-    if (initialPost?.content) {
-        // Simple heuristic for content initialization
-        setContentItems([{ id: 'c-1', type: 'text', value: initialPost.content }]);
-    } else {
-        setContentItems([{ id: 'c-1', type: 'text', value: '' }]);
-    }
+
+    // ✅ FIX: Always initialize editor with normalized blocks, not raw HTML/strings
+    setContentItems(normalizeContentForEditor(initialPost?.content));
   }, [initialPost]);
 
   const handleFormChange = useCallback((field: keyof BlogPost, value: any) => {
@@ -213,7 +266,7 @@ const BlogCreatorPage: React.FC<BlogCreatorPageProps> = ({ onBack, onSubmit, ini
                 autoFocus
                 value={formData.title || ''} 
                 onChange={(e) => handleFormChange('title', e.target.value)} 
-                className="text-4xl md:text-5xl font-extrabold bg-transparent text-white border-primary w-full p-2 placeholder:text-gray-300"
+                className="text-4xl md:text-5xl font-extrabold bg-white text-black border-primary w-full p-2 placeholder:text-gray-300"
                 placeholder={`Your Blog Post Title ${emoji}`}
                 onKeyDown={(e) => e.key === 'Enter' && setIsTitleEditing(false)}
               />

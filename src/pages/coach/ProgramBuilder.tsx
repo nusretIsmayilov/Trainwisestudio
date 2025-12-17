@@ -1,26 +1,36 @@
 // src/pages/coach/ProgramBuilder.tsx
-'use client';
+"use client";
 
-import React, { useState, useEffect, useRef } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
-import { AnimatePresence, motion } from 'framer-motion';
-import ProgramDetails from '@/components/coach/createprogram/ProgramDetails';
-import FitnessBuilder from '@/components/coach/createprogram/builders/FitnessBuilder';
-import NutritionBuilder from '@/components/coach/createprogram/nutrition/NutritionBuilder'; 
-import MentalHealthBuilder from '@/components/coach/createprogram/mentalhealth/MentalHealthBuilder'; 
-import { Separator } from '@/components/ui/separator';
-import { Button } from '@/components/ui/button';
-import { ArrowLeft, Check } from 'lucide-react';
-import { useProgramMutations } from '@/hooks/useProgramMutations';
-import { Program, ProgramCategory, ProgramStatus } from '@/types/program';
+import React, { useState, useEffect, useRef } from "react";
+import { useParams, useNavigate } from "react-router-dom";
+import { AnimatePresence, motion } from "framer-motion";
+import ProgramDetails from "@/components/coach/createprogram/ProgramDetails";
+import FitnessBuilder from "@/components/coach/createprogram/builders/FitnessBuilder";
+import NutritionBuilder from "@/components/coach/createprogram/nutrition/NutritionBuilder";
+import MentalHealthBuilder from "@/components/coach/createprogram/mentalhealth/MentalHealthBuilder";
+import { Separator } from "@/components/ui/separator";
+import { Button } from "@/components/ui/button";
+import { ArrowLeft, Check } from "lucide-react";
+import { useProgramMutations } from "@/hooks/useProgramMutations";
+import { Program, ProgramCategory, ProgramStatus } from "@/types/program";
 
-type Step = 'program-details' | 'fitness-builder' | 'nutrition-builder' | 'mental-health-builder';
+type Step =
+  | "program-details"
+  | "fitness-builder"
+  | "nutrition-builder"
+  | "mental-health-builder";
 
 interface ProgramData {
   category: ProgramCategory;
   title: string;
   description: string;
   plan: any;
+
+  muscleGroups?: string[] | null;
+  equipment?: string[] | null;
+  benefits?: string | null;
+  allergies?: string | null;
+
   assignedTo?: string | null;
   scheduledDate?: string | null;
   markActive?: boolean;
@@ -29,8 +39,9 @@ interface ProgramData {
 const ProgramBuilder = () => {
   const { id } = useParams();
   const navigate = useNavigate();
-  const { createProgram, updateProgram, getProgramById, loading } = useProgramMutations();
-  const [step, setStep] = useState<Step>('program-details');
+  const { createProgram, updateProgram, getProgramById, loading } =
+    useProgramMutations();
+  const [step, setStep] = useState<Step>("program-details");
   const [programData, setProgramData] = useState<Partial<ProgramData>>({});
   const [existingProgram, setExistingProgram] = useState<Program | null>(null);
   const [isEditing, setIsEditing] = useState(false);
@@ -56,25 +67,27 @@ const ProgramBuilder = () => {
         didLoadRef.current = id;
       } else {
         // Program not found, redirect to programs list
-        navigate('/coach/programs');
+        navigate("/coach/programs");
       }
     };
     loadProgram();
   }, [id, navigate]);
 
   const handleProgramDetailsNext = (data: any) => {
-    setProgramData(prev => ({ ...prev, ...data }));
-    
+    setProgramData((prev) => ({ ...prev, ...data }));
+
     // THE NAVIGATION LOGIC IS CORRECT HERE:
-    if (data.category === 'fitness') {
-      setStep('fitness-builder');
-    } else if (data.category === 'nutrition') {
-      setStep('nutrition-builder');
-    } else if (data.category === 'mental health') {
-      setStep('mental-health-builder'); 
+    if (data.category === "fitness") {
+      setStep("fitness-builder");
+    } else if (data.category === "nutrition") {
+      setStep("nutrition-builder");
+    } else if (data.category === "mental health") {
+      setStep("mental-health-builder");
     } else {
       console.log(`Builder for ${data.category} is not yet implemented.`);
-      alert(`Builder for ${data.category} is not yet implemented. Please select Fitness, Nutrition, or Mental Health.`);
+      alert(
+        `Builder for ${data.category} is not yet implemented. Please select Fitness, Nutrition, or Mental Health.`
+      );
     }
   };
 
@@ -93,54 +106,73 @@ const ProgramBuilder = () => {
         description: finalProgram.description || existingProgram.description,
         category: finalProgram.category || existingProgram.category,
         plan: planData,
-        assignedTo: finalProgram.assignedTo ?? existingProgram.assignedTo ?? null,
-        scheduledDate: finalProgram.scheduledDate ?? existingProgram.scheduledDate ?? null,
-        status: 'active' as ProgramStatus, // Save as active when program is completed
+        assignedTo:
+          finalProgram.assignedTo ?? existingProgram.assignedTo ?? null,
+        scheduledDate:
+          finalProgram.scheduledDate ?? existingProgram.scheduledDate ?? null,
+        status: "active" as ProgramStatus, // Save as active when program is completed
+        muscleGroups: finalProgram.muscleGroups ?? null,
+        equipment: finalProgram.equipment ?? null,
+        benefits: finalProgram.benefits ?? null,
+        allergies: finalProgram.allergies ?? null,
       });
     } else {
       // Create new program - save as active when completed
       result = await createProgram({
-        name: finalProgram.title || 'Untitled Program',
-        description: finalProgram.description || '',
-        category: finalProgram.category || 'fitness',
+        name: finalProgram.title || "Untitled Program",
+        description: finalProgram.description || "",
+        category: finalProgram.category || "fitness",
         plan: planData,
         assignedTo: finalProgram.assignedTo ?? null,
         scheduledDate: finalProgram.scheduledDate ?? null,
-        status: 'active' as ProgramStatus, // Save as active when program is completed
+        status: "active" as ProgramStatus, // Save as active when program is completed
+        muscleGroups: finalProgram.muscleGroups ?? null,
+        equipment: finalProgram.equipment ?? null,
+        benefits: finalProgram.benefits ?? null,
+        allergies: finalProgram.allergies ?? null,
       });
     }
 
     if (result) {
-      navigate('/coach/programs');
+      navigate("/coach/programs", { replace: true });
     }
   };
 
   const renderStep = () => {
     const commonBuilderProps = {
-      onBack: () => setStep('program-details'),
+      onBack: () => setStep("program-details"),
       onSave: handleSaveProgram,
     };
 
     switch (step) {
-      case 'program-details':
+      case "program-details":
         return (
-          <ProgramDetails 
-            onNext={handleProgramDetailsNext} 
-            initialData={programData} 
+          <ProgramDetails
+            onNext={handleProgramDetailsNext}
+            initialData={programData}
             isEditing={isEditing}
           />
         );
-      case 'fitness-builder':
+      case "fitness-builder":
         return (
-          <FitnessBuilder {...commonBuilderProps} initialData={programData.plan} />
+          <FitnessBuilder
+            {...commonBuilderProps}
+            initialData={programData.plan}
+          />
         );
-      case 'nutrition-builder': 
+      case "nutrition-builder":
         return (
-          <NutritionBuilder {...commonBuilderProps} initialData={programData.plan} />
+          <NutritionBuilder
+            {...commonBuilderProps}
+            initialData={programData.plan}
+          />
         );
-      case 'mental-health-builder': 
+      case "mental-health-builder":
         return (
-          <MentalHealthBuilder {...commonBuilderProps} initialData={programData.plan} />
+          <MentalHealthBuilder
+            {...commonBuilderProps}
+            initialData={programData.plan}
+          />
         );
       default:
         return null;
@@ -149,15 +181,15 @@ const ProgramBuilder = () => {
 
   return (
     <div className="container mx-auto p-4 md:p-8">
-      {step === 'program-details' && (
+      {step === "program-details" && (
         <>
           <h1 className="text-4xl font-bold">
-            {isEditing ? 'Edit Program' : 'Create New Program'}
+            {isEditing ? "Edit Program" : "Create New Program"}
           </h1>
           <Separator className="my-8" />
         </>
       )}
-      
+
       <div className="max-w-7xl mx-auto">
         <AnimatePresence mode="wait">
           <motion.div

@@ -66,7 +66,7 @@ const BlogCard: React.FC<BlogCardProps> = ({ post, onEdit, onDelete, onView }) =
              <Button variant="default" size="icon" className='h-10 w-10' onClick={(e) => { e.stopPropagation(); onEdit(post); }}>
                <Pencil className="h-5 w-5" />
              </Button>
-             <Button variant="destructive" size="icon" className='h-10 w-10' onClick={(e) => { e.stopPropagation(); onDelete(post.id); }}>
+             <Button variant="destructive" size="icon" className='h-10 w-10 bg-red-600 hover:bg-red-700' onClick={(e) => { e.stopPropagation(); onDelete(post.id); }}>
                <Trash2 className="h-5 w-5" />
              </Button>
           </div>
