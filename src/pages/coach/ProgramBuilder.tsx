@@ -42,7 +42,7 @@ const ProgramBuilder = () => {
   const { createProgram, updateProgram, getProgramById, loading } =
     useProgramMutations();
   const [step, setStep] = useState<Step>("program-details");
-  const [programData, setProgramData] = useState<Partial<ProgramData>>({});
+  const [programData, setProgramData] = useState<ProgramData | null>(null);
   const [existingProgram, setExistingProgram] = useState<Program | null>(null);
   const [isEditing, setIsEditing] = useState(false);
 
@@ -60,9 +60,16 @@ const ProgramBuilder = () => {
           category: program.category,
           title: program.name,
           description: program.description,
-          plan: program.plan || {}, // Load existing plan data from program.plan
-          assignedTo: (program as any).assignedTo,
-          scheduledDate: (program as any).scheduledDate,
+          plan: program.plan || {},
+
+          muscleGroups: program.muscleGroups ?? null,
+          equipment: program.equipment ?? null,
+          benefits: program.benefits ?? null,
+          allergies: program.allergies ?? null,
+
+          assignedTo: program.assignedTo ?? null,
+          scheduledDate: program.scheduledDate ?? null,
+          markActive: false,
         });
         didLoadRef.current = id;
       } else {
@@ -92,9 +99,15 @@ const ProgramBuilder = () => {
   };
 
   const handleSaveProgram = async (planData: any) => {
+    console.log("programData:", programData);
     const finalProgram = {
       ...programData,
       plan: planData,
+
+      muscleGroups: programData.muscleGroups ?? null,
+      equipment: programData.equipment ?? null,
+      benefits: programData.benefits ?? null,
+      allergies: programData.allergies ?? null,
     };
 
     let result;
@@ -106,30 +119,34 @@ const ProgramBuilder = () => {
         description: finalProgram.description || existingProgram.description,
         category: finalProgram.category || existingProgram.category,
         plan: planData,
+
+        muscleGroups: finalProgram.muscleGroups,
+        equipment: finalProgram.equipment,
+        benefits: finalProgram.benefits,
+        allergies: finalProgram.allergies,
+
         assignedTo:
           finalProgram.assignedTo ?? existingProgram.assignedTo ?? null,
         scheduledDate:
           finalProgram.scheduledDate ?? existingProgram.scheduledDate ?? null,
-        status: "active" as ProgramStatus, // Save as active when program is completed
-        muscleGroups: finalProgram.muscleGroups ?? null,
-        equipment: finalProgram.equipment ?? null,
-        benefits: finalProgram.benefits ?? null,
-        allergies: finalProgram.allergies ?? null,
+        status: "active",
       });
     } else {
       // Create new program - save as active when completed
       result = await createProgram({
         name: finalProgram.title || "Untitled Program",
         description: finalProgram.description || "",
-        category: finalProgram.category || "fitness",
+        category: finalProgram.category,
         plan: planData,
+
+        muscleGroups: finalProgram.muscleGroups,
+        equipment: finalProgram.equipment,
+        benefits: finalProgram.benefits,
+        allergies: finalProgram.allergies,
+
         assignedTo: finalProgram.assignedTo ?? null,
         scheduledDate: finalProgram.scheduledDate ?? null,
-        status: "active" as ProgramStatus, // Save as active when program is completed
-        muscleGroups: finalProgram.muscleGroups ?? null,
-        equipment: finalProgram.equipment ?? null,
-        benefits: finalProgram.benefits ?? null,
-        allergies: finalProgram.allergies ?? null,
+        status: "active",
       });
     }
 
@@ -149,7 +166,7 @@ const ProgramBuilder = () => {
         return (
           <ProgramDetails
             onNext={handleProgramDetailsNext}
-            initialData={programData}
+            initialData={programData ?? undefined}
             isEditing={isEditing}
           />
         );

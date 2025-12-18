@@ -123,7 +123,10 @@ export const ConversationList: React.FC<ConversationListProps> = ({
             >
               <div className="flex items-start gap-2 sm:gap-3">
                 <Avatar className="w-8 h-8 md:w-10 md:h-10">
-                  <AvatarImage src={otherUser?.avatar_url || undefined} />
+                  <AvatarImage 
+                  src={otherUser?.avatar_url || undefined} 
+                  className='object-cover object-center'
+                  />
                   <AvatarFallback>
                     {otherUser?.full_name?.split(' ').map(n => n[0]).join('') || (otherUser?.email ? otherUser.email[0].toUpperCase() : '?')}
                   </AvatarFallback>

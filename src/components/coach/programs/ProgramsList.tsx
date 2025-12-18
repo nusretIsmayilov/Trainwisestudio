@@ -1,96 +1,136 @@
-'use client';
+"use client";
 
-import { useLocation } from 'react-router-dom';
-import { useEffect } from 'react';
-import React, { useState, useMemo, useCallback } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import { Badge } from '@/components/ui/badge';
-import { Button } from '@/components/ui/button';
+import { useLocation } from "react-router-dom";
+import { useEffect } from "react";
+import React, { useState, useMemo, useCallback } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu';
-import { MoreHorizontal, Calendar, User, Eye, Edit, Trash2, FileX } from 'lucide-react';
-import { useNavigate } from 'react-router-dom';
-import ProgramsFilters from './ProgramsFilters';
-import { Program, ProgramStatus, ProgramCategory } from '@/types/program';
-import { useCoachPrograms } from '@/hooks/useCoachPrograms';
-import { useProgramMutations } from '@/hooks/useProgramMutations';
-import { Card } from '@/components/ui/card';
-import { Frown, Play, Clock, Pencil, Users, PlusCircle } from 'lucide-react';
+} from "@/components/ui/dropdown-menu";
+import {
+  MoreHorizontal,
+  Calendar,
+  User,
+  Eye,
+  Edit,
+  Trash2,
+  FileX,
+} from "lucide-react";
+import { useNavigate } from "react-router-dom";
+import ProgramsFilters from "./ProgramsFilters";
+import { Program, ProgramStatus, ProgramCategory } from "@/types/program";
+import { useCoachPrograms } from "@/hooks/useCoachPrograms";
+import { useProgramMutations } from "@/hooks/useProgramMutations";
+import { Card } from "@/components/ui/card";
+import { Frown, Play, Clock, Pencil, Users, PlusCircle } from "lucide-react";
 
 // Helper function to get status badge
-const getStatusBadge = (status: Program['status']) => {
+const getStatusBadge = (status: Program["status"]) => {
   switch (status) {
-    case 'active':
-      return <Badge className="bg-emerald-100 text-emerald-700 hover:bg-emerald-100 min-w-[90px] justify-center"><Play className="h-3 w-3 mr-1" /> Active</Badge>;
-    case 'scheduled':
-      return <Badge className="bg-blue-100 text-blue-700 hover:bg-blue-100 min-w-[90px] justify-center"><Clock className="h-3 w-3 mr-1" /> Scheduled</Badge>;
-    case 'draft':
-      return <Badge className="bg-orange-100 text-orange-700 hover:bg-orange-100 min-w-[90px] justify-center"><Pencil className="h-3 w-3 mr-1" /> Draft</Badge>;
+    case "active":
+      return (
+        <Badge className="bg-emerald-100 text-emerald-700 hover:bg-emerald-100 min-w-[90px] justify-center">
+          <Play className="h-3 w-3 mr-1" /> Active
+        </Badge>
+      );
+    case "scheduled":
+      return (
+        <Badge className="bg-blue-100 text-blue-700 hover:bg-blue-100 min-w-[90px] justify-center">
+          <Clock className="h-3 w-3 mr-1" /> Scheduled
+        </Badge>
+      );
+    case "draft":
+      return (
+        <Badge className="bg-orange-100 text-orange-700 hover:bg-orange-100 min-w-[90px] justify-center">
+          <Pencil className="h-3 w-3 mr-1" /> Draft
+        </Badge>
+      );
     default:
-      return <Badge variant="secondary" className="min-w-[90px] justify-center">Normal</Badge>;
+      return (
+        <Badge variant="secondary" className="min-w-[90px] justify-center">
+          Normal
+        </Badge>
+      );
   }
 };
 
 const ProgramsList = () => {
-  const [activeStatus, setActiveStatus] = useState<ProgramStatus | 'all'>('all');
-  const [activeCategory, setActiveCategory] = useState<ProgramCategory | 'all'>('all');
-  const [searchQuery, setSearchQuery] = useState('');
+  const [activeStatus, setActiveStatus] = useState<ProgramStatus | "all">(
+    "all"
+  );
+  const [activeCategory, setActiveCategory] = useState<ProgramCategory | "all">(
+    "all"
+  );
+  const [searchQuery, setSearchQuery] = useState("");
   const navigate = useNavigate();
-  const location = useLocation(); // 👈 BURASI
+  const location = useLocation();
   const { programs, loading, error, refetch } = useCoachPrograms();
   const { deleteProgram, loading: mutationLoading } = useProgramMutations();
 
   // Filter programs based on active filters
   const filteredPrograms = useMemo(() => {
     return programs.filter((program) => {
-      const matchesStatus = activeStatus === 'all' || program.status === activeStatus;
-      const matchesCategory = activeCategory === 'all' || program.category === activeCategory;
-      const matchesSearch = program.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                           program.description.toLowerCase().includes(searchQuery.toLowerCase());
-      
+      const matchesStatus =
+        activeStatus === "all" || program.status === activeStatus;
+      const matchesCategory =
+        activeCategory === "all" || program.category === activeCategory;
+      const matchesSearch =
+        program.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        program.description.toLowerCase().includes(searchQuery.toLowerCase());
+
       return matchesStatus && matchesCategory && matchesSearch;
     });
   }, [programs, activeStatus, activeCategory, searchQuery]);
 
   const getClientName = (clientId: string | null) => {
-    if (!clientId) return 'Unassigned';
+    if (!clientId) return "Unassigned";
     // TODO: Replace with real client data from database
     const mockClients = [
-      { id: 'client-1', name: 'John Doe' },
-      { id: 'client-2', name: 'Jane Smith' },
-      { id: 'client-3', name: 'Alex Johnson' },
-      { id: 'client-4', name: 'Sarah Williams' },
+      { id: "client-1", name: "John Doe" },
+      { id: "client-2", name: "Jane Smith" },
+      { id: "client-3", name: "Alex Johnson" },
+      { id: "client-4", name: "Sarah Williams" },
     ];
-    const client = mockClients.find(c => c.id === clientId);
-    return client?.name || 'Unknown Client';
+    const client = mockClients.find((c) => c.id === clientId);
+    return client?.name || "Unknown Client";
   };
 
-  const handleAction = useCallback(async (action: string, program: Program) => {
-    switch (action) {
-      case 'view':
-        navigate(`/coach/programs/view/${program.id}`);
-        break;
-      case 'edit':
-        navigate(`/coach/programs/edit/${program.id}`);
-        break;
-      case 'delete':
-        if (window.confirm(`Are you sure you want to delete "${program.name}"?`)) {
-          const ok = await deleteProgram(program.id);
-          if (ok) {
-            await refetch();
+  const handleAction = useCallback(
+    async (action: string, program: Program) => {
+      switch (action) {
+        case "view":
+          navigate(`/coach/programs/view/${program.id}`, {
+            state: { title: program.name },
+          });
+          break;
+        case "edit":
+          navigate(`/coach/programs/edit/${program.id}`, {
+            state: { title: program.name },
+          });
+          break;
+        case "delete":
+          if (
+            window.confirm(`Are you sure you want to delete "${program.name}"?`)
+          ) {
+            const ok = await deleteProgram(program.id);
+            if (ok) {
+              await refetch();
+            }
           }
-        }
-        break;
-      default:
-        console.log(`Action: ${action} on program:`, program);
-    }
-  }, [navigate, deleteProgram]);
+          break;
+        default:
+          console.log(`Action: ${action} on program:`, program);
+      }
+    },
+    [navigate, deleteProgram]
+  );
 
-    useEffect(() => {
+  useEffect(() => {
     refetch();
   }, [location.key]);
 
@@ -137,15 +177,14 @@ const ProgramsList = () => {
           </div>
           <h3 className="font-bold text-2xl mb-2">No programs found</h3>
           <p className="text-muted-foreground text-lg max-w-md mb-6">
-            {searchQuery || activeStatus !== 'all' || activeCategory !== 'all'
-              ? 'Try adjusting your search terms or filters to find what you\'re looking for.'
-              : 'Get started by creating your first program.'
-            }
+            {searchQuery || activeStatus !== "all" || activeCategory !== "all"
+              ? "Try adjusting your search terms or filters to find what you're looking for."
+              : "Get started by creating your first program."}
           </p>
-          <Button 
-            variant="outline" 
+          <Button
+            variant="outline"
             className="mt-6"
-            onClick={() => navigate('/coach/programs/create')}
+            onClick={() => navigate("/coach/programs/create")}
           >
             Create New Program
           </Button>
@@ -184,16 +223,22 @@ const ProgramsList = () => {
                         <span className="font-semibold text-lg group-hover:text-primary transition-colors flex items-center gap-2">
                           {program.name}
                           {program.isAIGenerated && (
-                            <Badge variant="secondary" className="text-[10px]">AI</Badge>
+                            <Badge variant="secondary" className="text-[10px]">
+                              AI
+                            </Badge>
                           )}
                         </span>
-                        <span className="text-sm text-muted-foreground truncate">{program.description}</span>
+                        <span className="text-sm text-muted-foreground truncate">
+                          {program.description}
+                        </span>
                       </div>
 
                       {/* Client */}
                       <div className="flex items-center gap-2 text-sm text-muted-foreground">
                         <Users className="h-4 w-4 shrink-0" />
-                        <span className="truncate">{getClientName(program.assignedTo)}</span>
+                        <span className="truncate">
+                          {getClientName(program.assignedTo)}
+                        </span>
                       </div>
 
                       {/* Status */}
@@ -202,21 +247,30 @@ const ProgramsList = () => {
                         {/* Actions */}
                         <DropdownMenu>
                           <DropdownMenuTrigger asChild>
-                            <Button variant="ghost" size="icon" className="h-8 w-8 opacity-75 hover:opacity-100" disabled={mutationLoading}>
+                            <Button
+                              variant="ghost"
+                              size="icon"
+                              className="h-8 w-8 opacity-75 hover:opacity-100"
+                              disabled={mutationLoading}
+                            >
                               <MoreHorizontal className="h-4 w-4" />
                             </Button>
                           </DropdownMenuTrigger>
                           <DropdownMenuContent align="end" className="w-48">
-                            <DropdownMenuItem onClick={() => handleAction('view', program)}>
+                            <DropdownMenuItem
+                              onClick={() => handleAction("view", program)}
+                            >
                               <Eye className="h-4 w-4 mr-2" />
                               View Details
                             </DropdownMenuItem>
-                            <DropdownMenuItem onClick={() => handleAction('edit', program)}>
+                            <DropdownMenuItem
+                              onClick={() => handleAction("edit", program)}
+                            >
                               <Edit className="h-4 w-4 mr-2" />
                               Edit Program
                             </DropdownMenuItem>
-                            <DropdownMenuItem 
-                              onClick={() => handleAction('delete', program)} 
+                            <DropdownMenuItem
+                              onClick={() => handleAction("delete", program)}
                               className="text-destructive focus:text-destructive"
                             >
                               <Trash2 className="h-4 w-4 mr-2" />
@@ -233,26 +287,37 @@ const ProgramsList = () => {
                         <h3 className="text-xl font-bold group-hover:text-primary flex items-center gap-2">
                           {program.name}
                           {program.isAIGenerated && (
-                            <Badge variant="secondary" className="text-[10px]">AI</Badge>
+                            <Badge variant="secondary" className="text-[10px]">
+                              AI
+                            </Badge>
                           )}
                         </h3>
                         <DropdownMenu>
                           <DropdownMenuTrigger asChild>
-                            <Button variant="ghost" size="icon" className="h-8 w-8" disabled={mutationLoading}>
+                            <Button
+                              variant="ghost"
+                              size="icon"
+                              className="h-8 w-8"
+                              disabled={mutationLoading}
+                            >
                               <MoreHorizontal className="h-4 w-4" />
                             </Button>
                           </DropdownMenuTrigger>
                           <DropdownMenuContent align="end" className="w-48">
-                            <DropdownMenuItem onClick={() => handleAction('view', program)}>
+                            <DropdownMenuItem
+                              onClick={() => handleAction("view", program)}
+                            >
                               <Eye className="h-4 w-4 mr-2" />
                               View Details
                             </DropdownMenuItem>
-                            <DropdownMenuItem onClick={() => handleAction('edit', program)}>
+                            <DropdownMenuItem
+                              onClick={() => handleAction("edit", program)}
+                            >
                               <Edit className="h-4 w-4 mr-2" />
                               Edit Program
                             </DropdownMenuItem>
-                            <DropdownMenuItem 
-                              onClick={() => handleAction('delete', program)} 
+                            <DropdownMenuItem
+                              onClick={() => handleAction("delete", program)}
                               className="text-destructive focus:text-destructive"
                             >
                               <Trash2 className="h-4 w-4 mr-2" />
@@ -261,7 +326,9 @@ const ProgramsList = () => {
                           </DropdownMenuContent>
                         </DropdownMenu>
                       </div>
-                      <p className="text-sm text-muted-foreground">{program.description}</p>
+                      <p className="text-sm text-muted-foreground">
+                        {program.description}
+                      </p>
                       <div className="flex items-center gap-2 text-sm text-muted-foreground">
                         <Users className="h-4 w-4 shrink-0" />
                         <span>Client: {getClientName(program.assignedTo)}</span>

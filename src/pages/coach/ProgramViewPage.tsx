@@ -169,10 +169,51 @@ const ProgramViewPage = () => {
               <CardTitle>Program Description</CardTitle>
             </CardHeader>
             <CardContent>
-              <p className="text-muted-foreground">{program.description}</p>
+              <p className="text-black">{program.description}</p>
             </CardContent>
           </Card>
         )}
+        {/* Extra Program Details */}
+{(program.muscleGroups?.length ||
+  program.equipment?.length ||
+  program.benefits ||
+  program.allergies) && (
+  <Card>
+    <CardHeader>
+      <CardTitle>Additional Details</CardTitle>
+    </CardHeader>
+    <CardContent className="space-y-3">
+      {program.muscleGroups?.length > 0 && (
+        <div>
+          <span className="font-medium">Muscle Groups:</span>{" "}
+          {program.muscleGroups.join(", ")}
+        </div>
+      )}
+
+      {program.equipment?.length > 0 && (
+        <div>
+          <span className="font-medium">Equipment Needed:</span>{" "}
+          {program.equipment.join(", ")}
+        </div>
+      )}
+
+      {program.benefits && (
+        <div>
+          <span className="font-medium">Benefits:</span>{" "}
+          {program.benefits}
+        </div>
+      )}
+
+      {program.allergies && (
+        <div>
+          <span className="font-medium">Allergies:</span>{" "}
+          {program.allergies}
+        </div>
+      )}
+    </CardContent>
+  </Card>
+)}
+
       </div>
     </motion.div>
   );

@@ -198,6 +198,10 @@ export const useProgramMutations = () => {
             assigned_to: data.assignedTo || null,
             scheduled_date: data.scheduledDate || null,
             plan: data.plan || null,
+            muscle_groups: data.muscleGroups ?? null,
+            equipment: data.equipment ?? null,
+            benefits: data.benefits ?? null,
+            allergies: data.allergies ?? null,
           })
           .select()
           .single();
@@ -353,6 +357,10 @@ export const useProgramMutations = () => {
             assigned_to: data.assignedTo || null,
             scheduled_date: data.scheduledDate || null,
             plan: data.plan || null,
+            muscle_groups: data.muscleGroups ?? null,
+            equipment: data.equipment ?? null,
+            benefits: data.benefits ?? null,
+            allergies: data.allergies ?? null,
           })
           .eq("id", data.id)
           .eq("coach_id", profile.id)
@@ -456,11 +464,21 @@ export const useProgramMutations = () => {
         description: data.description,
         status: data.status as ProgramStatus,
         category: data.category as ProgramCategory,
+
+        // 🔥 EKSİK OLANLAR
+        muscleGroups: data.muscle_groups,
+        equipment: data.equipment,
+        benefits: data.benefits,
+        allergies: data.allergies,
+
+        assignedTo: data.assigned_to,
+        scheduledDate: data.scheduled_date
+          ? data.scheduled_date.split("T")[0]
+          : null,
+
+        plan: data.plan || undefined,
         createdAt: data.created_at,
         updatedAt: data.updated_at,
-        assignedTo: data.assigned_to,
-        scheduledDate: data.scheduled_date || undefined,
-        plan: data.plan || undefined,
       };
     } catch (err) {
       console.error("Error fetching program:", err);

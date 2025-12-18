@@ -161,7 +161,7 @@ export const OfferMessage: React.FC<OfferMessageProps> = ({
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-1.5 sm:gap-2">
                 <DollarSign className="w-3 h-3 sm:w-4 sm:h-4 text-primary" />
-                <span className="font-medium text-xs sm:text-sm">
+                <span className="font-medium text-xs sm:text-sm mr-2">
                   Coaching Offer
                 </span>
               </div>

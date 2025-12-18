@@ -30,6 +30,9 @@ const TopNav = ({ title }: TopNavProps) => {
   };
 
   const getPageTitle = () => {
+    const stateTitle = (location.state as any)?.title;
+    if (stateTitle) return stateTitle;
+
     if (title) return title;
     const path = location.pathname;
     const segments = path.split("/").filter(Boolean);

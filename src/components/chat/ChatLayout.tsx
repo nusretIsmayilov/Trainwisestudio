@@ -1,10 +1,10 @@
-import React from 'react';
-import { ConversationList } from './ConversationList';
-import { ChatView } from './ChatView';
-import { useConversations } from '@/hooks/useConversations';
-import { useAuth } from '@/contexts/AuthContext';
-import { cn } from '@/lib/utils';
-import { useTranslation } from 'react-i18next';
+import React from "react";
+import { ConversationList } from "./ConversationList";
+import { ChatView } from "./ChatView";
+import { useConversations } from "@/hooks/useConversations";
+import { useAuth } from "@/contexts/AuthContext";
+import { cn } from "@/lib/utils";
+import { useTranslation } from "react-i18next";
 //hello
 interface ChatLayoutProps {
   selectedConversationId: string | null;
@@ -13,7 +13,7 @@ interface ChatLayoutProps {
 
 export const ChatLayout: React.FC<ChatLayoutProps> = ({
   selectedConversationId,
-  onSelectConversation
+  onSelectConversation,
 }) => {
   const { conversations, loading } = useConversations();
   const { profile } = useAuth();
@@ -22,18 +22,22 @@ export const ChatLayout: React.FC<ChatLayoutProps> = ({
   if (loading) {
     return (
       <div className="flex h-full items-center justify-center">
-        <div className="text-muted-foreground">{t('messages.loadingConversations')}</div>
+        <div className="text-muted-foreground">
+          {t("messages.loadingConversations")}
+        </div>
       </div>
     );
   }
 
   return (
-    <div className="flex h-full bg-background w-full">
+    <div className="flex h-full bg-background w-full ">
       {/* Conversation List - hide on mobile when conversation selected */}
-      <div className={cn(
-        "w-full md:w-64 lg:w-80 border-r border-border flex-shrink-0",
-        selectedConversationId && "hidden md:block"
-      )}>
+      <div
+        className={cn(
+          "w-full md:w-64 lg:w-80 border-r border-border flex-shrink-0",
+          selectedConversationId && "hidden md:block"
+        )}
+      >
         <ConversationList
           conversations={conversations}
           selectedId={selectedConversationId}
@@ -43,12 +47,14 @@ export const ChatLayout: React.FC<ChatLayoutProps> = ({
       </div>
 
       {/* Chat View - hide on mobile when no conversation selected */}
-      <div className={cn(
-        "flex-1 flex flex-col",
-        !selectedConversationId && "hidden md:flex"
-      )}>
+      <div
+        className={cn(
+          "flex-1 flex flex-col",
+          !selectedConversationId && "hidden md:flex"
+        )}
+      >
         {selectedConversationId ? (
-          <ChatView 
+          <ChatView
             conversationId={selectedConversationId}
             userRole={profile?.role}
             onBack={() => onSelectConversation(null)}
@@ -56,8 +62,10 @@ export const ChatLayout: React.FC<ChatLayoutProps> = ({
         ) : (
           <div className="hidden md:flex flex-1 items-center justify-center">
             <div className="text-center text-muted-foreground">
-              <h3 className="text-lg font-medium mb-2">{t('messages.selectConversation')}</h3>
-              <p>{t('messages.chooseConversation')}</p>
+              <h3 className="text-lg font-medium mb-2">
+                {t("messages.selectConversation")}
+              </h3>
+              <p>{t("messages.chooseConversation")}</p>
             </div>
           </div>
         )}

@@ -87,6 +87,7 @@ export const MessageBubble: React.FC<MessageBubbleProps> = ({
         <Avatar className="w-8 h-8 flex-shrink-0">
           <AvatarImage
             src={message.sender?.avatar_url ?? "/default-avatar.png"}
+            className="object-cover object-center"
           />
           <AvatarFallback>
             {message.sender?.full_name
@@ -111,7 +112,7 @@ export const MessageBubble: React.FC<MessageBubbleProps> = ({
             "rounded-lg px-2 py-1.5 sm:px-3 sm:py-2 max-w-full break-words",
             isOwn
               ? "bg-primary text-primary-foreground"
-              : "bg-muted text-muted-foreground"
+              : "bg-muted text-black"
           )}
         >
           {isFile ? (
