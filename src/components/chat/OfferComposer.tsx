@@ -154,7 +154,7 @@ export const OfferComposer: React.FC<OfferComposerProps> = ({
               rows={3}
               disabled={sending}
               maxLength={1000}
-              className={`text-sm ${errors.message ? 'border-destructive' : ''}`}
+              className={`text-sm tet-black ${errors.message ? 'border-destructive' : ''}`}
             />
             <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-1 mt-1">
               {errors.message && (

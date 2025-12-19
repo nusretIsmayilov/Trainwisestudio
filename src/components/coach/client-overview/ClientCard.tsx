@@ -171,7 +171,7 @@ const ClientCard = ({ clientId, index }: ClientCardProps) => {
           <div className="flex items-center gap-3">
             <span className="relative flex h-10 w-10 shrink-0 overflow-hidden rounded-full border">
               <img 
-                className="aspect-square h-full w-full" 
+                className="h-full w-full object-cover" 
                 src={clientStatus.avatar_url || `https://i.pravatar.cc/150?u=${clientStatus.id}`} 
                 alt={clientStatus.full_name} 
               />

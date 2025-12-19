@@ -30,40 +30,28 @@ const TopNav = ({ title }: TopNavProps) => {
   };
 
   const getPageTitle = () => {
-    const stateTitle = (location.state as any)?.title;
-    if (stateTitle) return stateTitle;
+  const path = location.pathname;
 
-    if (title) return title;
-    const path = location.pathname;
-    const segments = path.split("/").filter(Boolean);
-    const lastSegment = segments[segments.length - 1];
+  if (path.startsWith("/coach/dashboard")) return "Dashboard";
+  if (path.startsWith("/coach/clients")) return "Clients";
+  if (path.startsWith("/coach/messages")) return "Messages";
+  if (path.startsWith("/coach/programs")) return "Programs";
+  if (path.startsWith("/coach/settings")) return "Settings";
+  if (path.startsWith("/coach/library")) return "Library";
+  if (path.startsWith("/coach/blog")) return "Blog";
+  if (path.startsWith("/coach/income")) return "Income";
 
-    // Special handling for messages page - show participant name instead of conversation ID
-    if (
-      segments.includes("messages") &&
-      lastSegment &&
-      lastSegment !== "messages"
-    ) {
-      const conversationId = lastSegment;
-      const conversation = conversations.find((c) => c.id === conversationId);
-      if (conversation) {
-        const otherUser =
-          user?.id === conversation.coach_id
-            ? conversation.customer
-            : conversation.coach;
-        if (otherUser?.full_name) return otherUser.full_name;
-        if (otherUser?.email) return otherUser.email.split("@")[0];
-        return "Unknown User";
-      }
-      return "Messages";
-    }
+  if (path.startsWith("/customer/dashboard")) return "Dashboard";
+  if (path.startsWith("/customer/programs")) return "My Programs";
+  if (path.startsWith("/customer/messages")) return "Messages";
+  if (path.startsWith("/customer/settings")) return "Settings";
+  if (path.startsWith("/customer/library")) return "Library";
+  if (path.startsWith("/customer/progress")) return "Progress";
+  if (path.startsWith("/customer/my-coach")) return "My Coach";
+  if (path.startsWith("/customer/blog")) return "Blog";
 
-    if (lastSegment === "dashboard") return "Dashboard";
-    return lastSegment
-      ? lastSegment.charAt(0).toUpperCase() +
-          lastSegment.slice(1).replace("-", " ")
-      : "TrainWise";
-  };
+  return "TrainWise";
+};
 
   const getInitials = () => {
     if (profile?.full_name) {

@@ -1,3 +1,5 @@
+import { useNavigate } from "react-router-dom";
+import { supabase } from "@/integrations/supabase/client";
 import React, { useState, useMemo, useCallback, useEffect } from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -14,13 +16,18 @@ import {
   RadialBarChart,
   RadialBar,
 } from "recharts";
-import { ArrowUpRight, ArrowDownRight, AlertCircle, MessageCircle } from "lucide-react";
+import {
+  ArrowUpRight,
+  ArrowDownRight,
+  AlertCircle,
+  MessageCircle,
+} from "lucide-react";
 import FitnessTrendChart from "./charts/FitnessTrendChart";
 import MentalHealthTrendChart from "./charts/MentalHealthTrendChart";
-import { useRealTimeClientData } from '@/hooks/useRealTimeClientData';
-import { useClientStatus } from '@/hooks/useClientStatus';
-import AwaitingOfferMessage from './AwaitingOfferMessage';
-import { useTranslation } from 'react-i18next';
+import { useRealTimeClientData } from "@/hooks/useRealTimeClientData";
+import { useClientStatus } from "@/hooks/useClientStatus";
+import AwaitingOfferMessage from "./AwaitingOfferMessage";
+import { useTranslation } from "react-i18next";
 
 // --- Types ---
 interface DashboardProps {
@@ -149,11 +156,7 @@ const DailyTrendCard = React.memo(
     selectedRange: string;
   }) => {
     const rangeInDays = useMemo(() => {
-      return selectedRange === "4w"
-        ? 28
-        : selectedRange === "12w"
-        ? 84
-        : 168;
+      return selectedRange === "4w" ? 28 : selectedRange === "12w" ? 84 : 168;
     }, [selectedRange]);
 
     const filteredData = useMemo(
@@ -162,7 +165,8 @@ const DailyTrendCard = React.memo(
     );
 
     const { currentValue, previousValue, trend } = useMemo(() => {
-      const currentValue = filteredData[filteredData.length - 1]?.[dataKey] || 0;
+      const currentValue =
+        filteredData[filteredData.length - 1]?.[dataKey] || 0;
       const previousValue =
         filteredData[filteredData.length - 8]?.[dataKey] || currentValue;
       const trend =
@@ -242,11 +246,20 @@ const ProgressProgramsTab: React.FC<DashboardProps> = ({ client }) => {
         date.setDate(date.getDate() - i);
         const isWeekend = date.getDay() === 0 || date.getDay() === 6;
         return {
-          date: date.toLocaleDateString("en-US", { month: "short", day: "numeric" }),
-          protein: isWeekend ? 100 + Math.random() * 40 : 110 + Math.random() * 30,
-          carbs: isWeekend ? 250 + Math.random() * 60 : 270 + Math.random() * 40,
+          date: date.toLocaleDateString("en-US", {
+            month: "short",
+            day: "numeric",
+          }),
+          protein: isWeekend
+            ? 100 + Math.random() * 40
+            : 110 + Math.random() * 30,
+          carbs: isWeekend
+            ? 250 + Math.random() * 60
+            : 270 + Math.random() * 40,
           fat: isWeekend ? 60 + Math.random() * 20 : 65 + Math.random() * 15,
-          calories: isWeekend ? 2100 + Math.random() * 400 : 2000 + Math.random() * 300,
+          calories: isWeekend
+            ? 2100 + Math.random() * 400
+            : 2000 + Math.random() * 300,
         };
       }).reverse(),
     []
@@ -269,27 +282,87 @@ const ProgressProgramsTab: React.FC<DashboardProps> = ({ client }) => {
   const dailyData = useMemo(() => {
     if (!clientData) return dummyDailyCheckIns;
     // Use real daily check-in data if available, otherwise fallback to dummy data
-    if (clientData.dailyCheckin.today.mood > 0 || clientData.dailyCheckin.today.energy > 0) {
+    if (
+      clientData.dailyCheckin.today.mood > 0 ||
+      clientData.dailyCheckin.today.energy > 0
+    ) {
       // Transform real data to match chart format - use today's data as the big number
-      return [{
-        date: new Date().toISOString().split("T")[0],
-        water: 0, // Not tracked in daily check-ins
-        sleep: clientData.dailyCheckin.today.sleep,
-        mood: clientData.dailyCheckin.today.mood,
-        energy: clientData.dailyCheckin.today.energy,
-        stress: clientData.dailyCheckin.today.stress,
-        anxiety: 0, // Not tracked separately
-      }];
+      return [
+        {
+          date: new Date().toISOString().split("T")[0],
+          water: 0, // Not tracked in daily check-ins
+          sleep: clientData.dailyCheckin.today.sleep,
+          mood: clientData.dailyCheckin.today.mood,
+          energy: clientData.dailyCheckin.today.energy,
+          stress: clientData.dailyCheckin.today.stress,
+          anxiety: 0, // Not tracked separately
+        },
+      ];
     }
     return dummyDailyCheckIns;
   }, [clientData, dummyDailyCheckIns]);
+
+  const navigate = useNavigate();
+
+  const handleCheckIn = async () => {
+  try {
+    const customerId = client?.id;
+    const coachId = client?.coach_id; // ClientCard’da profile’dan geliyor
+
+    if (!customerId || !coachId) {
+      console.error("Missing customerId or coachId", { customerId, coachId });
+      return;
+    }
+
+    // 1) Önce var olan conversation'ı bul (tek yön yeterli, DB unique zaten)
+    const { data: existing, error: findErr } = await supabase
+      .from("conversations")
+      .select("id")
+      .eq("coach_id", coachId)
+      .eq("customer_id", customerId)
+      .maybeSingle();
+
+    if (findErr) {
+      console.error("Failed to find conversation", findErr);
+      // find hatası olsa bile upsert ile devam edebiliriz
+    }
+
+    if (existing?.id) {
+      navigate(`/coach/messages/${existing.id}`);
+      return;
+    }
+
+    // 2) Yoksa oluştur ama duplicate olursa patlamasın: upsert
+    const { data: created, error: upsertErr } = await supabase
+      .from("conversations")
+      .upsert(
+        { coach_id: coachId, customer_id: customerId },
+        { onConflict: "coach_id,customer_id" }
+      )
+      .select("id")
+      .single();
+
+    if (upsertErr) {
+      console.error("Failed to create/upsert conversation", upsertErr);
+      return;
+    }
+
+    navigate(`/coach/messages/${created.id}`);
+  } catch (e) {
+    console.error("handleCheckIn unexpected error", e);
+  }
+};
+
 
   const nutritionData = useMemo(() => {
     if (!clientData) return dummyNutrition;
     // Use real nutrition data if available
     if (clientData.programTrends.nutrition.hasData) {
-      return clientData.programTrends.nutrition.data.map(entry => ({
-        date: new Date(entry.created_at).toLocaleDateString("en-US", { month: "short", day: "numeric" }),
+      return clientData.programTrends.nutrition.data.map((entry) => ({
+        date: new Date(entry.created_at).toLocaleDateString("en-US", {
+          month: "short",
+          day: "numeric",
+        }),
         protein: entry.protein || 0,
         carbs: entry.carbs || 0,
         fat: entry.fat || 0,
@@ -301,7 +374,9 @@ const ProgressProgramsTab: React.FC<DashboardProps> = ({ client }) => {
 
   const aggregateWeightData = useMemo(() => {
     if (!clientData) return [];
-    const rawData = clientData.weightJourney.hasData ? clientData.weightJourney.entries : dummyWeightTrend;
+    const rawData = clientData.weightJourney.hasData
+      ? clientData.weightJourney.entries
+      : dummyWeightTrend;
     const now = new Date();
     const rangeInDays =
       weightRange === "1m"
@@ -404,19 +479,19 @@ const ProgressProgramsTab: React.FC<DashboardProps> = ({ client }) => {
   if (loading) {
     return (
       <div className="text-center py-8 text-muted-foreground">
-        {t('common.loading')} {t('progress.title').toLowerCase()}...
+        {t("common.loading")} {t("progress.title").toLowerCase()}...
       </div>
     );
   }
 
   // Check if client is waiting for an offer
-  if (clientStatus?.status === 'waiting_offer') {
+  if (clientStatus?.status === "waiting_offer") {
     return (
-      <AwaitingOfferMessage 
-        clientName={client?.full_name || client?.name || 'this client'} 
+      <AwaitingOfferMessage
+        clientName={client?.full_name || client?.name || "this client"}
         onSendOffer={() => {
           // TODO: Implement send offer functionality
-          console.log('Send offer clicked');
+          console.log("Send offer clicked");
         }}
       />
     );
@@ -425,23 +500,35 @@ const ProgressProgramsTab: React.FC<DashboardProps> = ({ client }) => {
   if (!clientData) {
     return (
       <div className="text-center py-8 text-muted-foreground">
-        {t('common.noDataAvailable')}
+        {t("common.noDataAvailable")}
       </div>
     );
   }
 
   // No data message component
-  const NoDataMessage = ({ programType, hasProgram }: { programType: string; hasProgram: boolean }) => (
+  const NoDataMessage = ({
+    programType,
+    hasProgram,
+  }: {
+    programType: string;
+    hasProgram: boolean;
+  }) => (
     <div className="flex flex-col items-center justify-center p-8 text-center">
       <AlertCircle className="h-12 w-12 text-muted-foreground mb-4" />
-      <h3 className="text-lg font-semibold text-foreground mb-2">No data yet</h3>
+      <h3 className="text-lg font-semibold text-foreground mb-2">
+        No data yet
+      </h3>
       <p className="text-sm text-muted-foreground mb-4">
-        {hasProgram 
+        {hasProgram
           ? `The user hasn't filled in their ${programType} program. It might be a good idea to check in with them.`
-          : `The user doesn't have a ${programType} program assigned.`
-        }
+          : `The user doesn't have a ${programType} program assigned.`}
       </p>
-      <Button variant="outline" size="sm" className="gap-2">
+      <Button
+        variant="outline"
+        size="sm"
+        className="gap-2"
+        onClick={handleCheckIn}
+      >
         <MessageCircle className="h-4 w-4" />
         Check in with client
       </Button>
@@ -463,7 +550,11 @@ const ProgressProgramsTab: React.FC<DashboardProps> = ({ client }) => {
                   : "text-muted-foreground hover:bg-muted"
               }`}
             >
-              {range === "4w" ? "4 Weeks" : range === "12w" ? "12 Weeks" : "24 Weeks"}
+              {range === "4w"
+                ? "4 Weeks"
+                : range === "12w"
+                ? "12 Weeks"
+                : "24 Weeks"}
             </button>
           ))}
         </div>
@@ -526,13 +617,23 @@ const ProgressProgramsTab: React.FC<DashboardProps> = ({ client }) => {
       {/* Nutrition Overview Card */}
       <div className="mt-6">
         <Card className="rounded-2xl shadow-lg bg-card border border-border p-6">
-          <h3 className="text-lg font-semibold text-foreground mb-4">Nutrition Overview</h3>
+          <h3 className="text-lg font-semibold text-foreground mb-4">
+            Nutrition Overview
+          </h3>
           <div className="h-80">
             <ResponsiveContainer width="100%" height="100%">
               <BarChart data={nutritionData.slice(-7)}>
-                <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" />
-                <XAxis dataKey="date" tick={{ fontSize: 12, fill: "hsl(var(--muted-foreground))" }} />
-                <YAxis tick={{ fontSize: 12, fill: "hsl(var(--muted-foreground))" }} />
+                <CartesianGrid
+                  strokeDasharray="3 3"
+                  stroke="hsl(var(--border))"
+                />
+                <XAxis
+                  dataKey="date"
+                  tick={{ fontSize: 12, fill: "hsl(var(--muted-foreground))" }}
+                />
+                <YAxis
+                  tick={{ fontSize: 12, fill: "hsl(var(--muted-foreground))" }}
+                />
                 <Tooltip
                   content={({ active, payload, label }) => {
                     if (active && payload && payload.length) {
@@ -540,7 +641,11 @@ const ProgressProgramsTab: React.FC<DashboardProps> = ({ client }) => {
                         <div className="bg-card text-card-foreground p-3 rounded-lg shadow-lg border border-border">
                           <p className="font-semibold text-sm mb-2">{label}</p>
                           {payload.map((p: any, idx: number) => (
-                            <p key={idx} className="text-sm" style={{ color: p.color }}>
+                            <p
+                              key={idx}
+                              className="text-sm"
+                              style={{ color: p.color }}
+                            >
                               {`${p.name}: ${p.value}g`}
                             </p>
                           ))}
@@ -550,8 +655,16 @@ const ProgressProgramsTab: React.FC<DashboardProps> = ({ client }) => {
                     return null;
                   }}
                 />
-                <Bar dataKey="protein" fill={colors.nutritionProtein} name="Protein" />
-                <Bar dataKey="carbs" fill={colors.nutritionCarbs} name="Carbs" />
+                <Bar
+                  dataKey="protein"
+                  fill={colors.nutritionProtein}
+                  name="Protein"
+                />
+                <Bar
+                  dataKey="carbs"
+                  fill={colors.nutritionCarbs}
+                  name="Carbs"
+                />
                 <Bar dataKey="fat" fill={colors.nutritionFat} name="Fat" />
               </BarChart>
             </ResponsiveContainer>
@@ -564,7 +677,9 @@ const ProgressProgramsTab: React.FC<DashboardProps> = ({ client }) => {
         <div className="mt-6">
           <Card className="rounded-2xl shadow-lg bg-card border border-border p-6">
             <div className="flex items-center justify-between mb-4">
-              <h3 className="text-lg font-semibold text-foreground">Weight Journey</h3>
+              <h3 className="text-lg font-semibold text-foreground">
+                Weight Journey
+              </h3>
               <div className="bg-card/80 backdrop-blur-md rounded-full border border-border p-1 flex shadow-sm">
                 {["1m", "3m", "6m", "12m"].map((range) => (
                   <button
@@ -592,30 +707,47 @@ const ProgressProgramsTab: React.FC<DashboardProps> = ({ client }) => {
                 <div className="flex items-center mb-4">
                   <span className="text-2xl font-bold text-foreground">
                     {aggregateWeightData.length > 0
-                      ? aggregateWeightData[aggregateWeightData.length - 1].weight
+                      ? aggregateWeightData[aggregateWeightData.length - 1]
+                          .weight
                       : "N/A"}
                   </span>
-                  <span className="text-sm text-muted-foreground ml-2">lbs</span>
+                  <span className="text-sm text-muted-foreground ml-2">
+                    lbs
+                  </span>
                 </div>
                 <div className="h-64">
                   <ResponsiveContainer width="100%" height="100%">
                     <LineChart data={aggregateWeightData}>
-                      <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" />
-                      <XAxis 
-                        dataKey="label" 
-                        tick={{ fontSize: 12, fill: "hsl(var(--muted-foreground))" }} 
+                      <CartesianGrid
+                        strokeDasharray="3 3"
+                        stroke="hsl(var(--border))"
                       />
-                      <YAxis 
-                        tick={{ fontSize: 12, fill: "hsl(var(--muted-foreground))" }} 
-                        domain={['dataMin - 5', 'dataMax + 5']}
+                      <XAxis
+                        dataKey="label"
+                        tick={{
+                          fontSize: 12,
+                          fill: "hsl(var(--muted-foreground))",
+                        }}
+                      />
+                      <YAxis
+                        tick={{
+                          fontSize: 12,
+                          fill: "hsl(var(--muted-foreground))",
+                        }}
+                        domain={["dataMin - 5", "dataMax + 5"]}
                       />
                       <Tooltip
                         content={({ active, payload, label }) => {
                           if (active && payload && payload.length) {
                             return (
                               <div className="bg-card text-card-foreground p-3 rounded-lg shadow-lg border border-border">
-                                <p className="font-semibold text-sm mb-1">{label}</p>
-                                <p className="text-sm" style={{ color: payload[0].color }}>
+                                <p className="font-semibold text-sm mb-1">
+                                  {label}
+                                </p>
+                                <p
+                                  className="text-sm"
+                                  style={{ color: payload[0].color }}
+                                >
                                   Weight: {payload[0].value} lbs
                                 </p>
                               </div>
@@ -630,7 +762,11 @@ const ProgressProgramsTab: React.FC<DashboardProps> = ({ client }) => {
                         stroke={colors.weight}
                         strokeWidth={3}
                         dot={{ fill: colors.weight, strokeWidth: 2, r: 4 }}
-                        activeDot={{ r: 6, stroke: colors.weight, strokeWidth: 2 }}
+                        activeDot={{
+                          r: 6,
+                          stroke: colors.weight,
+                          strokeWidth: 2,
+                        }}
                       />
                     </LineChart>
                   </ResponsiveContainer>
@@ -648,8 +784,8 @@ const ProgressProgramsTab: React.FC<DashboardProps> = ({ client }) => {
         {/* Fitness Trend Chart */}
         {clientData.programTrends.fitness.hasProgram ? (
           clientData.programTrends.fitness.hasData ? (
-            <FitnessTrendChart 
-              data={clientData.programTrends.fitness.data} 
+            <FitnessTrendChart
+              data={clientData.programTrends.fitness.data}
               selectedRange={selectedRange}
             />
           ) : (
@@ -662,8 +798,8 @@ const ProgressProgramsTab: React.FC<DashboardProps> = ({ client }) => {
         {/* Mental Health Trend Chart */}
         {clientData.programTrends.mentalHealth.hasProgram ? (
           clientData.programTrends.mentalHealth.hasData ? (
-            <MentalHealthTrendChart 
-              data={clientData.programTrends.mentalHealth.data} 
+            <MentalHealthTrendChart
+              data={clientData.programTrends.mentalHealth.data}
               selectedRange={selectedRange}
             />
           ) : (

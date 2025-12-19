@@ -1,9 +1,9 @@
 // src/components/coach/clientCard/ClientHeader.tsx
-import React from 'react';
-import { Badge } from '@/components/ui/badge';
-import { Award, Clock, Calendar } from 'lucide-react';
-import { motion } from 'framer-motion';
-import { useRealTimeClientData } from '@/hooks/useRealTimeClientData';
+import React from "react";
+import { Badge } from "@/components/ui/badge";
+import { Award, Clock, Calendar } from "lucide-react";
+import { motion } from "framer-motion";
+import { useRealTimeClientData } from "@/hooks/useRealTimeClientData";
 
 interface ClientHeaderProps {
   client: any | null;
@@ -24,7 +24,7 @@ const ClientHeader: React.FC<ClientHeaderProps> = ({ client }) => {
             </div>
           </div>
           <div className="grid grid-cols-3 gap-4">
-            {[1, 2, 3].map(i => (
+            {[1, 2, 3].map((i) => (
               <div key={i} className="text-center">
                 <div className="h-6 w-6 bg-gray-200 rounded mx-auto mb-2"></div>
                 <div className="h-3 bg-gray-200 rounded w-16 mx-auto mb-1"></div>
@@ -45,19 +45,23 @@ const ClientHeader: React.FC<ClientHeaderProps> = ({ client }) => {
     );
   }
 
-  const lastCheckInDate = clientData.checkinHistory?.[0]?.date 
+  const lastCheckInDate = clientData.checkinHistory?.[0]?.date
     ? new Date(clientData.checkinHistory[0].date)
     : new Date();
-  const lastCheckIn = lastCheckInDate.toLocaleDateString('en-GB');
+  const lastCheckIn = lastCheckInDate.toLocaleDateString("en-GB");
 
-  const hasNewFeedback = clientData.checkinHistory?.some(c => c.status === 'responded' && 
-    new Date(c.date) > new Date(Date.now() - 24 * 60 * 60 * 1000)) || false;
-  
+  const hasNewFeedback =
+    clientData.checkinHistory?.some(
+      (c) =>
+        c.status === "responded" &&
+        new Date(c.date) > new Date(Date.now() - 24 * 60 * 60 * 1000)
+    ) || false;
+
   const onTrack = clientData.adherence >= 70; // Consider on track if adherence is 70% or higher
 
   // Safeguards for not-yet-loaded client
-  const name = clientData.full_name || 'Customer';
-  const avatar = clientData.avatar_url || 'https://placehold.co/96x96';
+  const displayName = client?.full_name ?? "Customer";
+  const avatar = client?.avatar_url ?? "https://placehold.co/96x96";
   const adherence = `${clientData.adherence}%`;
 
   return (
@@ -73,14 +77,14 @@ const ClientHeader: React.FC<ClientHeaderProps> = ({ client }) => {
           <motion.img
             className="h-16 w-16 sm:h-18 sm:w-18 rounded-full object-cover border border-border shadow-sm"
             src={avatar}
-            alt={name}
+            alt= {displayName}
             initial={{ scale: 0.85, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
             transition={{ duration: 0.4, delay: 0.1 }}
           />
           <div>
             <h1 className="text-lg sm:text-xl md:text-2xl font-semibold text-foreground">
-              {name}
+              {displayName}
             </h1>
             <div className="flex flex-wrap items-center gap-2 mt-1">
               {onTrack && (
@@ -101,22 +105,23 @@ const ClientHeader: React.FC<ClientHeaderProps> = ({ client }) => {
       {/* Quick Stats */}
       <div className="grid grid-cols-3 gap-3 sm:gap-6 text-center">
         {[
-          { 
-            icon: Calendar, 
-            label: 'Last Check-in', 
-            value: lastCheckIn 
+          {
+            icon: Calendar,
+            label: "Last Check-in",
+            value: lastCheckIn,
           },
-          { 
-            icon: Award, 
-            label: 'Adherence', 
-            value: adherence 
+          {
+            icon: Award,
+            label: "Adherence",
+            value: adherence,
           },
-          { 
-            icon: Clock, 
-            label: 'Program Days', 
-            value: clientData.programDays.total > 0 
-              ? `${clientData.programDays.remaining} remaining`
-              : 'No program assigned'
+          {
+            icon: Clock,
+            label: "Program Days",
+            value:
+              clientData.programDays.total > 0
+                ? `${clientData.programDays.remaining} remaining`
+                : "No program assigned",
           },
         ].map((stat, i) => (
           <motion.div
@@ -125,8 +130,12 @@ const ClientHeader: React.FC<ClientHeaderProps> = ({ client }) => {
             whileHover={{ y: -2 }}
           >
             <stat.icon className="h-5 w-5 sm:h-6 sm:w-6 text-green-500 mb-1" />
-            <div className="text-xs sm:text-sm text-muted-foreground">{stat.label}</div>
-            <div className="font-semibold text-sm sm:text-base">{stat.value}</div>
+            <div className="text-xs sm:text-sm text-muted-foreground">
+              {stat.label}
+            </div>
+            <div className="font-semibold text-sm sm:text-base">
+              {stat.value}
+            </div>
           </motion.div>
         ))}
       </div>

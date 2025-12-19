@@ -30,8 +30,8 @@ export const OfferMessage: React.FC<OfferMessageProps> = ({
     ? message.coach_offer[0]
     : message.coach_offer;
 
-  console.log("offer from join:", offer);
-  console.log("message.id:", message.id);
+  // console.log("offer from join:", offer);
+  // console.log("message.id:", message.id);
   const hasExpiry = Boolean(offer?.expires_at);
   const isExpired =
     hasExpiry && offer && new Date(offer.expires_at) < new Date();
