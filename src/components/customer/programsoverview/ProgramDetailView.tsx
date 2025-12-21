@@ -1,7 +1,7 @@
 // src/components/customer/programsoverview/ProgramDetailView.tsx
 
 import { useNavigate, useParams } from "react-router-dom";
-import { useRef, useMemo, useEffect } from "react";
+import { useRef, useMemo, useEffect, useState } from "react";
 
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -74,12 +74,19 @@ export default function ProgramDetailView({
 
   const { user } = useAuth();
   const fakeInsertedRef = useRef(false);
+  const [noneNull, setNoneNull] = useState({});
 
   // ✅ BUGÜNÜN TASK’I
   const { tasks: todayTasks, loading } = useTodayTasks();
   const todayTask = todayTasks[0] ?? null;
-
   // ✅ TÜM HOOK’LAR RETURN’LARDAN ÖNCE
+
+    useEffect(() => {
+    if (!loading) {
+      setNoneNull(todayTasks.filter(task => task.detailed_program_id)[0])
+    } 
+  }, [loading]);
+
 
   useEffect(() => {
     if (user && !fakeInsertedRef.current) {
@@ -128,7 +135,7 @@ export default function ProgramDetailView({
   const config = typeConfig[todayTask.type];
 
   const handleStartClick = () => {
-    if (todayTask.detailed_program_id) {
+    if (noneNull.detailed_program_id) {
       navigate(`/program/${todayTask.type}/${todayTask.detailed_program_id}`);
     }
   };
@@ -198,7 +205,7 @@ export default function ProgramDetailView({
           <Button
             onClick={handleStartClick}
             className="w-full"
-            disabled={!todayTask.detailed_program_id}
+            disabled={!noneNull.detailed_program_id}
           >
             <PlayCircle className="w-5 h-5 mr-2" />
             Start Task

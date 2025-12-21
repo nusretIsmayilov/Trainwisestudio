@@ -7,9 +7,9 @@ export const useTodayTasks = () => {
   const { user } = useAuth();
   const [tasks, setTasks] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
-
   useEffect(() => {
     if (!user) return;
+
 
     const fetchTasks = async () => {
       setLoading(true);
@@ -21,6 +21,8 @@ export const useTodayTasks = () => {
         .select("*")
         .eq("user_id", user.id)
         .eq("scheduled_date", today);
+        console.log("task :", data);
+        console.log(error);
 
       if (!error) {
         setTasks(data ?? []);
@@ -28,6 +30,7 @@ export const useTodayTasks = () => {
 
       setLoading(false);
     };
+    
 
     fetchTasks();
   }, [user]);
