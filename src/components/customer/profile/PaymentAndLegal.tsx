@@ -9,7 +9,7 @@ import { Switch } from '@/components/ui/switch';
 import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from '@/components/ui/select';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 import { useNavigate, useLocation } from 'react-router-dom';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { usePaymentInfo } from '@/hooks/usePaymentInfo';
 import { useCurrencyDetection } from '@/hooks/useCurrencyDetection';
 import { supabase } from '@/integrations/supabase/client';
@@ -145,24 +145,22 @@ const PaymentAndLegal = () => {
   const params = new URLSearchParams(location.search);
   const status = params.get('status');
   const sessionId = params.get('session_id');
-  if (status === 'success' && sessionId) {
-    console.log('[Frontend] Returning from Stripe. Syncing session', sessionId);
-    syncCheckoutSession(sessionId)
-      .then((data) => {
-        console.log('[Frontend] Sync response', data);
-        if (data && data.ok) {
-          alert('Subscription activated successfully. Plan info updated.');
-        } else {
-          alert(`Subscription sync failed: ${data?.error || 'Unknown error'}`);
-        }
-        window.location.replace('/customer/settings');
-      })
-      .catch((err) => {
-        console.error('[Frontend] Sync request error', err);
-        alert('Subscription sync failed due to a network error.');
-        window.location.replace('/customer/settings');
-      });
-  }
+  const hasRunRef = useRef(false);
+
+useEffect(() => {
+  if (hasRunRef.current) return;
+  if (status !== 'success' || !sessionId) return;
+
+  hasRunRef.current = true;
+
+  syncCheckoutSession(sessionId)
+    .then((data) => {
+      if (data?.ok) {
+        alert('Subscription activated successfully.');
+      }
+      window.location.replace('/customer/settings');
+    });
+}, [status, sessionId]);
   return (
     <div className="space-y-6">
       <Card className="shadow-md rounded-2xl p-6">

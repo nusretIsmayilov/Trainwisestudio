@@ -43,7 +43,7 @@ export const usePaymentHistory = () => {
               id: `sub_${currentDate.getTime()}`,
               date: currentDate.toLocaleDateString(),
               description: 'Monthly Subscription',
-              amount: '$49.99',
+              amount: '$39.99',
               status: 'succeeded',
               currency: 'USD'
             });

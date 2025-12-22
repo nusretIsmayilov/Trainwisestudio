@@ -53,7 +53,7 @@ async function createFakeProgramTask(userId: string) {
       type: "fitness",
       content: ["Push-ups", "Squats", "Plank"],
       order_index: 1,
-      detailed_program_id: null,
+      detailed_program_id: "t1",
       scheduled_date: today,
     },
   ]);
@@ -136,7 +136,7 @@ export default function ProgramDetailView({
 
   const handleStartClick = () => {
     if (noneNull.detailed_program_id) {
-      navigate(`/program/${todayTask.type}/${todayTask.detailed_program_id}`);
+      navigate(`/program/${noneNull.type}/${noneNull.detailed_program_id}`);
     }
   };
 

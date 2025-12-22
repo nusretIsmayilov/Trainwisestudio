@@ -28,7 +28,7 @@ const SUBSCRIPTION_MAP: Record<
 > = {
   platform_monthly: {
     name: 'TrainWise Platform (Monthly)',
-    amount: 49.99,
+    amount: 39.99,
     currency: 'USD',
     billingCycle: 'Monthly',
   },
