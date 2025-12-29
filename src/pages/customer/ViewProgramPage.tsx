@@ -10,7 +10,10 @@ import { DetailedFitnessTask } from "@/mockdata/viewprograms/mockexerciseprogram
 import { DetailedNutritionTask } from "@/mockdata/viewprograms/mocknutritionprograms";
 import { DetailedMentalHealthTask } from "@/mockdata/viewprograms/mockmentalhealthprograms";
 
-type ProgramData = DetailedFitnessTask | DetailedNutritionTask | DetailedMentalHealthTask;
+type ProgramData =
+  | DetailedFitnessTask
+  | DetailedNutritionTask
+  | DetailedMentalHealthTask;
 
 // ✅ Import all specialized headers
 import WorkoutHeader from "@/components/customer/viewprogram/exercise/WorkoutHeader";
@@ -38,7 +41,9 @@ const NotFound = () => (
   <div className="flex items-center justify-center min-h-screen">
     <div className="text-center">
       <h1 className="text-2xl font-bold">Program not found</h1>
-      <p className="text-muted-foreground">The requested program could not be found.</p>
+      <p className="text-muted-foreground">
+        The requested program could not be found.
+      </p>
     </div>
   </div>
 );
@@ -53,19 +58,19 @@ export default function ViewProgramPage() {
   useEffect(() => {
     const loadProgram = async () => {
       if (!id || !type || !profile) return;
-      
+
       setLoading(true);
       try {
         // Load program from database
         const { data: program, error } = await supabase
-          .from('programs')
-          .select('*')
-          .eq('id', id)
-          .eq('assigned_to', profile.id)
+          .from("programs")
+          .select("*")
+          .eq("id", id)
+          .eq("assigned_to", profile.id)
           .maybeSingle();
 
         if (error) {
-          console.error('Error loading program:', error);
+          console.error("Error loading program:", error);
           setProgramData(null);
           return;
         }
@@ -78,18 +83,27 @@ export default function ViewProgramPage() {
         // Convert database program to the expected format
         const programData: ProgramData = {
           id: program.id,
-          type: program.category === 'fitness' ? 'fitness' : program.category === 'nutrition' ? 'nutrition' : 'mental',
+          type:
+            program.category === "fitness"
+              ? "fitness"
+              : program.category === "nutrition"
+              ? "nutrition"
+              : "mental",
           title: program.name,
           description: program.description,
-          duration: program.plan?.duration || '4 weeks',
-          difficulty: program.plan?.difficulty || 'beginner',
+          duration: program.plan?.duration || "4 weeks",
+          difficulty: program.plan?.difficulty || "beginner",
+
+          exercises: [],
+          workouts: [],
+          days: [],
           // Add plan data if available
           ...(program.plan || {}),
         } as ProgramData;
 
         setProgramData(programData);
       } catch (error) {
-        console.error('Error loading program:', error);
+        console.error("Error loading program:", error);
         setProgramData(null);
       } finally {
         setLoading(false);
@@ -103,12 +117,14 @@ export default function ViewProgramPage() {
   const renderProgramHeader = () => {
     if (!programData) return null;
     switch (programData.type) {
-      case 'fitness':
+      case "fitness":
         return <WorkoutHeader task={programData as DetailedFitnessTask} />;
-      case 'nutrition':
+      case "nutrition":
         return <NutritionHeader task={programData as DetailedNutritionTask} />;
-      case 'mental':
-        return <MentalHealthHeader task={programData as DetailedMentalHealthTask} />;
+      case "mental":
+        return (
+          <MentalHealthHeader task={programData as DetailedMentalHealthTask} />
+        );
       default:
         return null;
     }
@@ -118,12 +134,24 @@ export default function ViewProgramPage() {
   const renderProgramView = () => {
     if (!programData) return null;
     switch (programData.type) {
-      case 'fitness':
-        return <FitnessProgramView initialData={programData as DetailedFitnessTask} />;
-      case 'nutrition':
-        return <NutritionProgramView nutritionData={programData as DetailedNutritionTask} />;
-      case 'mental':
-        return <MentalHealthProgramView initialData={programData as DetailedMentalHealthTask} />;
+      case "fitness":
+        return (
+          <FitnessProgramView
+            initialData={programData as DetailedFitnessTask}
+          />
+        );
+      case "nutrition":
+        return (
+          <NutritionProgramView
+            nutritionData={programData as DetailedNutritionTask}
+          />
+        );
+      case "mental":
+        return (
+          <MentalHealthProgramView
+            initialData={programData as DetailedMentalHealthTask}
+          />
+        );
       default:
         return <p>Unsupported program type.</p>;
     }
@@ -131,20 +159,27 @@ export default function ViewProgramPage() {
 
   if (loading) return <LoadingSpinner />;
   if (!programData) return <NotFound />;
-  
+
   // ✅ Gets the correct button text for the program type
   const getButtonText = () => {
     switch (programData.type) {
-        case 'fitness': return 'Complete Workout';
-        case 'nutrition': return 'Complete Day';
-        case 'mental': return 'Complete Session';
-        default: return 'Complete';
+      case "fitness":
+        return "Complete Workout";
+      case "nutrition":
+        return "Complete Day";
+      case "mental":
+        return "Complete Session";
+      default:
+        return "Complete";
     }
-  }
+  };
 
   return (
     <div className="flex flex-col min-h-screen w-full max-w-5xl mx-auto px-4">
-      <div className="flex-1 overflow-auto space-y-8 py-8" data-guide-scroll="true">
+      <div
+        className="flex-1 overflow-auto space-y-8 py-8"
+        data-guide-scroll="true"
+      >
         {/* ✅ Renders the appropriate header */}
         {renderProgramHeader()}
         <CoachMessage message={programData.coachNotes} />
@@ -156,7 +191,12 @@ export default function ViewProgramPage() {
           <Button
             size="lg"
             className="h-12 w-full max-w-md rounded-xl font-bold shadow-lg"
-            onClick={() => completeToday({ program_id: id || null, type: (programData?.type as any) || 'fitness' })}
+            onClick={() =>
+              completeToday({
+                program_id: id || null,
+                type: (programData?.type as any) || "fitness",
+              })
+            }
           >
             {getButtonText()}
           </Button>

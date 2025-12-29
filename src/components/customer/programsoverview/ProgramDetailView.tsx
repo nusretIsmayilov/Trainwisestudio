@@ -45,15 +45,17 @@ const SimpleTaskListItem = ({ name }: { name: string }) => (
 async function createFakeProgramTask(userId: string) {
   const today = format(new Date(), "yyyy-MM-dd");
 
+  const PROGRAM_ID = "01b9478a-f154-4951-b340-99ac213948e6";
+
   await supabase.from("program_tasks").insert([
     {
       user_id: userId,
-      program_id: null,
+      program_id: PROGRAM_ID,
       title: "Fake Fitness Task",
       type: "fitness",
       content: ["Push-ups", "Squats", "Plank"],
       order_index: 1,
-      detailed_program_id: "t1",
+      detailed_program_id: PROGRAM_ID,
       scheduled_date: today,
     },
   ]);
@@ -72,21 +74,27 @@ export default function ProgramDetailView({
   const { id, type } = useParams<{ id?: string; type?: string }>();
   const touchStartY = useRef<number | null>(null);
 
-  const { user } = useAuth();
+  const { profile, user } = useAuth();
+  const hasSubscription = !!profile?.plan;
+
   const fakeInsertedRef = useRef(false);
-  const [noneNull, setNoneNull] = useState({});
+
+  const [activeTask, setActiveTask] = useState<any | null>(null);
 
   // ✅ BUGÜNÜN TASK’I
   const { tasks: todayTasks, loading } = useTodayTasks();
   const todayTask = todayTasks[0] ?? null;
   // ✅ TÜM HOOK’LAR RETURN’LARDAN ÖNCE
 
-    useEffect(() => {
-    if (!loading) {
-      setNoneNull(todayTasks.filter(task => task.detailed_program_id)[0])
-    } 
-  }, [loading]);
+  useEffect(() => {
+    if (loading) return;
 
+    const taskWithProgram = todayTasks.find(
+      (t) => t.detailed_program_id && t.program_id
+    );
+
+    setActiveTask(taskWithProgram ?? null);
+  }, [loading, todayTasks]);
 
   useEffect(() => {
     if (user && !fakeInsertedRef.current) {
@@ -101,7 +109,8 @@ export default function ProgramDetailView({
       for (const t of types) {
         const program = findProgramByIdAndType(t, id);
         if (program) {
-          navigate(`/program/${t}/${id}`, { replace: true });
+          navigate(`/customer/program/${t}/${id}`, { replace: true });
+
           return;
         }
       }
@@ -135,10 +144,9 @@ export default function ProgramDetailView({
   const config = typeConfig[todayTask.type];
 
   const handleStartClick = () => {
-    if (noneNull.detailed_program_id) {
-      navigate(`/program/${noneNull.type}/${noneNull.detailed_program_id}`);
-    }
-  };
+  navigate("/customer/today-task");
+};
+
 
   const handleTouchStart = (e: React.TouchEvent) => {
     touchStartY.current = e.touches[0].clientY;
@@ -151,6 +159,8 @@ export default function ProgramDetailView({
     }
     touchStartY.current = null;
   };
+
+  
 
   return (
     <div
@@ -200,13 +210,9 @@ export default function ProgramDetailView({
         </div>
       </div>
 
-      {showFooter && (
+      {showFooter && hasSubscription && activeTask && (
         <div className="p-4 border-t">
-          <Button
-            onClick={handleStartClick}
-            className="w-full"
-            disabled={!noneNull.detailed_program_id}
-          >
+          <Button onClick={handleStartClick} className="w-full">
             <PlayCircle className="w-5 h-5 mr-2" />
             Start Task
           </Button>

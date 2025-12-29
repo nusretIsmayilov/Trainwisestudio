@@ -269,7 +269,7 @@ export const useCoachTasks = () => {
     run();
   }, [user]);
 
-  return { tasks, loading };
+  return { tasks, setTasks, loading };
 };
 
 

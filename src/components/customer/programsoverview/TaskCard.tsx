@@ -15,7 +15,7 @@ export function TaskCard({ task, onClick }: { task: ScheduledTask; onClick: () =
 
     if (task.detailedProgramId) {
       // Navigate to program view for tasks with detailedProgramId
-      navigate(`/program/${task.type}/${task.detailedProgramId}`);
+      navigate(`/customer/program/${task.type}/${task.detailedProgramId}`);
     } else {
       // For other types, we still open the detail slide-in
       onClick();

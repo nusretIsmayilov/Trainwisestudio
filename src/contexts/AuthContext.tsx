@@ -1,12 +1,19 @@
 // src/contexts/AuthContext.tsx
 
-import React, { createContext, useContext, useEffect, useState, useCallback, useRef } from 'react';
+import React, {
+  createContext,
+  useContext,
+  useEffect,
+  useState,
+  useCallback,
+  useRef,
+} from 'react';
 import { User, Session } from '@supabase/supabase-js';
 import { supabase } from '@/lib/supabase/client';
 
 export interface Profile {
   id: string;
-  role: 'customer' | 'coach';
+  role: 'customer' | 'coach' | null;
   onboarding_complete: boolean;
   email?: string;
   full_name?: string;
@@ -28,195 +35,116 @@ interface AuthContextType {
   session: Session | null;
   profile: Profile | null;
   authState: AuthState;
-  loading: boolean; // Deprecated: use authState instead
+  loading: boolean;
   signOut: () => Promise<void>;
   refreshProfile: () => Promise<void>;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
-// Cache key for session persistence
-const SESSION_CACHE_KEY = 'auth_session_cached';
-
-export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
+  children,
+}) => {
   const [user, setUser] = useState<User | null>(null);
   const [session, setSession] = useState<Session | null>(null);
   const [profile, setProfile] = useState<Profile | null>(null);
   const [authState, setAuthState] = useState<AuthState>('initializing');
-  
-  // Track if initial load is complete
-  const initialLoadComplete = useRef(false);
-  // Track pending profile fetches to prevent duplicates
-  const pendingProfileFetch = useRef<Promise<Profile | null> | null>(null);
 
-  const fetchProfile = useCallback(async (targetUser: User): Promise<Profile | null> => {
-    // Prevent duplicate fetches
-    if (pendingProfileFetch.current) {
-      return pendingProfileFetch.current;
+  const mountedRef = useRef(true);
+
+  // ✅ SAFE profile fetch (SADECE auth sonrası)
+  const fetchProfile = useCallback(async (targetUser: User) => {
+    const {
+      data: { session: currentSession },
+    } = await supabase.auth.getSession();
+
+    // 🚨 CRITICAL GUARD
+    if (!currentSession || currentSession.user.id !== targetUser.id) {
+      return null;
     }
 
-    const fetchPromise = (async () => {
-      try {
-        const { data, error } = await supabase.from('profiles').select('*').eq('id', targetUser.id).single();
-        
-        if (error && error.code === 'PGRST116') {
-          // Profile doesn't exist, create it (self-healing)
-          console.log('Profile not found, creating new profile for user:', targetUser.id);
-          const { data: newData, error: newError } = await supabase
-            .from('profiles')
-            .insert({ 
-              id: targetUser.id, 
-              email: targetUser.email, 
-              role: 'customer' 
-            })
-            .select()
-            .single();
-          
-          if (newError) {
-            console.error('Error creating profile:', newError.message);
-            return null;
-          }
+    const { data, error } = await supabase
+      .from('profiles')
+      .select('*')
+      .eq('id', targetUser.id)
+      .single();
 
-          // Ensure customer record exists
-          try {
-            await supabase
-              .from('customers')
-              .upsert({ id: targetUser.id, email: targetUser.email ?? null }, { onConflict: 'id' });
-          } catch (e) {
-            console.warn('Non-fatal: failed to upsert into customers for new profile', e);
-          }
-          return newData as Profile;
-        }
-        
-        if (error) {
-          console.error('Error fetching profile:', error.message);
-          return null;
-        }
-        
-        const prof = data as Profile;
-        // Keep customers table in sync for customer role
-        if (prof.role === 'customer') {
-          try {
-            await supabase
-              .from('customers')
-              .upsert({ id: targetUser.id, email: targetUser.email ?? null }, { onConflict: 'id' });
-          } catch (e) {
-            console.warn('Non-fatal: failed to upsert into customers', e);
-          }
-        }
-        return prof;
-      } catch (error) {
-        console.error('Unexpected error in fetchProfile:', error);
-        return null;
-      } finally {
-        pendingProfileFetch.current = null;
-      }
-    })();
+    if (error) {
+      console.error('Profile fetch error:', error.message);
+      return null;
+    }
 
-    pendingProfileFetch.current = fetchPromise;
-    return fetchPromise;
+    return data as Profile;
   }, []);
 
   const refreshProfile = useCallback(async () => {
-    const { data: { user: currentUser } } = await supabase.auth.getUser();
-    if (currentUser) {
-      const profileData = await fetchProfile(currentUser);
+    const {
+      data: { user: currentUser },
+    } = await supabase.auth.getUser();
+
+    if (!currentUser) return;
+
+    const profileData = await fetchProfile(currentUser);
+    if (mountedRef.current) {
       setProfile(profileData);
     }
   }, [fetchProfile]);
 
   useEffect(() => {
-    let mounted = true;
+    mountedRef.current = true;
 
-    // Initialize auth state
-    const initializeAuth = async () => {
-      try {
-        // Get current session
-        const { data: { session: currentSession } } = await supabase.auth.getSession();
-        
-        if (!mounted) return;
+    const init = async () => {
+      const {
+        data: { session: currentSession },
+      } = await supabase.auth.getSession();
 
-        if (currentSession?.user) {
-          setSession(currentSession);
-          setUser(currentSession.user);
-          
-          // Fetch profile
-          const profileData = await fetchProfile(currentSession.user);
-          if (mounted) {
-            setProfile(profileData);
-            setAuthState('authenticated');
-          }
-        } else {
-          setSession(null);
-          setUser(null);
-          setProfile(null);
-          setAuthState('unauthenticated');
-        }
-      } catch (error) {
-        console.error('Error initializing auth:', error);
-        if (mounted) {
-          setAuthState('unauthenticated');
-        }
-      } finally {
-        if (mounted) {
-          initialLoadComplete.current = true;
-        }
+      if (!mountedRef.current) return;
+
+      if (currentSession?.user) {
+        setSession(currentSession);
+        setUser(currentSession.user);
+        setAuthState('authenticated');
+
+        // ⛔️ PROFILE FETCH YOK — signup güvenli
+      } else {
+        setSession(null);
+        setUser(null);
+        setProfile(null);
+        setAuthState('unauthenticated');
       }
     };
 
-    // Set up auth state listener
-    const { data: { subscription } } = supabase.auth.onAuthStateChange((event, newSession) => {
-      // Only process events after initial load to prevent double-processing
-      if (!initialLoadComplete.current) return;
+    init();
 
-      if (!mounted) return;
+    const {
+      data: { subscription },
+    } = supabase.auth.onAuthStateChange((_event, newSession) => {
+      if (!mountedRef.current) return;
 
-      // Synchronously update session and user
       setSession(newSession);
       setUser(newSession?.user ?? null);
 
       if (newSession?.user) {
-        // Fetch profile in the background without blocking
-        fetchProfile(newSession.user).then((profileData) => {
-          if (mounted) {
-            setProfile(profileData);
-            setAuthState('authenticated');
-          }
-        });
+        setAuthState('authenticated');
+        // ⛔️ profile fetch YOK
       } else {
         setProfile(null);
         setAuthState('unauthenticated');
       }
     });
 
-    // Initialize
-    initializeAuth();
-
     return () => {
-      mounted = false;
+      mountedRef.current = false;
       subscription.unsubscribe();
     };
-  }, [fetchProfile]);
+  }, []);
 
   const signOut = async () => {
     try {
-      // Clear payment modal session storage on logout
-      sessionStorage.removeItem('paymentModalDismissed');
-      sessionStorage.removeItem('paymentModalShown');
-      
-      // Force local session clear regardless of server response
       await supabase.auth.signOut({ scope: 'local' });
-      
-      // Clear local state immediately
-      setUser(null);
-      setSession(null);
-      setProfile(null);
-      setAuthState('unauthenticated');
-      
-      console.log('User signed out successfully');
-    } catch (error) {
-      console.error('Error during signOut:', error);
-      // Even if there's an error, clear local state
+    } catch (e) {
+      console.error('Sign out error:', e);
+    } finally {
       setUser(null);
       setSession(null);
       setProfile(null);
@@ -224,26 +152,25 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     }
   };
 
-  // Derive loading from authState for backward compatibility
   const loading = authState === 'initializing';
 
-  const value = { 
-    user, 
+  const value: AuthContextType = {
+    user,
     session,
-    profile, 
+    profile,
     authState,
-    loading, 
-    signOut, 
-    refreshProfile 
+    loading,
+    signOut,
+    refreshProfile,
   };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 };
 
 export const useAuth = () => {
-  const context = useContext(AuthContext);
-  if (context === undefined) {
-    throw new Error('useAuth must be used within an AuthProvider');
+  const ctx = useContext(AuthContext);
+  if (!ctx) {
+    throw new Error('useAuth must be used within AuthProvider');
   }
-  return context;
+  return ctx;
 };

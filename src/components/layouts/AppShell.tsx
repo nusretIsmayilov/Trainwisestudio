@@ -14,7 +14,7 @@ import { useAuth } from '@/contexts/AuthContext';
 import { useLibraryAccess } from '@/hooks/useLibraryAccess';
 import { AccessLevelProvider } from '@/contexts/AccessLevelContext';
 import { useRoutePrefetch } from '@/hooks/useRoutePrefetch';
-import { useNavDebug } from '@/hooks/useNavDebug';
+
 
 const AppShell = () => {
   const { profile, loading } = useAuth();
@@ -24,7 +24,7 @@ const AppShell = () => {
   useRoutePrefetch(profile?.role as 'customer' | 'coach' | null);
   
   // Dev-only navigation debug logging
-  useNavDebug();
+  
 
   if (loading) return <div>Loading...</div>;
   if (!profile) return null;
