@@ -65,7 +65,7 @@ const RoleGate = ({ allowedRole, children }: RoleGateProps) => {
     if (profile.role === 'customer') {
       return profile.onboarding_complete 
         ? <Navigate to="/customer/dashboard" replace />
-        : <Navigate to="/onboarding/step-1" replace />;
+        : <Navigate to="/onboarding/step-0" replace />;
     }
   }
 

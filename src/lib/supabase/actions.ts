@@ -7,7 +7,7 @@ export async function sendMagicLink(email: string) {
   // Force production URL even if Supabase dashboard is misconfigured
   const redirectUrl = import.meta.env.PROD 
     ? FORCE_PRODUCTION_URLS.MAGIC_LINK
-    : `${config.appUrl}/onboarding/step-1`;
+    : `${config.appUrl}/onboarding/step-0`;
   
   logUrlUsage('Magic Link', redirectUrl);
   

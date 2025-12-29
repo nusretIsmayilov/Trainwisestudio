@@ -42,6 +42,7 @@ interface OnboardingState {
   personalInfo: PersonalInfo;
   preferences: Preferences;
   contactInfo: ContactInfo;
+  coachProfile: CoachProfile;
 }
 
 interface OnboardingContextValue {
@@ -51,6 +52,22 @@ interface OnboardingContextValue {
   completeOnboarding: () => Promise<void>;
   clearState: () => void;
 }
+
+interface CoachProfile {
+  fullName: string;
+  tagline: string;
+  bio: string;
+  skills: string[];
+  certifications: string[];
+  socials: {
+    instagram?: string;
+    website?: string;
+    youtube?: string;
+  };
+  priceMin: string;
+  priceMax: string;
+}
+
 
 const initialOnboardingState: OnboardingState = {
   goals: [],
@@ -69,6 +86,16 @@ const initialOnboardingState: OnboardingState = {
     height_in: '',
     weight_kg: '',
     height_cm: ''
+  },
+   coachProfile: {
+    fullName: '',
+    tagline: '',
+    bio: '',
+    skills: [],
+    certifications: [],
+    socials: {},
+    priceMin: '',
+    priceMax: '',
   },
   preferences: { 
     allergies: [], 
