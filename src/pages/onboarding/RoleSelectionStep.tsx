@@ -3,18 +3,22 @@ import { OnboardingContainer } from '@/components/onboarding/OnboardingContainer
 import { Button } from '@/components/ui/button';
 import { supabase } from '@/integrations/supabase/client';
 import { useAuth } from '@/contexts/AuthContext';
+import { useOnboarding } from '@/contexts/OnboardingContext'; // ✅ EKLENDİ
 
 const RoleSelectionStep = () => {
   const navigate = useNavigate();
   const { user } = useAuth();
+  const { clearState } = useOnboarding(); // ✅ EKLENDİ
 
-  const handleCustomer = () => {
-    // hiçbir şey yapma
+  const handleCustomer = async () => {
+    clearState(); // ✅ EN KRİTİK SATIR
     navigate('/onboarding/step-1');
   };
 
   const handleCoach = async () => {
     if (!user) return;
+
+    clearState(); // ✅ EN KRİTİK SATIR
 
     await supabase
       .from('profiles')

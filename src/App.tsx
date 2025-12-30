@@ -116,19 +116,17 @@ const LoadingScreen = () => (
 );
 
 const PublicRoutesLayout = () => {
-  const { profile, loading } = useAuth();
+  const { profile, loading, authState } = useAuth();
   const location = useLocation();
 
   if (loading) return <LoadingScreen />;
 
-  // If we're in a password recovery flow, never auto-redirect from public routes
   try {
     if (sessionStorage.getItem("recoveryFlow") === "1") {
       return <Outlet />;
     }
   } catch {}
 
-  // Allow staying on update-password even if authenticated (recovery flow)
   if (
     location.pathname === "/update-password" ||
     location.pathname.startsWith("/update-password")
@@ -136,8 +134,7 @@ const PublicRoutesLayout = () => {
     return <Outlet />;
   }
 
-  // Only redirect to dashboard if user is on a public route (not already on a protected route)
-  if (profile) {
+  if (authState === "authenticated" && profile) {
     const publicRoutes = [
       "/",
       "/login",
@@ -146,6 +143,7 @@ const PublicRoutesLayout = () => {
       "/terms",
       "/privacy",
     ];
+
     const isOnPublicRoute = publicRoutes.includes(location.pathname);
 
     if (isOnPublicRoute) {
@@ -157,12 +155,15 @@ const PublicRoutesLayout = () => {
         return <Navigate to="/customer/dashboard" replace />;
       }
 
-      return <Navigate to="/onboarding/step-0" replace />;
+      // 🔥 BURASI ARTIK SADECE Outlet
+      return <Outlet />;
     }
   }
 
   return <Outlet />;
 };
+
+
 
 const ProtectedRoutesLayout = () => {
   const { profile, loading } = useAuth();
