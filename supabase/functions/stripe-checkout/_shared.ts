@@ -1,44 +1,71 @@
-﻿export const corsHeaders = {
+﻿import Stripe from 'stripe';
+
+/* =======================
+   CORS
+======================= */
+
+export const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
-  'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
+  'Access-Control-Allow-Headers':
+    'authorization, x-client-info, apikey, content-type',
+  'Access-Control-Allow-Methods': 'GET,POST,OPTIONS',
 };
 
-export function handleCors(req: Request): Response | null {
+/**
+ * Express / Vercel için CORS handler
+ */
+export function handleCors(req: any, res: any): boolean {
   if (req.method === 'OPTIONS') {
-    return new Response('ok', { headers: corsHeaders });
+    res.writeHead(200, corsHeaders);
+    res.end();
+    return true;
   }
-  return null;
+  return false;
 }
 
-import Stripe from 'https://esm.sh/stripe@14.25.0?target=deno';
+/* =======================
+   STRIPE
+======================= */
 
 export function createStripeClient(): Stripe {
-  const stripeSecretKey = Deno.env.get('STRIPE_SECRET_KEY');
+  const stripeSecretKey = process.env.STRIPE_SECRET_KEY;
   if (!stripeSecretKey) {
     throw new Error('STRIPE_SECRET_KEY is not set');
   }
-  return new Stripe(stripeSecretKey, {
-    apiVersion: '2024-06-20',
-  });
+
+  // apiVersion yok → Stripe account default (TS hatası yok)
+  return new Stripe(stripeSecretKey);
 }
 
-// Helper to get price ID with logging (returns empty string if not set, allowing fallback to defaults)
+/* =======================
+   PRICE IDS
+======================= */
+
+/**
+ * ENV’den price ID okur
+ */
 function getPriceId(key: string): string {
   const envKey = `STRIPE_PRICE_${key.toUpperCase()}`;
-  const value = Deno.env.get(envKey) || '';
-  
+  const value = process.env[envKey] || '';
+
   if (value) {
-    console.log(`[Config] ${envKey}: ${value.substring(0, 20)}... (from environment variable)`);
+    console.log(
+      `[Config] ${envKey}: ${value.substring(0, 20)}... (from environment variable)`
+    );
   } else {
     console.log(`[Config] ${envKey}: Using hardcoded default`);
   }
+
   return value;
 }
 
-// Default price IDs (can be overridden by environment variables)
+/**
+ * Default price ID’ler
+ * (ENV ile override edilebilir)
+ */
 const DEFAULT_PRICE_IDS = {
   usd: 'price_1RuGa5ASxfWk5jq3tVdquNfV',
-  eur: '', // No default, must be set via STRIPE_PRICE_EUR
+  eur: '', // ENV zorunlu
   nok: 'price_1RuGbJASxfWk5jq3jHf2UWtW',
   sek: 'price_1RuGboASxfWk5jq387nsCumM',
   dkk: 'price_1RuGcJASxfWk5jq3tY106Hk9',
@@ -52,13 +79,19 @@ export const PRICE_IDS = {
   dkk: getPriceId('DKK') || DEFAULT_PRICE_IDS.dkk,
 };
 
-// Helper to check if price IDs are configured
+/**
+ * Price ID’ler doğru set edilmiş mi?
+ */
 export function arePriceIdsConfigured(): boolean {
-  return Object.values(PRICE_IDS).every(price => price && price.length > 0 && !price.includes('REMOVED'));
+  return Object.values(PRICE_IDS).every(
+    price => price && price.length > 0 && !price.includes('REMOVED')
+  );
 }
+
+/* =======================
+   APP URL
+======================= */
 
 export function getAppUrl(): string {
-  return Deno.env.get('PUBLIC_APP_URL') || 'https://trainwisestudio.com';
+  return process.env.PUBLIC_APP_URL || 'https://trainwisestudio.netlify.app';
 }
-
-

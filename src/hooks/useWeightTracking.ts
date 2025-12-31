@@ -153,7 +153,6 @@ export const useWeightTracking = () => {
 
   // ✅ FIX: stabilize function
   const getWeightTrend = useCallback(() => {
-    console.log("getWeightTrend called with entries:", entries.length, entries);
 
     if (entries.length < 2) {
       return 0;

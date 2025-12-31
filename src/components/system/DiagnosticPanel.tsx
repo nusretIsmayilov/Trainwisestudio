@@ -214,7 +214,7 @@ export const DiagnosticPanel = () => {
                   <pre className="bg-blue-100 p-2 rounded text-xs mt-2">
 {`VITE_SUPABASE_URL=your_supabase_url
 VITE_SUPABASE_PUBLISHABLE_KEY=your_supabase_anon_key
-VITE_API_BASE_URL=http://localhost:3000`}
+VITE_API_BASE_URL=https://trainwisestudio.netlify.app`}
                   </pre>
                   <li>Restart the development server</li>
                 </ol>

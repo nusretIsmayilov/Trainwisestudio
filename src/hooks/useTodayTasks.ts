@@ -21,8 +21,6 @@ export const useTodayTasks = () => {
         .select("*")
         .eq("user_id", user.id)
         .eq("scheduled_date", today);
-        console.log("task :", data);
-        console.log(error);
 
       if (!error) {
         setTasks(data ?? []);
