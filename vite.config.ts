@@ -6,6 +6,7 @@ import path from "path";
 export default defineConfig(({ mode }) => {
   // No proxy needed - using Supabase Edge Functions directly
   return {
+     base: "/", 
     server: {
       host: "::",
       port: 8080,
