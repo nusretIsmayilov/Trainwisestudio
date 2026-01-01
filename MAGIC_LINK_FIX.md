@@ -69,7 +69,7 @@ Magic links were redirecting to `localhost:3000` instead of `trainwisestudio.com
 ```
 🔍 URL Debug Information
 🧪 Magic Link URL Test
-🔗 Magic link redirect URL: https://trainwisestudio.netlify.app/onboarding/step-1
+🔗 Magic link redirect URL: http://localhost:8080/onboarding/step-1
 ```
 
 ### Production

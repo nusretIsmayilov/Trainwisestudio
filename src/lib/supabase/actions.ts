@@ -3,12 +3,9 @@ import { config } from "@/lib/config";
 import { FORCE_PRODUCTION_URLS, logUrlUsage } from "@/lib/force-urls";
 
 export async function sendMagicLink(email: string) {
-  // 🔒 SADECE BU SATIR EKLENDİ
-  const baseUrl = config.appUrl.replace(/\/+$/, "");
-
   const redirectUrl = import.meta.env.PROD
     ? FORCE_PRODUCTION_URLS.MAGIC_LINK
-    : `${baseUrl}/onboarding/step-0`;
+    : `${config.appUrl}/onboarding/step-0`;
 
   logUrlUsage("Magic Link", redirectUrl);
 
@@ -42,16 +39,14 @@ export async function signInWithPassword(email: string, password: string) {
 
   return {
     user: data.user,
-    role: profile.role,
+    role: profile.role, // 👈 BURASI HER ŞEY
   };
 }
 
 export async function sendPasswordResetLink(email: string) {
-  const baseUrl = config.appUrl.replace(/\/+$/, "");
-
   const redirectUrl = import.meta.env.PROD
     ? FORCE_PRODUCTION_URLS.PASSWORD_RESET
-    : `${baseUrl}/update-password`;
+    : `${config.appUrl}/update-password`;
 
   logUrlUsage("Password Reset", redirectUrl);
 

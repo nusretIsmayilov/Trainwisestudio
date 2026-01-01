@@ -1,57 +1,36 @@
-﻿import Stripe from 'stripe';
-
-/* =======================
-   CORS
-======================= */
-
-export const corsHeaders = {
+﻿export const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
-  'Access-Control-Allow-Headers':
-    'authorization, x-client-info, apikey, content-type',
-  'Access-Control-Allow-Methods': 'GET,POST,OPTIONS',
+  'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
 };
 
-/**
- * Express / Vercel uyumlu CORS handler
- */
-export function handleCors(req: any, res: any): boolean {
+export function handleCors(req: Request): Response | null {
   if (req.method === 'OPTIONS') {
-    res.writeHead(200, corsHeaders);
-    res.end();
-    return true;
+    return new Response('ok', { headers: corsHeaders });
   }
-  return false;
+  return null;
 }
 
-/* =======================
-   STRIPE
-======================= */
+import Stripe from 'https://esm.sh/stripe@14.25.0?target=deno';
 
 export function createStripeClient(): Stripe {
-  const stripeSecretKey = process.env.STRIPE_SECRET_KEY;
+  const stripeSecretKey = Deno.env.get('STRIPE_SECRET_KEY');
   if (!stripeSecretKey) {
     throw new Error('STRIPE_SECRET_KEY is not set');
   }
-
-  // apiVersion bilerek yok → Stripe default API version
-  return new Stripe(stripeSecretKey);
+  return new Stripe(stripeSecretKey, {
+    apiVersion: '2024-06-20',
+  });
 }
-
-/* =======================
-   PRICE IDS
-======================= */
 
 export const PRICE_IDS = {
-  usd: process.env.STRIPE_PRICE_USD || '***REMOVED***',
-  nok: process.env.STRIPE_PRICE_NOK || '***REMOVED***',
-  sek: process.env.STRIPE_PRICE_SEK || '***REMOVED***',
-  dkk: process.env.STRIPE_PRICE_DKK || '***REMOVED***',
+  usd: Deno.env.get('STRIPE_PRICE_USD') || '***REMOVED***',
+  nok: Deno.env.get('STRIPE_PRICE_NOK') || '***REMOVED***',
+  sek: Deno.env.get('STRIPE_PRICE_SEK') || '***REMOVED***',
+  dkk: Deno.env.get('STRIPE_PRICE_DKK') || '***REMOVED***',
 };
 
-/* =======================
-   APP URL
-======================= */
-
 export function getAppUrl(): string {
-  return process.env.PUBLIC_APP_URL || 'https://trainwisestudio.netlify.app';
+  return Deno.env.get('PUBLIC_APP_URL') || 'https://trainwisestudio.com';
 }
+
+

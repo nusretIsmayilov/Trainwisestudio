@@ -64,6 +64,13 @@ export const useRealTimeBlog = () => {
         const hasStatus = Object.prototype.hasOwnProperty.call(sample, 'status');
         const hasUpdatedAt = Object.prototype.hasOwnProperty.call(sample, 'updated_at');
 
+        console.debug('[useRealTimeBlog] probe columns', {
+          keys: Object.keys(sample || {}),
+          hasIsPublished,
+          hasStatus,
+          hasUpdatedAt,
+        });
+
         // Build main query dynamically based on available columns
         let query = supabase
           .from('blog_posts')
@@ -85,12 +92,14 @@ export const useRealTimeBlog = () => {
         }
 
         const rows = blogData || [];
+        console.debug('[useRealTimeBlog] blog_posts rows count', rows.length);
 
         // Fetch author profiles in a second query
         const authorIds = Array.from(new Set(rows.map((p: any) => p.coach_id).filter(Boolean)));
         let profilesById: Record<string, { full_name?: string; avatar_url?: string }> = {};
 
         if (authorIds.length > 0) {
+          console.debug('[useRealTimeBlog] Fetching author profiles', { count: authorIds.length });
           const { data: profilesData, error: profilesError } = await supabase
             .from('profiles')
             .select('id, full_name, avatar_url')
