@@ -136,7 +136,7 @@ const CurrentCoachTab: React.FC<CurrentCoachTabProps> = ({ isMobile, onViewBio, 
                 className="fixed bottom-6 right-6 z-50"
             >
                 <Button
-                    onClick={() => navigate('/customer/chat')}
+                    onClick={() => navigate('/customer/messages', { replace: true })}
                     size="lg"
                     className="h-14 w-14 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 bg-primary hover:bg-primary/90"
                 >

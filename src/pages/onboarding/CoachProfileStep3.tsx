@@ -25,7 +25,6 @@ const CoachProfileStep3 = () => {
     setErrorMsg(null);
 
     try {
-      /** 🔥 GERÇEK TABLOYA YAZIYORUZ */
       const { error: profileError } = await supabase
         .from("profiles")
         .update({
@@ -36,12 +35,8 @@ const CoachProfileStep3 = () => {
           skills: coach.skills,
           certifications: coach.certifications,
           socials: coach.socials,
-          price_min_cents: coach.priceMin
-            ? Number(coach.priceMin) * 100
-            : null,
-          price_max_cents: coach.priceMax
-            ? Number(coach.priceMax) * 100
-            : null,
+          price_min_cents: coach.priceMin ? Number(coach.priceMin) * 100 : null,
+          price_max_cents: coach.priceMax ? Number(coach.priceMax) * 100 : null,
           onboarding_complete: true,
         })
         .eq("id", user.id);
@@ -53,7 +48,7 @@ const CoachProfileStep3 = () => {
         return;
       }
 
-      navigate("/coach/dashboard");
+      navigate("/coach/dashboard", { replace: true });
     } catch (err) {
       console.error("Unexpected error:", err);
       setErrorMsg("Unexpected error occurred.");
@@ -87,11 +82,7 @@ const CoachProfileStep3 = () => {
         {errorMsg && <p className="text-sm text-red-500">{errorMsg}</p>}
 
         <div className="flex justify-end">
-          <Button
-            type="button"
-            onClick={handleFinish}
-            disabled={loading}
-          >
+          <Button type="button" onClick={handleFinish} disabled={loading}>
             Finish & Go to Dashboard
           </Button>
         </div>
