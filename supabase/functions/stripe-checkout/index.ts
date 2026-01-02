@@ -140,7 +140,7 @@ serve(async (req) => {
       allow_promotion_codes: true,
       subscription_data: trialDays && trialDays > 0 ? { trial_period_days: trialDays } : undefined,
       client_reference_id: userId,
-      success_url: `${appUrl}/customer/settings?status=success&session_id={CHECKOUT_SESSION_ID}`,
+      success_url: `${appUrl}/customer/dashboard?status=success`,
       cancel_url: `${appUrl}/customer/settings?status=cancel`,
     });
     
