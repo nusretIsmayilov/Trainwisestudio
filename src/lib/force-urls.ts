@@ -3,21 +3,21 @@
 
 export const FORCE_PRODUCTION_URLS = {
   // Production domain
-  DOMAIN: 'https://www.trainwisestudio.com',
+  DOMAIN: 'https://trainwisestudio-two.vercel.app',
   
   // Magic link URLs
-  MAGIC_LINK: 'https://www.trainwisestudio.com/onboarding/step-1',
-  PASSWORD_RESET: 'https://www.trainwisestudio.com/update-password',
+  MAGIC_LINK: 'https://trainwisestudio-two.vercel.app/onboarding/step-1',
+  PASSWORD_RESET: 'https://trainwisestudio-two.vercel.app/update-password',
   
   // Dashboard URLs
-  CUSTOMER_DASHBOARD: 'https://www.trainwisestudio.com/customer/dashboard',
-  COACH_DASHBOARD: 'https://www.trainwisestudio.com/coach/dashboard',
+  CUSTOMER_DASHBOARD: 'https://trainwisestudio-two.vercel.app/customer/dashboard',
+  COACH_DASHBOARD: 'https://trainwisestudio-two.vercel.app/coach/dashboard',
   
   // Payment URLs
-  PAYMENT_SUCCESS: 'https://www.trainwisestudio.com/customer/settings?status=success',
-  PAYMENT_CANCEL: 'https://www.trainwisestudio.com/customer/settings?status=cancel',
-  OFFER_SUCCESS: 'https://www.trainwisestudio.com/customer/messages?offer_status=paid',
-  OFFER_CANCEL: 'https://www.trainwisestudio.com/customer/messages?offer_status=cancel',
+  PAYMENT_SUCCESS: 'https://trainwisestudio-two.vercel.app/customer/dashboard?status=success',
+  PAYMENT_CANCEL: 'https://trainwisestudio-two.vercel.app/customer/settings?status=cancel',
+  OFFER_SUCCESS: 'https://trainwisestudio-two.vercel.app/customer/messages?offer_status=paid',
+  OFFER_CANCEL: 'https://trainwisestudio-two.vercel.app/customer/messages?offer_status=cancel',
 } as const;
 
 export const getProductionUrl = (path: string) => {

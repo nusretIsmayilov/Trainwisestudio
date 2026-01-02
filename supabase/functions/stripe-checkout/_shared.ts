@@ -58,7 +58,7 @@ export function arePriceIdsConfigured(): boolean {
 }
 
 export function getAppUrl(): string {
-  return Deno.env.get('PUBLIC_APP_URL') || 'https://trainwisestudio.com';
+  return Deno.env.get('PUBLIC_APP_URL') || 'https://trainwisestudio-two.vercel.app';
 }
 
 
