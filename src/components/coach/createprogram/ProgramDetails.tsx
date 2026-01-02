@@ -14,7 +14,7 @@ import { MUSCLE_GROUPS, EQUIPMENT_OPTIONS } from "@/constants/fitness";
 import { cn } from "@/lib/utils";
 import { ProgramCategory } from "@/mockdata/createprogram/mockExercises";
 import { useCoachLibrary } from "@/hooks/useCoachLibrary";
-import { useRealTimeClientStatus } from "@/hooks/useRealTimeClientStatus";
+import { supabase } from "@/integrations/supabase/client";
 import {
   Select,
   SelectContent,
@@ -116,13 +116,9 @@ const ProgramDetails: React.FC<ProgramDetailsProps> = ({
   const muscleGroups = watch("muscleGroups") || [];
   const equipment = watch("equipment") || [];
   const { items: libraryItems, loading: libraryLoading } = useCoachLibrary();
-  const { clients, loading: clientsLoading } = useRealTimeClientStatus();
   const [selectedLibraryIds, setSelectedLibraryIds] = useState<string[]>([]);
 
   // Filter clients with "Missing Program" status
-  const missingProgramClients = clients.filter(
-    (client) => client.status === "missing_program"
-  );
 
   const filteredLibrary = useMemo(() => {
     if (!selectedCategory) return libraryItems;
@@ -169,6 +165,29 @@ const ProgramDetails: React.FC<ProgramDetailsProps> = ({
   const handleCategorySelect = (category: ProgramCategory) => {
     setValue("category", category);
   };
+
+  const [assignableClients, setAssignableClients] = useState<any[]>([]);
+  const [clientsLoading, setClientsLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchAssignableClients = async () => {
+      setClientsLoading(true);
+
+      const { data, error } = await supabase
+        .from("profiles")
+        .select("id, full_name, email, avatar_url")
+        .eq("role", "customer")
+        .is("active_program_assignment_id", null);
+
+      if (!error && data) {
+        setAssignableClients(data);
+      }
+
+      setClientsLoading(false);
+    };
+
+    fetchAssignableClients();
+  }, []);
 
   return (
     <motion.div
@@ -316,15 +335,15 @@ const ProgramDetails: React.FC<ProgramDetailsProps> = ({
             render={({ field }) => (
               <Select value={field.value ?? ""} onValueChange={field.onChange}>
                 <SelectTrigger>
-                  <SelectValue placeholder="Select a client with missing program" />
+                  <SelectValue placeholder="Select a client without an active program" />
                 </SelectTrigger>
                 <SelectContent>
                   {clientsLoading ? (
                     <SelectItem value="loading" disabled>
                       Loading clients...
                     </SelectItem>
-                  ) : missingProgramClients.length > 0 ? (
-                    missingProgramClients.map((client) => (
+                  ) : assignableClients.length > 0 ? (
+                    assignableClients.map((client) => (
                       <SelectItem key={client.id} value={client.id}>
                         <div className="flex items-center gap-2">
                           <img
