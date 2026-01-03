@@ -180,7 +180,8 @@ const ProgramDetails: React.FC<ProgramDetailsProps> = ({
         .select("id, full_name, email, avatar_url")
         .eq("role", "customer")
         .eq("coach_id", profile?.id)
-        .is("active_program_assignment_id", null);
+        .is("active_program_assignment_id", null)
+        .not("plan", "is", null);
 
       if (!error && data) {
         setAssignableClients(data);
