@@ -147,7 +147,9 @@ const ProgramBuilder = () => {
       });
     }
 
-    navigate("/coach/programs", { replace: true });
+   setTimeout(() => {
+  navigate("/coach/programs", { replace: true });
+}, 0);
   };
 
   const renderStep = () => {
