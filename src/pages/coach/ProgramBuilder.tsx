@@ -148,7 +148,7 @@ const ProgramBuilder = () => {
     }
 
    setTimeout(() => {
-  navigate("/coach/programs", { replace: true });
+  window.location.href = "https://trainwisestudio-ten.vercel.app/coach/programs";
 }, 0);
   };
 
