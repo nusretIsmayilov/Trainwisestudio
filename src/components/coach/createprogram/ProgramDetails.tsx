@@ -15,6 +15,7 @@ import { cn } from "@/lib/utils";
 import { ProgramCategory } from "@/mockdata/createprogram/mockExercises";
 import { useCoachLibrary } from "@/hooks/useCoachLibrary";
 import { supabase } from "@/integrations/supabase/client";
+import { useAuth } from "@/contexts/AuthContext";
 import {
   Select,
   SelectContent,
@@ -165,6 +166,7 @@ const ProgramDetails: React.FC<ProgramDetailsProps> = ({
   const handleCategorySelect = (category: ProgramCategory) => {
     setValue("category", category);
   };
+  const { profile } = useAuth();
 
   const [assignableClients, setAssignableClients] = useState<any[]>([]);
   const [clientsLoading, setClientsLoading] = useState(true);
@@ -177,6 +179,7 @@ const ProgramDetails: React.FC<ProgramDetailsProps> = ({
         .from("profiles")
         .select("id, full_name, email, avatar_url")
         .eq("role", "customer")
+        .eq("coach_id", profile?.id)
         .is("active_program_assignment_id", null);
 
       if (!error && data) {
