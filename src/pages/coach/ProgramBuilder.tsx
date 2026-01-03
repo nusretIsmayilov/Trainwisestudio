@@ -100,20 +100,18 @@ const ProgramBuilder = () => {
 
   const handleSaveProgram = async (planData: any) => {
     console.log("programData:", programData);
+
     const finalProgram = {
       ...programData,
       plan: planData,
-
       muscleGroups: programData.muscleGroups ?? null,
       equipment: programData.equipment ?? null,
       benefits: programData.benefits ?? null,
       allergies: programData.allergies ?? null,
     };
 
-    let result;
     if (isEditing && existingProgram) {
-      // Update existing program - save as active when completed
-      result = await updateProgram({
+      await updateProgram({
         id: existingProgram.id,
         name: finalProgram.title || existingProgram.name,
         description: finalProgram.description || existingProgram.description,
@@ -132,8 +130,7 @@ const ProgramBuilder = () => {
         status: "active",
       });
     } else {
-      // Create new program - save as active when completed
-      result = await createProgram({
+      await createProgram({
         name: finalProgram.title || "Untitled Program",
         description: finalProgram.description || "",
         category: finalProgram.category,
@@ -150,9 +147,7 @@ const ProgramBuilder = () => {
       });
     }
 
-    if (result) {
-      navigate("/coach/programs", { replace: true });
-    }
+    navigate("/coach/programs", { replace: true });
   };
 
   const renderStep = () => {
