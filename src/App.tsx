@@ -163,8 +163,6 @@ const PublicRoutesLayout = () => {
   return <Outlet />;
 };
 
-
-
 const ProtectedRoutesLayout = () => {
   const { profile, loading } = useAuth();
   if (loading) return <LoadingScreen />;

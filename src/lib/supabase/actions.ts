@@ -39,7 +39,7 @@ export async function signInWithPassword(email: string, password: string) {
 
   return {
     user: data.user,
-    role: profile.role, // 👈 BURASI HER ŞEY
+    role: profile.role,
   };
 }
 

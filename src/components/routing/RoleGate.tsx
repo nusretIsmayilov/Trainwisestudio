@@ -60,9 +60,8 @@ const RoleGate = ({ allowedRole, children }: RoleGateProps) => {
     return <Navigate to="/update-password" replace />;
   }
 
-  // 🔥 Role NOT selected → ALWAYS force step-0
   if (!profile.role_selected) {
-    return <Navigate to="/onboarding/step-0" replace />;
+    return <Navigate to="/onboarding/step-1" replace />;
   }
 
   // If role doesn't match, redirect to the correct dashboard for their actual role
