@@ -101,6 +101,8 @@ const LibraryPage: React.FC = () => {
     setView('list');
   };
 
+  console.log('LIBRARY DATA:', libraryData);
+
   return (
     // ✨ FIX: Reduced max-width from default full-container to max-w-6xl 
     // and reduced desktop padding (p-6 instead of p-8) for a tighter feel.

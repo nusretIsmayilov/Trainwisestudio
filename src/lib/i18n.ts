@@ -107,6 +107,7 @@ const resources = {
       
       // Library
       'library.title': 'Your Library',
+      'library.title.helper': 'This is your personal collection of exercises, recipes, and wellness activities that you reuse when building programs.',
       'library.searchPlaceholder': 'Search {{category}}...',
       'library.allContent': 'all content',
       'library.filter': 'Filter',
@@ -416,6 +417,7 @@ const resources = {
       
       // Library
       'library.title': 'Tu Biblioteca',
+      'library.title.helper': 'Esta es tu colección personal de ejercicios, recetas y actividades de bienestar que reutilizas al crear programas.',
       'library.searchPlaceholder': 'Buscar {{category}}...',
       'library.allContent': 'todo el contenido',
       'library.filter': 'Filtrar',
@@ -725,6 +727,7 @@ const resources = {
       
       // Library
       'library.title': 'Votre Bibliothèque',
+      'library.title.helper': 'Il sagit de votre collection personnelle dexercices, de recettes et dactivités de bien-être que vous réutilisez lors de lélaboration de vos programmes.',
       'library.searchPlaceholder': 'Rechercher {{category}}...',
       'library.allContent': 'tout le contenu',
       'library.filter': 'Filtrer',
@@ -1034,6 +1037,7 @@ const resources = {
       
       // Library
       'library.title': 'Ihre Bibliothek',
+      'library.title.helper': 'Dies ist Ihre persönliche Sammlung von Übungen, Rezepten und Wellness-Aktivitäten, die Sie beim Erstellen von Programmen wiederverwenden können.',
       'library.searchPlaceholder': '{{category}} durchsuchen...',
       'library.allContent': 'alle Inhalte',
       'library.filter': 'Filter',
@@ -1343,6 +1347,7 @@ const resources = {
       
       // Library
       'library.title': 'Ditt Bibliotek',
+      'library.title.helper': 'Dette er din personlige samling av øvelser, oppskrifter og velværeaktiviteter som du bruker om igjen når du bygger programmer.',
       'library.searchPlaceholder': 'Søk {{category}}...',
       'library.allContent': 'alt innhold',
       'library.filter': 'Filter',
@@ -1652,6 +1657,7 @@ const resources = {
       
       // Library
       'library.title': 'Ditt Bibliotek',
+      'library.title.helper': 'Detta är din personliga samling av övningar, recept och hälsoaktiviteter som du återanvänder när du skapar program.',
       'library.searchPlaceholder': 'Sök {{category}}...',
       'library.allContent': 'allt innehåll',
       'library.filter': 'Filter',
@@ -1961,6 +1967,7 @@ const resources = {
       
       // Library
       'library.title': 'Dit Bibliotek',
+      'library.title.helper': 'Dette er din personlige samling af øvelser, opskrifter og wellness-aktiviteter, som du genbruger, når du udvikler programmer.',
       'library.searchPlaceholder': 'Søg {{category}}...',
       'library.allContent': 'alt indhold',
       'library.filter': 'Filter',
