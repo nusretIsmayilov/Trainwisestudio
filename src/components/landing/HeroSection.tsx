@@ -67,7 +67,7 @@ export default function HeroSection() {
             loading="lazy"
             className={cn(
               "w-full h-full object-cover absolute transition-opacity duration-1000 ease-in-out",
-              index === currentIndex ? "opacity-100" : "opacity-0"
+              index === currentIndex ? "opacity-100" : "opacity-0",
             )}
           />
         ))}
@@ -82,7 +82,7 @@ export default function HeroSection() {
           <div
             className={cn(
               "transition-opacity duration-700 ease-in-out",
-              isTextVisible ? "opacity-100" : "opacity-0"
+              isTextVisible ? "opacity-100" : "opacity-0",
             )}
           >
                        {" "}
@@ -109,7 +109,7 @@ export default function HeroSection() {
               size="lg"
               className="h-14 px-8 text-lg font-bold rounded-full bg-gradient-primary text-primary-foreground transition-transform hover:scale-105 shadow-2xl shadow-primary/30"
             >
-              <a href="https://trainwisestudio-ten.vercel.app/get-started">
+              <a href={`${import.meta.env.VITE_APP_URL}/get-started`}>
                 Start Your Free Trial
                 <ArrowRight className="w-5 h-5 ml-2" />
               </a>

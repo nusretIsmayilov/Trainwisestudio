@@ -1,13 +1,13 @@
-import { useEffect, useState } from 'react';
-import { Menu, X } from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import { Link } from 'react-router-dom';
-import { cn } from '@/lib/utils';
+import { useEffect, useState } from "react";
+import { Menu, X } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Link } from "react-router-dom";
+import { cn } from "@/lib/utils";
 
 const anchorLinks = [
-  { name: 'Features', href: '#features' },
-  { name: 'How It Works', href: '#how-it-works' },
-  { name: 'Pricing', href: '#pricing' },
+  { name: "Features", href: "#features" },
+  { name: "How It Works", href: "#how-it-works" },
+  { name: "Pricing", href: "#pricing" },
 ];
 
 export default function Navbar() {
@@ -16,18 +16,20 @@ export default function Navbar() {
 
   useEffect(() => {
     const handleScroll = () => setHasScrolled(window.scrollY > 10);
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
   useEffect(() => {
-    document.body.style.overflow = isOpen ? 'hidden' : 'auto';
-    return () => { document.body.style.overflow = 'auto'; };
+    document.body.style.overflow = isOpen ? "hidden" : "auto";
+    return () => {
+      document.body.style.overflow = "auto";
+    };
   }, [isOpen]);
 
   const handleNavClick = (href: string) => {
     setIsOpen(false);
-    document.querySelector(href)?.scrollIntoView({ behavior: 'smooth' });
+    document.querySelector(href)?.scrollIntoView({ behavior: "smooth" });
   };
 
   // Always use dark text for visibility on landing page (forced light mode)
@@ -37,9 +39,13 @@ export default function Navbar() {
   return (
     <nav
       className={cn(
-        "fixed top-0 left-0 right-0 z-50 transition-all duration-300",
-        "bg-transparent border-transparent",
-        hasScrolled && "bg-white/30 backdrop-blur-md"
+        "fixed top-0 left-0 right-0 z-50",
+        !isOpen && "transition-all duration-300",
+        isOpen
+          ? "bg-white"
+          : hasScrolled
+            ? "bg-white/30 backdrop-blur-md"
+            : "bg-transparent",
       )}
     >
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
@@ -47,8 +53,15 @@ export default function Navbar() {
           {/* Logo */}
           <Link
             to="/"
-            onClick={(e) => { e.preventDefault(); window.scrollTo({ top: 0, behavior: 'smooth' }); }}
-            className={cn("text-2xl font-bold transition-colors", textColor, textShadow)}
+            onClick={(e) => {
+              e.preventDefault();
+              window.scrollTo({ top: 0, behavior: "smooth" });
+            }}
+            className={cn(
+              "text-2xl font-bold transition-colors",
+              textColor,
+              textShadow,
+            )}
           >
             <span>TrainWise</span>
             <span className="text-primary">Studio</span>
@@ -61,8 +74,16 @@ export default function Navbar() {
                 <a
                   key={item.name}
                   href={item.href}
-                  onClick={(e) => { e.preventDefault(); handleNavClick(item.href); }}
-                  className={cn("text-sm font-medium transition-colors", textColor, textShadow, "hover:text-primary")}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    handleNavClick(item.href);
+                  }}
+                  className={cn(
+                    "text-sm font-medium transition-colors",
+                    textColor,
+                    textShadow,
+                    "hover:text-primary",
+                  )}
                 >
                   {item.name}
                 </a>
@@ -71,23 +92,23 @@ export default function Navbar() {
           </div>
 
           <div className="hidden md:flex items-center space-x-2">
-            <Link 
-              to="/login" 
+            <Link
+              to="/login"
               className={cn(
                 "inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 h-9 rounded-md px-3 hover:bg-accent hover:text-accent-foreground",
-                textColor, 
-                textShadow, 
-                "hover:text-primary"
+                textColor,
+                textShadow,
+                "hover:text-primary",
               )}
             >
               Login
             </Link>
-            <Link 
-              to="/get-started" 
+            <Link
+              to="/get-started"
               className={cn(
                 "inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 h-9 rounded-md px-3 bg-primary text-primary-foreground hover:bg-primary/90",
-                textColor, 
-                textShadow
+                textColor,
+                textShadow,
               )}
             >
               Get Started
@@ -96,8 +117,18 @@ export default function Navbar() {
 
           {/* Mobile Menu Button */}
           <div className="md:hidden">
-            <Button variant="ghost" size="icon" onClick={() => setIsOpen(!isOpen)} aria-label="Toggle mobile menu" className={cn(textColor, textShadow)}>
-              {isOpen ? <X className="h-7 w-7" /> : <Menu className="h-6 w-6" />}
+            <Button
+              variant="ghost"
+              size="icon"
+              onClick={() => setIsOpen(!isOpen)}
+              aria-label="Toggle mobile menu"
+              className={cn(textColor, textShadow)}
+            >
+              {isOpen ? (
+                <X className="h-7 w-7" />
+              ) : (
+                <Menu className="h-6 w-6" />
+              )}
             </Button>
           </div>
         </div>
@@ -105,31 +136,61 @@ export default function Navbar() {
 
       {/* Mobile Menu Panel */}
       {isOpen && (
-        <div className="md:hidden fixed inset-0 z-40 bg-white/30 backdrop-blur-md pt-20" onClick={() => setIsOpen(false)}>
-          <div className="space-y-2 px-4 pt-6 pb-3">
+        <div className="md:hidden fixed inset-0 z-50 bg-white/95 backdrop-blur-sm flex flex-col">
+          <div className="flex items-center justify-between px-4 pt-4">
+            <Link
+              to="/"
+              onClick={(e) => {
+                e.preventDefault();
+                window.scrollTo({ top: 0, behavior: "smooth" });
+              }}
+              className={cn(
+                "text-2xl font-bold transition-colors",
+                textColor,
+                textShadow,
+              )}
+            >
+              <span>TrainWise</span>
+              <span className="text-primary">Studio</span>
+            </Link>
+
+            <Button
+              variant="ghost"
+              size="icon"
+              onClick={() => setIsOpen(false)}
+              aria-label="Close mobile menu"
+              className={cn(textColor, textShadow)}
+            >
+              <X className="h-7 w-7" />
+            </Button>
+          </div>
+
+          <div className="flex-1 overflow-y-auto px-4 pt-6 pb-4 space-y-3">
             {anchorLinks.map((item) => (
               <a
                 key={item.name}
                 href={item.href}
-                onClick={(e) => { e.preventDefault(); handleNavClick(item.href); }}
+                onClick={(e) => {
+                  e.preventDefault();
+                  handleNavClick(item.href);
+                }}
                 className="block px-3 py-3 rounded-lg text-xl font-semibold text-gray-900 hover:text-primary hover:bg-white/20"
               >
                 {item.name}
               </a>
             ))}
-          </div>
-          <div className="px-4 pt-4 pb-4 space-y-3">
-            <Link 
-              to="/login" 
+
+            <Link
+              to="/login"
               onClick={() => setIsOpen(false)}
-              className="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 w-full justify-center text-lg font-semibold h-12 hover:bg-accent hover:text-accent-foreground"
+              className="inline-flex items-center justify-center gap-2 w-full h-12 text-lg font-semibold rounded-md hover:bg-accent hover:text-accent-foreground"
             >
               Login
             </Link>
-            <Link 
-              to="/get-started" 
+            <Link
+              to="/get-started"
               onClick={() => setIsOpen(false)}
-              className="inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 w-full justify-center text-lg font-semibold h-12 bg-primary text-primary-foreground hover:bg-primary/90"
+              className="inline-flex items-center justify-center gap-2 w-full h-12 text-lg font-semibold rounded-md bg-primary text-primary-foreground hover:bg-primary/90"
             >
               Get Started
             </Link>
