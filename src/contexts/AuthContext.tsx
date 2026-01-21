@@ -27,7 +27,6 @@ export interface Profile {
   coach_id?: string | null;
   created_at: string;
   updated_at: string;
-  role_selected: boolean;
 }
 
 export type AuthState = 'initializing' | 'authenticated' | 'unauthenticated';

@@ -1,13 +1,14 @@
-import { Navigate } from "react-router-dom";
-import { useAuth } from "@/contexts/AuthContext";
-import { Loader2 } from "lucide-react";
-import { useState, useEffect } from "react";
-import PaymentPlanModal from "@/components/modals/PaymentPlanModal";
-import { usePaymentPlan } from "@/hooks/usePaymentPlan";
-import { useNavigate } from "react-router-dom";
+// src/components/routing/RoleGate.tsx
+import { Navigate } from 'react-router-dom';
+import { useAuth } from '@/contexts/AuthContext';
+import { Loader2 } from 'lucide-react';
+import { useState, useEffect } from 'react';
+import PaymentPlanModal from '@/components/modals/PaymentPlanModal';
+import { usePaymentPlan } from '@/hooks/usePaymentPlan';
+import { useNavigate } from 'react-router-dom';
 
 interface RoleGateProps {
-  allowedRole: "coach" | "customer";
+  allowedRole: 'coach' | 'customer';
   children: React.ReactNode;
 }
 
@@ -23,87 +24,76 @@ const RoleGate = ({ allowedRole, children }: RoleGateProps) => {
   const [showPaymentModal, setShowPaymentModal] = useState(false);
   const navigate = useNavigate();
 
-  // ✅ recoveryFlow FLAG (return yok)
-  let isRecoveryFlow = false;
+  // During password recovery, never redirect into dashboards; force staying on update-password
   try {
-    isRecoveryFlow = sessionStorage.getItem("recoveryFlow") === "1";
+    if (sessionStorage.getItem('recoveryFlow') === '1') {
+      return <Navigate to="/update-password" replace />;
+    }
   } catch {}
 
   // Check if modal was dismissed in this session
   useEffect(() => {
     if (
-      allowedRole === "customer" &&
+      allowedRole === 'customer' &&
       profile?.onboarding_complete &&
       planStatus.needsUpgrade &&
       !planStatus.hasActiveTrial
     ) {
-      const modalDismissed = sessionStorage.getItem("paymentModalDismissed");
-      const modalShown = sessionStorage.getItem("paymentModalShown");
-
+      const modalDismissed = sessionStorage.getItem('paymentModalDismissed');
+      const modalShown = sessionStorage.getItem('paymentModalShown');
+      
       if (!modalDismissed && !modalShown) {
         const timer = setTimeout(() => {
           setShowPaymentModal(true);
-          sessionStorage.setItem("paymentModalShown", "true");
+          sessionStorage.setItem('paymentModalShown', 'true');
         }, 1000);
-
+        
         return () => clearTimeout(timer);
       }
     }
   }, [allowedRole, profile?.onboarding_complete, planStatus.needsUpgrade]);
 
   if (loading || planStatus.loading) return <LoadingScreen />;
-
+  
   if (!profile) return <Navigate to="/login" replace />;
-
-  // ✅ NOW it's safe
-  if (isRecoveryFlow) {
-    return <Navigate to="/update-password" replace />;
-  }
-
-  if (!profile.role_selected) {
-    return <Navigate to="/onboarding/step-1" replace />;
-  }
 
   // If role doesn't match, redirect to the correct dashboard for their actual role
   if (profile.role !== allowedRole) {
-    if (profile.role === "coach") {
+    if (profile.role === 'coach') {
       return <Navigate to="/coach/dashboard" replace />;
     }
-    if (profile.role === "customer") {
-      return profile.onboarding_complete ? (
-        <Navigate to="/customer/dashboard" replace />
-      ) : (
-        <Navigate to="/onboarding/step-1" replace />
-      );
+    if (profile.role === 'customer') {
+      return profile.onboarding_complete 
+        ? <Navigate to="/customer/dashboard" replace />
+        : <Navigate to="/onboarding/step-0" replace />;
     }
   }
 
-  // Customer onboarding
-  if (
-    allowedRole === "customer" &&
-    profile.role === "customer" &&
-    !profile.onboarding_complete
-  ) {
+  // For customer role, check onboarding completion
+  if (allowedRole === 'customer' && !profile.onboarding_complete) {
     return <Navigate to="/onboarding/step-1" replace />;
   }
+
+  // Coach profile completion is handled by a non-blocking banner in AppShell
+  // Navigation should NEVER be blocked for coaches
 
   const handleStartTrial = async () => {
     const { error } = await startTrial();
     if (!error) {
       setShowPaymentModal(false);
-      sessionStorage.setItem("paymentModalDismissed", "true");
+      sessionStorage.setItem('paymentModalDismissed', 'true');
     }
   };
 
   const handleUpgrade = () => {
     setShowPaymentModal(false);
-    sessionStorage.setItem("paymentModalDismissed", "true");
-    navigate("/customer/payment/update-plan");
+    sessionStorage.setItem('paymentModalDismissed', 'true');
+    navigate('/customer/payment/update-plan');
   };
 
   const handleClose = () => {
     setShowPaymentModal(false);
-    sessionStorage.setItem("paymentModalDismissed", "true");
+    sessionStorage.setItem('paymentModalDismissed', 'true');
   };
 
   return (

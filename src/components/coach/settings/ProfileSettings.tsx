@@ -62,11 +62,7 @@ const profileSchema = z.object({
       id: z.string(),
       name: z.string().trim().min(1).max(200),
       issuer: z.string().trim().max(200).optional(),
-      year: z
-        .number()
-        .int()
-        .min(1900)
-        .max(new Date().getFullYear() + 1),
+      year: z.number().int().min(1900).max(new Date().getFullYear() + 1),
     })
   ),
   price_min_cents: z.number().int().min(0).optional(),
@@ -92,13 +88,13 @@ const ProfileSettings: React.FC<ProfileSettingsProps> = ({ onUpdate }) => {
     price_max_cents: null,
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [validationErrors, setValidationErrors] = useState<
-    Record<string, string>
-  >({});
+  const [validationErrors, setValidationErrors] = useState<Record<string, string>>(
+    {}
+  );
   const [isUploadingImage, setIsUploadingImage] = useState(false);
-  const [socialValidation, setSocialValidation] = useState<
-    Record<string, boolean>
-  >({});
+  const [socialValidation, setSocialValidation] = useState<Record<string, boolean>>(
+    {}
+  );
 
   /* ===========================
      🔥 PROFILE LOAD FIX
@@ -184,49 +180,50 @@ const ProfileSettings: React.FC<ProfileSettingsProps> = ({ onUpdate }) => {
   };
 
   const handleImageUpload = async (
-    event: React.ChangeEvent<HTMLInputElement>
-  ): Promise<void> => {
-    const file = event.target.files?.[0];
-    if (!file || !profile) return;
+  event: React.ChangeEvent<HTMLInputElement>
+): Promise<void> => {
+  const file = event.target.files?.[0];
+  if (!file || !profile) return;
 
-    if (!file.type.startsWith("image/")) {
-      toast.error("Please select a valid image file");
-      return;
-    }
+  if (!file.type.startsWith("image/")) {
+    toast.error("Please select a valid image file");
+    return;
+  }
 
-    if (file.size > 5 * 1024 * 1024) {
-      toast.error("Image size must be less than 5MB");
-      return;
-    }
+  if (file.size > 5 * 1024 * 1024) {
+    toast.error("Image size must be less than 5MB");
+    return;
+  }
 
-    setIsUploadingImage(true);
-    try {
-      const compressedFile = await imageCompression(file, {
-        maxSizeMB: 1,
-        maxWidthOrHeight: 500,
-        useWebWorker: true,
-      });
+  setIsUploadingImage(true);
+  try {
+    const compressedFile = await imageCompression(file, {
+      maxSizeMB: 1,
+      maxWidthOrHeight: 500,
+      useWebWorker: true,
+    });
 
-      const fileExt = compressedFile.name.split(".").pop();
-      const filePath = `${profile.id}/${Date.now()}.${fileExt}`;
+    const fileExt = compressedFile.name.split(".").pop();
+    const filePath = `${profile.id}/${Date.now()}.${fileExt}`;
 
-      await supabase.storage
-        .from("avatars")
-        .upload(filePath, compressedFile, { upsert: true });
+    await supabase.storage
+      .from("avatars")
+      .upload(filePath, compressedFile, { upsert: true });
 
-      const {
-        data: { publicUrl },
-      } = supabase.storage.from("avatars").getPublicUrl(filePath);
+    const {
+      data: { publicUrl },
+    } = supabase.storage.from("avatars").getPublicUrl(filePath);
 
-      setFormData((prev) => ({ ...prev, avatar_url: publicUrl }));
-      toast.success("Image uploaded successfully!");
-    } catch (error) {
-      console.error("Image upload error:", error);
-      toast.error("Failed to upload image. Please try again.");
-    } finally {
-      setIsUploadingImage(false);
-    }
-  };
+    setFormData((prev) => ({ ...prev, avatar_url: publicUrl }));
+    toast.success("Image uploaded successfully!");
+  } catch (error) {
+    console.error("Image upload error:", error);
+    toast.error("Failed to upload image. Please try again.");
+  } finally {
+    setIsUploadingImage(false);
+  }
+};
+
 
   const handleCancel = (): void => {
     if (profile) {

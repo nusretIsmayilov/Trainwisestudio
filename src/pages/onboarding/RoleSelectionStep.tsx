@@ -1,9 +1,9 @@
-import { useNavigate } from "react-router-dom";
-import { OnboardingContainer } from "@/components/onboarding/OnboardingContainer";
-import { Button } from "@/components/ui/button";
-import { supabase } from "@/integrations/supabase/client";
-import { useAuth } from "@/contexts/AuthContext";
-import { useOnboarding } from "@/contexts/OnboardingContext"; // ✅ EKLENDİ
+import { useNavigate } from 'react-router-dom';
+import { OnboardingContainer } from '@/components/onboarding/OnboardingContainer';
+import { Button } from '@/components/ui/button';
+import { supabase } from '@/integrations/supabase/client';
+import { useAuth } from '@/contexts/AuthContext';
+import { useOnboarding } from '@/contexts/OnboardingContext'; // ✅ EKLENDİ
 
 const RoleSelectionStep = () => {
   const navigate = useNavigate();
@@ -11,35 +11,21 @@ const RoleSelectionStep = () => {
   const { clearState } = useOnboarding(); // ✅ EKLENDİ
 
   const handleCustomer = async () => {
-    if (!user) return;
-
-    clearState();
-
-    await supabase
-      .from("profiles")
-      .update({
-        role: "customer",
-        role_selected: true,
-      })
-      .eq("id", user.id);
-
-    navigate("/onboarding/step-1");
+    clearState(); // ✅ EN KRİTİK SATIR
+    navigate('/onboarding/step-1');
   };
 
   const handleCoach = async () => {
     if (!user) return;
 
-    clearState();
+    clearState(); // ✅ EN KRİTİK SATIR
 
     await supabase
-      .from("profiles")
-      .update({
-        role: "coach",
-        role_selected: true,
-      })
-      .eq("id", user.id);
+      .from('profiles')
+      .update({ role: 'coach' })
+      .eq('id', user.id);
 
-    navigate("/onboarding/coach-step-1");
+    navigate('/onboarding/coach-step-1');
   };
 
   return (
