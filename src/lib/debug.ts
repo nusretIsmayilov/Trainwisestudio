@@ -18,25 +18,11 @@ export const debugUrls = () => {
       VITE_API_PROXY_TARGET: import.meta.env.VITE_API_PROXY_TARGET,
     },
     config: {
-      appUrl: import.meta.env.VITE_APP_URL || (import.meta.env.PROD ? 'https://www.trainwisestudio.com' : window.location.origin),
-      hardcodedDomain: 'https://www.trainwisestudio.com',
+      appUrl: import.meta.env.VITE_APP_URL || (import.meta.env.PROD ? 'https://trainwisestudio-ten.vercel.app' : window.location.origin),
+      hardcodedDomain: 'https://trainwisestudio-ten.vercel.app',
     }
   };
 
-  console.group('🔍 URL Debug Information');
-  console.log('Current URL:', window.location.href);
-  console.log('Origin:', info.currentOrigin);
-  console.log('Environment:', info.environment);
-  console.log('Environment Variables:', info.envVars);
-  console.log('Config App URL:', info.config.appUrl);
-  
-  if (info.currentOrigin.includes('localhost') && import.meta.env.PROD) {
-    console.error('❌ Production build is using localhost! Set VITE_APP_URL environment variable.');
-  }
-  
-  if (!import.meta.env.VITE_APP_URL && import.meta.env.PROD) {
-    console.log('✅ Using hardcoded production domain: www.trainwisestudio.com');
-  }
   
   console.groupEnd();
   
