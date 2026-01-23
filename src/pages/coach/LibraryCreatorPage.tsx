@@ -119,6 +119,9 @@ const LibraryCreatorPage: React.FC<LibraryCreatorPageProps> = ({
   }, []);
 
   const handleSubmit = async () => {
+    console.log("SUBMIT TIKLANDI – formData:", formData);
+
+    // Zorunlu field kontrolleri
     if (!formData.name || !formData.introduction) {
       alert("Please fill in Name and Introduction.");
       return;
@@ -129,34 +132,49 @@ const LibraryCreatorPage: React.FC<LibraryCreatorPageProps> = ({
       return;
     }
 
-    let details: any = {};
+    // Kategori bazlı details objesini oluştur
+    let details: Record<string, any> = {};
+
     if (activeCategory === "exercise") {
       details = {
-        muscleGroup: (formData as any).muscleGroup || "",
-        howTo: (formData as any).howTo || [],
+        muscleGroup: formData.muscleGroup || "", // ← formData'da muscleGroup var mı? yoksa formdan doğru isim kullan
+        howTo: formData.howTo || [], // ← medya + adımlar array'i
+        proTip: formData.proTip || "",
+        whatToAvoid: formData.whatToAvoid || "",
       };
     } else if (activeCategory === "recipe") {
       details = {
-        allergies: (formData as any).allergies || "",
-        ingredients: (formData as any).ingredients || [],
-        stepByStep: (formData as any).stepByStep || [],
+        allergies: formData.allergies || "",
+        ingredients: formData.ingredients || [],
+        stepByStep: formData.stepByStep || [],
+        proTip: formData.proTip || "",
       };
     } else if (activeCategory === "mental health") {
       details = {
-        content: (formData as any).content || [],
+        content: formData.content || [],
+        proTip: formData.proTip || "",
       };
     }
 
-    await upsertItem({
-      id: (formData as any).id,
+    console.log("Hazırlanan details:", details); // ← bunu ekle, neyin gönderildiğini gör
+
+    // Tek upsertItem çağrısı – tüm veriyi buraya koy
+    const payload = {
+      id: formData.id, // editing varsa
       name: formData.name,
       category: activeCategory,
       introduction: formData.introduction,
       hero_image_url: formData.heroImageUrl || null,
-      details,
-    } as any);
+      ...details, // ← muscleGroup, howTo vs. buraya yayılıyor
+    };
 
-    onSubmit({ ...(formData as any), category: activeCategory } as LibraryItem);
+    try {
+      await upsertItem(payload);
+      console.log("Upsert başarılı – payload:", payload);
+      onSubmit({ ...formData, category: activeCategory } as LibraryItem);
+    } catch (err) {
+      console.error("Upsert HATASI:", err);
+    }
   };
 
   const renderForm = () => {

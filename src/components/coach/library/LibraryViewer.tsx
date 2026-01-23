@@ -8,14 +8,25 @@ import { Dumbbell, Utensils, Feather, ArrowLeft } from "lucide-react";
 import { motion } from "framer-motion";
 import { cn } from "@/lib/utils";
 
+// Opsiyonel: Tipi daha güvenli hale getirmek için (mockLibrary.ts'te tanımlı olmalı)
+// Eğer tanımlı değilse, geçici olarak interface genişletiyoruz
+interface ExtendedLibraryItem extends LibraryItem {
+  hero_image_url?: string | null;
+  howTo?: Array<{ id: string; type: "step" | "image"; value: string }>;
+  content?: Array<{ type: string; value: string }>;
+  // diğer olası field'lar...
+}
+
 interface LibraryViewerProps {
-  item: LibraryItem;
+  item: ExtendedLibraryItem; // veya sadece LibraryItem, eğer tip güncellendiyse
   onBack: () => void;
 }
 
 const LibraryViewer: React.FC<LibraryViewerProps> = ({ item, onBack }) => {
   const getDetails = () => {
-    let icon, primaryDetail, secondaryTag;
+    let icon: React.ReactNode;
+    let primaryDetail: string;
+    let secondaryTag: string;
 
     switch (item.category) {
       case "exercise":
@@ -31,11 +42,15 @@ const LibraryViewer: React.FC<LibraryViewerProps> = ({ item, onBack }) => {
       case "mental health":
         icon = <Feather className="h-6 w-6" />;
         primaryDetail =
-          item.content?.[0]?.type === "soundfile"
+          item.content?.[0]?.type === "soundfile" || item.content?.[0]?.type === "audio"
             ? "Audio Session"
             : "Guided Text";
         secondaryTag = item.isCustom ? "My Activity" : "Meditation";
         break;
+      default:
+        icon = null;
+        primaryDetail = "";
+        secondaryTag = "";
     }
     return { icon, primaryDetail, secondaryTag };
   };
@@ -54,14 +69,8 @@ const LibraryViewer: React.FC<LibraryViewerProps> = ({ item, onBack }) => {
     }
   };
 
-  // Placeholder for image based on category
-  const imageUrl =
-    (item as any).hero_image_url ??
-    (item.category === "exercise"
-      ? "https://images.unsplash.com/photo-1549476483-e8893d56a337?q=80&w=2835&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-      : item.category === "recipe"
-        ? "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?q=80&w=2940&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
-        : "https://images.unsplash.com/photo-1517436034114-1e2b6e159046?q=80&w=2940&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D");
+  // Hero image – tip güvenli erişim
+  const imageUrl = item.hero_image_url ?? getFallbackImage(item.category);
 
   const renderContent = () => {
     switch (item.category) {
@@ -74,13 +83,33 @@ const LibraryViewer: React.FC<LibraryViewerProps> = ({ item, onBack }) => {
                 {item.muscleGroup || "Full Body"}
               </p>
             </div>
+
             {item.howTo && item.howTo.length > 0 && (
               <div>
                 <h3 className="text-lg font-semibold mb-2">How to Perform</h3>
-                <ol className="list-decimal list-inside space-y-2">
+                <ol className="list-decimal list-inside space-y-4">
                   {item.howTo.map((step, index) => (
-                    <li key={index} className="text-muted-foreground">
-                      {step.value}
+                    <li key={step.id || index} className="text-muted-foreground">
+                      {step.type === "step" ? (
+                        <span>{step.value}</span>
+                      ) : step.type === "image" ? (
+                        <div className="mt-2">
+                          <img
+                            src={step.value}
+                            alt={`Step ${index + 1} image`}
+                            className="max-w-full h-auto rounded-lg shadow-md object-contain"
+                            loading="lazy"
+                            onError={(e) => {
+                              e.currentTarget.src = getFallbackImage(item.category);
+                              console.log("Image load error in howTo:", step.id);
+                            }}
+                          />
+                        </div>
+                      ) : (
+                        <span className="text-yellow-600">
+                          Unsupported step type: {step.type}
+                        </span>
+                      )}
                     </li>
                   ))}
                 </ol>
@@ -88,6 +117,7 @@ const LibraryViewer: React.FC<LibraryViewerProps> = ({ item, onBack }) => {
             )}
           </div>
         );
+
       case "recipe":
         return (
           <div className="space-y-4">
@@ -97,6 +127,7 @@ const LibraryViewer: React.FC<LibraryViewerProps> = ({ item, onBack }) => {
                 {item.allergies || "Allergy Free"}
               </p>
             </div>
+
             {item.ingredients && item.ingredients.length > 0 && (
               <div>
                 <h3 className="text-lg font-semibold mb-2">Ingredients</h3>
@@ -109,6 +140,7 @@ const LibraryViewer: React.FC<LibraryViewerProps> = ({ item, onBack }) => {
                 </ul>
               </div>
             )}
+
             {item.stepByStep && item.stepByStep.length > 0 && (
               <div>
                 <h3 className="text-lg font-semibold mb-2">Instructions</h3>
@@ -123,19 +155,68 @@ const LibraryViewer: React.FC<LibraryViewerProps> = ({ item, onBack }) => {
             )}
           </div>
         );
+
       case "mental health":
         return (
           <div className="space-y-4">
             {item.content && item.content.length > 0 && (
               <div>
                 <h3 className="text-lg font-semibold mb-2">Content</h3>
-                <div className="space-y-3">
+                <div className="space-y-4">
                   {item.content.map((contentItem, index) => (
-                    <div key={index} className="p-3 bg-muted rounded-lg">
-                      <p className="text-sm font-medium">{contentItem.type}</p>
-                      <p className="text-muted-foreground">
-                        {contentItem.value}
-                      </p>
+                    <div
+                      key={index}
+                      className="p-4 bg-muted/50 rounded-lg border border-border/30"
+                    >
+                      <div className="text-xs font-medium text-primary mb-2 uppercase tracking-wide">
+                        {contentItem.type}
+                      </div>
+
+                      {contentItem.type === "text" ? (
+                        <p className="text-muted-foreground leading-relaxed whitespace-pre-wrap">
+                          {contentItem.value}
+                        </p>
+                      ) : contentItem.type === "image" ? (
+                        <div className="mt-2">
+                          <img
+                            src={contentItem.value}
+                            alt={`Content media ${index + 1}`}
+                            className="max-w-full h-auto rounded-md shadow-sm object-contain"
+                            loading="lazy"
+                            onError={(e) => {
+                              e.currentTarget.src = getFallbackImage(item.category);
+                            }}
+                          />
+                        </div>
+                      ) : contentItem.type === "audio" || contentItem.type === "soundfile" ? (
+                        <div className="mt-2">
+                          <audio
+                            controls
+                            className="w-full"
+                            src={contentItem.value}
+                          >
+                            Tarayıcınız ses oynatmayı desteklemiyor.
+                          </audio>
+                        </div>
+                      ) : contentItem.type === "video" ? (
+                        <div className="mt-2 aspect-video">
+                          <video
+                            controls
+                            className="w-full h-full rounded-md"
+                            src={contentItem.value}
+                          >
+                            Tarayıcınız video oynatmayı desteklemiyor.
+                          </video>
+                        </div>
+                      ) : (
+                        <p className="text-muted-foreground italic">
+                          {contentItem.value}
+                          <br />
+                          <span className="text-xs text-destructive">
+                            (Desteklenmeyen içerik tipi: {contentItem.type})
+                          </span>
+                        </p>
+                      )}
                     </div>
                   ))}
                 </div>
@@ -143,6 +224,7 @@ const LibraryViewer: React.FC<LibraryViewerProps> = ({ item, onBack }) => {
             )}
           </div>
         );
+
       default:
         return null;
     }
@@ -169,7 +251,7 @@ const LibraryViewer: React.FC<LibraryViewerProps> = ({ item, onBack }) => {
               "text-xs font-medium px-2 py-1 rounded-full",
               item.isCustom
                 ? "bg-primary/10 text-primary border border-primary/30"
-                : "bg-muted text-muted-foreground",
+                : "bg-muted text-muted-foreground"
             )}
           >
             {secondaryTag}
@@ -182,10 +264,7 @@ const LibraryViewer: React.FC<LibraryViewerProps> = ({ item, onBack }) => {
         {/* Image Section */}
         <Card className="overflow-hidden shadow-md">
           <div className="relative w-full bg-muted">
-            {/* Aspect ratio 4:3 veya 16:9 – senin içeriğine göre seç */}
             <div className="relative pb-[56.25%] md:pb-[50%]">
-              {" "}
-              {/* 16:9 mobilde, biraz daha kare desktopta */}
               <img
                 src={imageUrl}
                 alt={item.name}
@@ -198,7 +277,6 @@ const LibraryViewer: React.FC<LibraryViewerProps> = ({ item, onBack }) => {
               />
             </div>
 
-            {/* Category badge – biraz daha şık konum */}
             <div className="absolute bottom-3 left-3 bg-black/70 backdrop-blur-md px-3 py-1 rounded-full text-sm font-medium text-white flex items-center gap-1.5 shadow-sm">
               {icon} {item.category.replace("mental health", "Wellness")}
             </div>

@@ -86,8 +86,6 @@ const LibraryCreationWrapper: React.FC<CreationWrapperProps> = ({
 
   const currentTitle = formData.name || details.title;
 
-  console.log("WRAPPER heroImageUrl:", userImageUrl);
-
   return (
     <motion.div
       initial={{ opacity: 0, x: isMobile ? 0 : 50 }}

@@ -8,6 +8,9 @@ export interface LibraryItem {
   type: 'fitness' | 'nutrition' | 'mental';
   name: string;
   imageUrl: string;
+  hero_image_url?: string | null;
+  howTo?: Array<{ id: string; type: "step" | "image"; value: string }>;
+  content?: Array<{ type: "text" | "image" | "audio" | "video" | "soundfile" | string; value: string }>;
   data: any; // Holds the original data object
 }
 
