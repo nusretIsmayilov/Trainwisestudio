@@ -3,7 +3,7 @@
 
 const getAppUrl = () => {
   // Production domain - hardcoded for www.trainwisestudio.com
-  const PRODUCTION_DOMAIN = 'https://trainwisestudio-ten.vercel.app';
+  const PRODUCTION_DOMAIN = import.meta.env.VITE_APP_URL || 'http://localhost:8080';
   
   // Always prefer environment variable if set
   if (import.meta.env.VITE_APP_URL) {

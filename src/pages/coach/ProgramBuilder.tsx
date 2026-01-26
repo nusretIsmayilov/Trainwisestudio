@@ -13,6 +13,7 @@ import { Button } from "@/components/ui/button";
 import { ArrowLeft, Check } from "lucide-react";
 import { useProgramMutations } from "@/hooks/useProgramMutations";
 import { Program, ProgramCategory, ProgramStatus } from "@/types/program";
+import { getBaseUrl } from "@/lib/force-urls";
 
 type Step =
   | "program-details"
@@ -93,9 +94,17 @@ const ProgramBuilder = () => {
     } else {
       console.log(`Builder for ${data.category} is not yet implemented.`);
       alert(
-        `Builder for ${data.category} is not yet implemented. Please select Fitness, Nutrition, or Mental Health.`
+        `Builder for ${data.category} is not yet implemented. Please select Fitness, Nutrition, or Mental Health.`,
       );
     }
+  };
+
+  const getBaseUrl = () => {
+    if (import.meta.env.VITE_APP_URL) {
+      return import.meta.env.VITE_APP_URL;
+    }
+
+    return window.location.origin;
   };
 
   const handleSaveProgram = async (planData: any) => {
@@ -147,9 +156,15 @@ const ProgramBuilder = () => {
       });
     }
 
-   setTimeout(() => {
-  window.location.href = "https://trainwisestudio-ten.vercel.app/coach/programs";
-}, 0);
+    const baseUrl = getBaseUrl();
+    const programsPath = "/coach/programs";
+    const targetUrl = `${baseUrl}${programsPath}`;
+
+    console.log(`Programs sayfasına yönlendiriliyor: ${targetUrl}`);
+
+    setTimeout(() => {
+      window.location.href = targetUrl;
+    }, 0);
   };
 
   const renderStep = () => {
