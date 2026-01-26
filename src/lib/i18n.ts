@@ -116,12 +116,15 @@ const resources = {
       
       // Blog
       'blog.title': 'Blog Posts',
+      'blog.title.helper': 'Share knowledge, tips, and updates with your clients and followers.',
       'blog.searchPlaceholder': 'Search {{category}}...',
       'blog.allPosts': 'all posts',
       'blog.filter': 'Filter',
       'blog.filterByTopic': 'Filter by Topic',
       'blog.allTopics': 'All Topics',
       'blog.posts': 'posts',
+      'no.blog.posts.found': 'No Blog Posts Found',
+      'blog.add.message': 'Start by creating a new post using the **+** button!',
       
       // Messages
       'messages.loadingConversations': 'Loading conversations...',
@@ -426,12 +429,16 @@ const resources = {
       
       // Blog
       'blog.title': 'Publicaciones del Blog',
+      'blog.title.helper': 'Comparta conocimientos, consejos y actualizaciones con sus clientes y seguidores.',
       'blog.searchPlaceholder': 'Buscar {{category}}...',
       'blog.allPosts': 'todas las publicaciones',
       'blog.filter': 'Filtrar',
       'blog.filterByTopic': 'Filtrar por Tema',
       'blog.allTopics': 'Todos los Temas',
       'blog.posts': 'publicaciones',
+      'no.blog.posts.found': 'No se encontraron publicaciones de blog',
+      'blog.add.message': '¡Comienza creando una nueva publicación usando el botón **+**!',
+
       
       // Messages
       'messages.loadingConversations': 'Cargando conversaciones...',
@@ -736,12 +743,15 @@ const resources = {
       
       // Blog
       'blog.title': 'Articles de Blog',
+      'blog.title.helper': 'Partagez vos connaissances, vos conseils et vos actualités avec vos clients et vos abonnés.',
       'blog.searchPlaceholder': 'Rechercher {{category}}...',
       'blog.allPosts': 'tous les articles',
       'blog.filter': 'Filtrer',
       'blog.filterByTopic': 'Filtrer par Sujet',
       'blog.allTopics': 'Tous les Sujets',
       'blog.posts': 'articles',
+      'no.blog.posts.found': 'Aucun article de blog trouvé',
+      'blog.add.message': 'Commencez par créer un nouveau message en utilisant le bouton **+** !',
       
       // Messages
       'messages.loadingConversations': 'Chargement des conversations...',
@@ -1046,12 +1056,15 @@ const resources = {
       
       // Blog
       'blog.title': 'Blog-Beiträge',
+      'blog.title.helper': 'Teilen Sie Wissen, Tipps und Neuigkeiten mit Ihren Kunden und Followern.',
       'blog.searchPlaceholder': '{{category}} durchsuchen...',
       'blog.allPosts': 'alle Beiträge',
       'blog.filter': 'Filter',
       'blog.filterByTopic': 'Nach Thema filtern',
       'blog.allTopics': 'Alle Themen',
       'blog.posts': 'Beiträge',
+      'no.blog.posts.found': 'Keine Blogbeiträge gefunden',
+      'blog.add.message': 'Erstellen Sie zunächst einen neuen Beitrag mit der Schaltfläche **+**!',
       
       // Messages
       'messages.loadingConversations': 'Unterhaltungen werden geladen...',
@@ -1356,12 +1369,15 @@ const resources = {
       
       // Blog
       'blog.title': 'Blogginnlegg',
+      'blog.title.helper': 'Del kunnskap, tips og oppdateringer med dine kunder og følgere.',
       'blog.searchPlaceholder': 'Søk {{category}}...',
       'blog.allPosts': 'alle innlegg',
       'blog.filter': 'Filter',
       'blog.filterByTopic': 'Filtrer etter Emne',
       'blog.allTopics': 'Alle Emner',
       'blog.posts': 'innlegg',
+      'no.blog.posts.found': 'Ingen blogginnlegg funnet',
+      'blog.add.message': 'Start med å opprette et nytt innlegg ved å bruke **+**-knappen!',
       
       // Messages
       'messages.loadingConversations': 'Laster samtaler...',
@@ -1666,12 +1682,15 @@ const resources = {
       
       // Blog
       'blog.title': 'Blogginlägg',
+      'blog.title.helper': 'Dela kunskap, tips och uppdateringar med dina kunder och följare.',
       'blog.searchPlaceholder': 'Sök {{category}}...',
       'blog.allPosts': 'alla inlägg',
       'blog.filter': 'Filter',
       'blog.filterByTopic': 'Filtrera efter Ämne',
       'blog.allTopics': 'Alla Ämnen',
       'blog.posts': 'inlägg',
+      'no.blog.posts.found': 'Inga blogginlägg hittades',
+      'blog.add.message': 'Börja med att skapa ett nytt inlägg med hjälp av knappen **+**!',
       
       // Messages
       'messages.loadingConversations': 'Laddar konversationer...',
@@ -1976,12 +1995,15 @@ const resources = {
       
       // Blog
       'blog.title': 'Blogindlæg',
+      'blog.title.helper': 'Del viden, tips og opdateringer med dine kunder og følgere.',
       'blog.searchPlaceholder': 'Søg {{category}}...',
       'blog.allPosts': 'alle indlæg',
       'blog.filter': 'Filter',
       'blog.filterByTopic': 'Filtrer efter Emne',
       'blog.allTopics': 'Alle Emner',
       'blog.posts': 'indlæg',
+      'no.blog.posts.found': 'Ingen blogindlæg fundet',
+      'blog.add.message': 'Start med at oprette et nyt indlæg ved hjælp af **+** knappen!',
       
       // Messages
       'messages.loadingConversations': 'Indlæser samtaler...',

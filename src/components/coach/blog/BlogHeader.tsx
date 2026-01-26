@@ -42,6 +42,9 @@ const BlogHeader: React.FC<BlogHeaderProps> = ({ activeCategory, onCategoryChang
   return (
     <div className="sticky top-0 bg-background/95 backdrop-blur-sm z-30 pt-6 pb-4 -mx-4 px-4 md:-mx-6 md:px-6">
       <h1 className="text-3xl font-extrabold mb-3 text-center md:text-left">{t('blog.title')} ✍️</h1>
+      <p className="text-sm text-muted-foreground mb-3 text-center md:text-left">
+        {t("blog.title.helper")}
+      </p>
 
       <div className="flex items-center space-x-2 md:space-x-4">
         <div className="relative flex-grow">
