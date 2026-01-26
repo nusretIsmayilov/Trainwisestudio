@@ -45,35 +45,35 @@ const PrivacyPage = lazy(() => import("./pages/legal/PrivacyPage"));
 const GetStartedPage = lazy(() => import("./pages/auth/GetStartedPage"));
 const LoginPage = lazy(() => import("./pages/auth/LoginPage"));
 const ForgotPasswordPage = lazy(
-  () => import("./pages/auth/ForgotPasswordPage")
+  () => import("./pages/auth/ForgotPasswordPage"),
 );
 const UpdatePasswordPage = lazy(
-  () => import("./pages/auth/UpdatePasswordPage")
+  () => import("./pages/auth/UpdatePasswordPage"),
 );
 const RecoveryExpiredPage = lazy(
-  () => import("./pages/auth/RecoveryExpiredPage")
+  () => import("./pages/auth/RecoveryExpiredPage"),
 );
 const NotFound = lazy(() => import("./pages/NotFound"));
 const GoalSelectionStep = lazy(
-  () => import("./pages/onboarding/GoalSelectionStep")
+  () => import("./pages/onboarding/GoalSelectionStep"),
 );
 const PersonalInfoStep = lazy(
-  () => import("./pages/onboarding/PersonalInfoStep")
+  () => import("./pages/onboarding/PersonalInfoStep"),
 );
 const PreferencesStep = lazy(
-  () => import("./pages/onboarding/PreferencesStep")
+  () => import("./pages/onboarding/PreferencesStep"),
 );
 const ContactStep = lazy(() => import("./pages/onboarding/ContactStep"));
 const OnboardingSuccess = lazy(
-  () => import("./pages/onboarding/OnboardingSuccess")
+  () => import("./pages/onboarding/OnboardingSuccess"),
 );
 const CustomerDashboardPage = lazy(
-  () => import("./pages/customer/CustomerDashboard")
+  () => import("./pages/customer/CustomerDashboard"),
 );
 const TestOfferSyncPage = lazy(() => import("./pages/customer/TestOfferSync"));
 const CoachDashboardPage = lazy(() => import("./pages/coach/CoachDashboard"));
 const ClientOverviewPage = lazy(
-  () => import("./pages/coach/ClientOverviewPage")
+  () => import("./pages/coach/ClientOverviewPage"),
 );
 const ClientCard = lazy(() => import("./pages/coach/ClientCard"));
 const CoachProgramsPage = lazy(() => import("./pages/coach/ProgramsPage"));
@@ -90,19 +90,19 @@ const ViewProgramPage = lazy(() => import("./pages/customer/ViewProgramPage"));
 const LibraryPage = lazy(() => import("./pages/customer/LibraryPage"));
 const ProgressPage = lazy(() => import("./pages/customer/ProgressPage"));
 const ProgramHistoryPage = lazy(
-  () => import("./pages/customer/ProgramHistoryPage")
+  () => import("./pages/customer/ProgramHistoryPage"),
 );
 const MyCoachPage = lazy(() => import("./pages/customer/MyCoach"));
 const BlogPage = lazy(() => import("./pages/customer/BlogPage"));
 const ProfilePage = lazy(() => import("./pages/customer/Profile"));
 const CustomerMessagesPage = lazy(
-  () => import("./pages/customer/MessagesPage")
+  () => import("./pages/customer/MessagesPage"),
 );
 const UpdatePaymentPlanPage = lazy(
-  () => import("./pages/customer/UpdatePaymentPlanPage")
+  () => import("./pages/customer/UpdatePaymentPlanPage"),
 );
 const CancelSubscriptionPage = lazy(
-  () => import("./pages/customer/CancelSubscriptionPage")
+  () => import("./pages/customer/CancelSubscriptionPage"),
 );
 
 // Namespace error pages
@@ -155,15 +155,12 @@ const PublicRoutesLayout = () => {
         return <Navigate to="/customer/dashboard" replace />;
       }
 
-      // 🔥 BURASI ARTIK SADECE Outlet
       return <Outlet />;
     }
   }
 
   return <Outlet />;
 };
-
-
 
 const ProtectedRoutesLayout = () => {
   const { profile, loading } = useAuth();

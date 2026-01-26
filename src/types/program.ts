@@ -9,7 +9,6 @@ export interface Program {
   category: ProgramCategory;
   status: ProgramStatus;
 
-  // 🔥 EKSİK OLANLAR
   muscleGroups?: string[] | null;
   equipment?: string[] | null;
   benefits?: string | null;

@@ -132,7 +132,7 @@ const RadialProgressCard = React.memo(
         </div>
       </Card>
     );
-  }
+  },
 );
 RadialProgressCard.displayName = "RadialProgressCard";
 
@@ -161,7 +161,7 @@ const DailyTrendCard = React.memo(
 
     const filteredData = useMemo(
       () => data.slice(-rangeInDays),
-      [data, rangeInDays]
+      [data, rangeInDays],
     );
 
     const { currentValue, previousValue, trend } = useMemo(() => {
@@ -207,7 +207,7 @@ const DailyTrendCard = React.memo(
         </div>
       </Card>
     );
-  }
+  },
 );
 DailyTrendCard.displayName = "DailyTrendCard";
 
@@ -262,7 +262,7 @@ const ProgressProgramsTab: React.FC<DashboardProps> = ({ client }) => {
             : 2000 + Math.random() * 300,
         };
       }).reverse(),
-    []
+    [],
   );
 
   const dummyWeightTrend = useMemo(
@@ -275,7 +275,7 @@ const ProgressProgramsTab: React.FC<DashboardProps> = ({ client }) => {
           weight: 180 - i * 0.03 + (Math.random() * 1.5 - 0.75),
         };
       }).reverse(),
-    []
+    [],
   );
 
   // Use real data from clientData - handle null case
@@ -305,54 +305,50 @@ const ProgressProgramsTab: React.FC<DashboardProps> = ({ client }) => {
   const navigate = useNavigate();
 
   const handleCheckIn = async () => {
-  try {
-    const customerId = client?.id;
-    const coachId = client?.coach_id; // ClientCard’da profile’dan geliyor
+    try {
+      const customerId = client?.id;
+      const coachId = client?.coach_id; // ClientCard’da profile’dan geliyor
 
-    if (!customerId || !coachId) {
-      console.error("Missing customerId or coachId", { customerId, coachId });
-      return;
+      if (!customerId || !coachId) {
+        console.error("Missing customerId or coachId", { customerId, coachId });
+        return;
+      }
+
+      const { data: existing, error: findErr } = await supabase
+        .from("conversations")
+        .select("id")
+        .eq("coach_id", coachId)
+        .eq("customer_id", customerId)
+        .maybeSingle();
+
+      if (findErr) {
+        console.error("Failed to find conversation", findErr);
+      }
+
+      if (existing?.id) {
+        navigate(`/coach/messages/${existing.id}`);
+        return;
+      }
+
+      const { data: created, error: upsertErr } = await supabase
+        .from("conversations")
+        .upsert(
+          { coach_id: coachId, customer_id: customerId },
+          { onConflict: "coach_id,customer_id" },
+        )
+        .select("id")
+        .single();
+
+      if (upsertErr) {
+        console.error("Failed to create/upsert conversation", upsertErr);
+        return;
+      }
+
+      navigate(`/coach/messages/${created.id}`);
+    } catch (e) {
+      console.error("handleCheckIn unexpected error", e);
     }
-
-    // 1) Önce var olan conversation'ı bul (tek yön yeterli, DB unique zaten)
-    const { data: existing, error: findErr } = await supabase
-      .from("conversations")
-      .select("id")
-      .eq("coach_id", coachId)
-      .eq("customer_id", customerId)
-      .maybeSingle();
-
-    if (findErr) {
-      console.error("Failed to find conversation", findErr);
-      // find hatası olsa bile upsert ile devam edebiliriz
-    }
-
-    if (existing?.id) {
-      navigate(`/coach/messages/${existing.id}`);
-      return;
-    }
-
-    // 2) Yoksa oluştur ama duplicate olursa patlamasın: upsert
-    const { data: created, error: upsertErr } = await supabase
-      .from("conversations")
-      .upsert(
-        { coach_id: coachId, customer_id: customerId },
-        { onConflict: "coach_id,customer_id" }
-      )
-      .select("id")
-      .single();
-
-    if (upsertErr) {
-      console.error("Failed to create/upsert conversation", upsertErr);
-      return;
-    }
-
-    navigate(`/coach/messages/${created.id}`);
-  } catch (e) {
-    console.error("handleCheckIn unexpected error", e);
-  }
-};
-
+  };
 
   const nutritionData = useMemo(() => {
     if (!clientData) return dummyNutrition;
@@ -382,10 +378,10 @@ const ProgressProgramsTab: React.FC<DashboardProps> = ({ client }) => {
       weightRange === "1m"
         ? 30
         : weightRange === "3m"
-        ? 90
-        : weightRange === "6m"
-        ? 180
-        : 365;
+          ? 90
+          : weightRange === "6m"
+            ? 180
+            : 365;
 
     const filteredData = rawData.filter((d) => {
       const date = new Date(d.date);
@@ -472,7 +468,7 @@ const ProgressProgramsTab: React.FC<DashboardProps> = ({ client }) => {
       exercise: "#50E3C2",
       caloriesBurned: "#FCD34D",
     }),
-    []
+    [],
   );
 
   // Early returns AFTER all hooks
@@ -553,8 +549,8 @@ const ProgressProgramsTab: React.FC<DashboardProps> = ({ client }) => {
               {range === "4w"
                 ? "4 Weeks"
                 : range === "12w"
-                ? "12 Weeks"
-                : "24 Weeks"}
+                  ? "12 Weeks"
+                  : "24 Weeks"}
             </button>
           ))}
         </div>
@@ -694,10 +690,10 @@ const ProgressProgramsTab: React.FC<DashboardProps> = ({ client }) => {
                     {range === "1m"
                       ? "1M"
                       : range === "3m"
-                      ? "3M"
-                      : range === "6m"
-                      ? "6M"
-                      : "1Y"}
+                        ? "3M"
+                        : range === "6m"
+                          ? "6M"
+                          : "1Y"}
                   </button>
                 ))}
               </div>

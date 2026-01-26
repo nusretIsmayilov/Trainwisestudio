@@ -116,7 +116,6 @@ const ModernCoachDashboard: React.FC<ModernCoachDashboardProps> = ({
                                         View Full Bio
                                     </Button>
 
-                                    {/* ✅ DÜZELTİLEN KISIM */}
                                     <Button
                                         variant="outline"
                                         size="sm"

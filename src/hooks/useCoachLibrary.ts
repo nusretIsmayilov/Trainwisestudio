@@ -53,15 +53,14 @@ export const useCoachLibrary = () => {
   const upsertItem = async (payload: Partial<LibraryRow> & { id?: string }) => {
     if (!user) throw new Error("Not authenticated");
 
-    console.log("upsertItem çağrıldı – gelen payload:", payload);
+    console.log("upsertItem was called – incoming payload:", payload);
 
-    // details objesini category'ye göre oluşturuyoruz
     let details: Record<string, any> = {};
 
     if (payload.category === "exercise") {
       details = {
         muscleGroup: payload.muscleGroup || "",
-        howTo: payload.howTo || [], // adımlar + medya array'i
+        howTo: payload.howTo || [],
         proTip: payload.proTip || "",
         whatToAvoid: payload.whatToAvoid || "",
       };
@@ -79,9 +78,8 @@ export const useCoachLibrary = () => {
       };
     }
 
-    console.log("Oluşturulan details:", details);
+    console.log("Details created:", details);
 
-    // Son payload'ı oluştur
     const finalPayload = {
       coach_id: user.id,
       category: payload.category as LibraryCategory,
@@ -108,7 +106,7 @@ export const useCoachLibrary = () => {
       }
 
       await fetchItems();
-      console.log("Upsert başarılı – kaydedilen veri:", finalPayload);
+      console.log("Upsert successful – data saved.:", finalPayload);
       return finalPayload;
     } catch (queueError) {
       console.warn(

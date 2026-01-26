@@ -76,10 +76,8 @@ export default function ProgramDetailView({
   const fakeInsertedRef = useRef(false);
   const [noneNull, setNoneNull] = useState({});
 
-  // ✅ BUGÜNÜN TASK’I
   const { tasks: todayTasks, loading } = useTodayTasks();
   const todayTask = todayTasks[0] ?? null;
-  // ✅ TÜM HOOK’LAR RETURN’LARDAN ÖNCE
 
     useEffect(() => {
     if (!loading) {
@@ -123,7 +121,6 @@ export default function ProgramDetailView({
     );
   }
 
-  // ❌ TASK YOK
   if (!todayTask) {
     return (
       <div className="flex items-center justify-center h-screen text-muted-foreground">

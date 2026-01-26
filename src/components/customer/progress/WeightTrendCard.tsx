@@ -4,12 +4,11 @@ import { Button } from '@/components/ui/button';
 import { Weight, TrendingUp, TrendingDown, Minus } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { useWeightTracking } from '@/hooks/useWeightTracking';
-import { useMemo } from 'react'; // ✅ EKLENDİ
+import { useMemo } from 'react';
 
 export default function WeightTrendCard() {
   const { entries, getLatestWeight, getWeightTrend, getWeightHistory } = useWeightTracking();
 
-  // ✅ FIX: render sırasında tekrar çağrılmasını engelle
   const latestWeight = useMemo(() => getLatestWeight(), [entries]);
   const weightTrend = useMemo(() => getWeightTrend(), [entries]);
   const weightHistory = useMemo(() => getWeightHistory(7), [entries]);
