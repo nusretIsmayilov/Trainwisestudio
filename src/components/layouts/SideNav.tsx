@@ -18,12 +18,14 @@ import { NavItem } from '@/lib/navItems';
 import { cn } from '@/lib/utils';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 import { triggerNavHaptic } from '@/utils/haptics';
+import { useTranslation } from 'react-i18next';
 
 interface SideNavProps {
   navItems: NavItem[];
 }
 
 const SideNav = ({ navItems }: SideNavProps) => {
+  const { t } = useTranslation();
   const location = useLocation();
   const { signOut, profile } = useAuth();
   const { canAccessRoute, getAccessDenialReason } = useAccessLevel();
@@ -148,7 +150,7 @@ const SideNav = ({ navItems }: SideNavProps) => {
                   <Link to={settingsPath} className="flex items-center gap-3 w-full" onClick={handleNavClick}>
                     <Settings className="h-5 w-5 shrink-0" />
                     {showText && (
-                      <span className="text-sm font-medium">Settings</span>
+                      <span className="text-sm font-medium">{t('nav.settings')}</span>
                     )}
                   </Link>
                 </SidebarMenuButton>
@@ -159,7 +161,7 @@ const SideNav = ({ navItems }: SideNavProps) => {
                 <SidebarMenuButton onClick={handleSignOut} className={btnClass}>
                   <LogOut className="h-5 w-5 shrink-0" />
                   {showText && (
-                    <span className="text-sm font-medium">Sign out</span>
+                    <span className="text-sm font-medium">{t('nav.logout')}</span>
                   )}
                 </SidebarMenuButton>
               </SidebarMenuItem>

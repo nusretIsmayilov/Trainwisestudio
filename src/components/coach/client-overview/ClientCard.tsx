@@ -7,6 +7,8 @@ import { cn } from '@/lib/utils';
 import { motion } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
 import { useRealTimeClientStatus } from '@/hooks/useRealTimeClientStatus';
+import { useTranslation } from 'react-i18next';
+import { useTransition } from 'react';
 
 interface ClientCardProps {
   clientId: string;
@@ -14,6 +16,7 @@ interface ClientCardProps {
 }
 
 const ClientCard = ({ clientId, index }: ClientCardProps) => {
+  const { t } = useTranslation();
   const navigate = useNavigate();
   const { clients, loading } = useRealTimeClientStatus();
   const clientStatus = clients.find(c => c.id === clientId);
@@ -29,37 +32,37 @@ const ClientCard = ({ clientId, index }: ClientCardProps) => {
 
     const statusConfig = {
       no_status: { 
-        label: 'No Status', 
+        label: t('clientStatus.noStatus'), 
         icon: Clock,
         className: 'bg-gray-100 text-gray-800 border-gray-200'
       },
       waiting_offer: { 
-        label: 'Waiting Offer', 
+        label: t('clientStatus.waitingOffer'), 
         icon: DollarSign,
         className: 'bg-yellow-100 text-yellow-800 border-yellow-200'
       },
       missing_program: { 
-        label: 'Missing Program', 
+        label:t('clientStatus.missingProgram'), 
         icon: AlertCircle,
         className: 'bg-red-100 text-red-800 border-red-200'
       },
       program_active: { 
-        label: 'Program Active', 
+        label:t('clientStatus.programActive'), 
         icon: CheckCircle,
         className: 'bg-blue-100 text-blue-800 border-blue-200'
       },
       on_track: { 
-        label: 'On Track', 
+        label: t('clientStatus.onTrack'), 
         icon: CheckCircle,
         className: 'bg-green-100 text-green-800 border-green-200'
       },
       off_track: { 
-        label: 'Off Track', 
+        label: t('clientStatus.offTrack'), 
         icon: AlertCircle,
         className: 'bg-red-100 text-red-800 border-red-200'
       },
       soon_to_expire: { 
-        label: 'Soon to Expire', 
+        label: t('clientStatus.soonToExpire'), 
         icon: Clock,
         className: 'bg-orange-100 text-orange-800 border-orange-200'
       }

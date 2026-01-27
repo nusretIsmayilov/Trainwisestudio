@@ -18,6 +18,7 @@ const resources = {
       'nav.clients': 'Clients',
       'nav.blog': 'Blog',
       'nav.logout': 'Logout',
+
       
       // Common
       'common.loading': 'Loading...',
@@ -54,6 +55,7 @@ const resources = {
       'clientStatus.onTrack': 'On Track',
       'clientStatus.offTrack': 'Off Track',
       'clientStatus.soonToExpire': 'Soon to Expire',
+      'no.program': 'This client doesn`t have any assigned or scheduled programs yet.',
       
       // Settings
       'settings.changePassword': 'Change Password',
@@ -101,11 +103,27 @@ const resources = {
       'clients.status': 'Status',
       'clients.badges': 'Badges',
       'clients.activeFilters': 'Active Filters',
+      'clients.profile': 'Client Profile',
+      'progress.programs': 'Progress & Programs',
+      'communication': 'Communication',
+      'last.check.in': 'Last Check-in',
+      'adherence': 'Adherence',
+      'program.days': 'Program Days',
+      'no.program.assigned': 'No program assigned',
+      'my.clients': 'My Clients',
+      'new.message': 'New Message',
+      'awaiting.check.in': 'Awaiting Check-in',
+      'new.feedback': 'New Feedback',
+      'clients.empty.noClientsYet': 'No clients yet. Accept requests to see them here.',
+      'clients.empty.noClientsMatchFilters': 'No clients match the current filters.',
+
+
       
       // Programs
       'programs.description': 'Manage all your created programs. Assign, schedule, and edit them with ease.',
       
       // Library
+      'library': 'Library',
       'library.title': 'Your Library',
       'library.title.helper': 'This is your personal collection of exercises, recipes, and wellness activities that you reuse when building programs.',
       'library.searchPlaceholder': 'Search {{category}}...',
@@ -113,7 +131,19 @@ const resources = {
       'library.filter': 'Filter',
       'library.filterByType': 'Filter by Type',
       'library.items': 'items',
-      
+      'library.no.content': 'No Content Found',
+      'adjust.your.search.filters': 'Try adjusting your search or category filters.',
+      'loading.your.content': 'Loading your content...',
+      'library.access.required': 'Library Access Required',
+      'library.find.coach': 'You need to be assigned to a coach to access the library. Find a coach from the "My Coach" section to get started with your fitness journey.',
+      'content.assigned': 'Content assigned to your programs',
+      'all': 'All',
+      'fitness': 'Fitness',
+      'nutrition': 'Nutrition',
+      'mental.health': 'Mental Health',
+      'switch.plan': 'You are currently seeing only content assigned to your programs. Upgrade to a paid plan to access your coach`s complete library of exercises, recipes, and wellness guides.',
+      'empty.library': 'Your coach hasn`t assigned any library content to your programs yet. Check back later or contact your coach.',
+
       // Blog
       'blog.title': 'Blog Posts',
       'blog.title.helper': 'Share knowledge, tips, and updates with your clients and followers.',
@@ -367,6 +397,8 @@ const resources = {
       'clientStatus.onTrack': 'En Camino',
       'clientStatus.offTrack': 'Fuera de Camino',
       'clientStatus.soonToExpire': 'Próximo a Vencer',
+      'no.program': 'Este cliente aún no tiene ningún programa asignado o programado.',
+      
       
       // Settings
       'settings.changePassword': 'Cambiar Contraseña',
@@ -414,11 +446,25 @@ const resources = {
       'clients.status': 'Estado',
       'clients.badges': 'Insignias',
       'clients.activeFilters': 'Filtros Activos',
+      'clients.profile': 'Perfil del cliente',
+      'progress.programs': 'Progreso y programas',
+      'communication': 'Comunicación',
+      'last.check.in': 'Último check-in',
+      'adherence': 'Adherencia',
+      'program.days': 'Días del programa',
+      'no.program.assigned': 'No hay ningún programa asignado',
+      'my.clients': 'Mis clientes',
+      'new.message': 'Nuevo mensaje',
+      'awaiting.check.in': 'A la espera del check-in',
+      'new.feedback': 'Nuevos comentarios',
+      'clients.empty.noClientsYet': 'Aún no hay clientes. Acepta solicitudes para verlos aquí.',
+      'clients.empty.noClientsMatchFilters': 'No hay clientes que coincidan con los filtros actuales.',
       
       // Programs
       'programs.description': 'Gestiona todos tus programas creados. Asígnalos, programa y edítalos con facilidad.',
       
       // Library
+      'library': 'Biblioteca',
       'library.title': 'Tu Biblioteca',
       'library.title.helper': 'Esta es tu colección personal de ejercicios, recetas y actividades de bienestar que reutilizas al crear programas.',
       'library.searchPlaceholder': 'Buscar {{category}}...',
@@ -426,6 +472,18 @@ const resources = {
       'library.filter': 'Filtrar',
       'library.filterByType': 'Filtrar por Tipo',
       'library.items': 'elementos',
+      'library.no.content': 'No se encontró contenido',
+      'adjust.your.search.filters': 'Intente ajustar sus filtros de búsqueda o categoría.',
+      'loading.your.content': 'Cargando su contenido...',
+      'library.access.required': 'Se requiere acceso a la biblioteca',
+      'library.find.coach': 'Necesitas un entrenador asignado para acceder a la biblioteca. Encuentra un entrenador en la sección "Mi Entrenador" para comenzar tu camino hacia el fitness.',
+      'content.assigned': 'Contenido asignado a sus programas',
+      'all': 'Todo',
+      'fitness': 'Fitness',
+      'nutrition': 'Nutrición',
+      'mental.health': 'Salud Mental',
+      'switch.plan': 'Actualmente solo ves el contenido asignado a tus programas. Pásate a un plan de pago para acceder a la biblioteca completa de ejercicios, recetas y guías de bienestar de tu entrenador.',
+      'empty.library': 'Tu coach aún no ha asignado ningún contenido de la biblioteca a tus programas. Vuelve más tarde o contacta con él.',
       
       // Blog
       'blog.title': 'Publicaciones del Blog',
@@ -681,6 +739,7 @@ const resources = {
       'clientStatus.onTrack': 'Sur la Bonne Voie',
       'clientStatus.offTrack': 'Hors Piste',
       'clientStatus.soonToExpire': 'Expire Bientôt',
+      'no.program': 'Ce client n`a pas encore de programmes attribués ou planifiés.',
       
       // Settings
       'settings.changePassword': 'Changer le Mot de Passe',
@@ -728,11 +787,25 @@ const resources = {
       'clients.status': 'Statut',
       'clients.badges': 'Badges',
       'clients.activeFilters': 'Filtres Actifs',
+      'clients.profile': 'Profil du client',
+      'progress.programs': 'Progrès et programmes',
+      'communication': 'Communication',
+      'last.check.in': 'Dernière arrivée',
+      'adherence': 'Adhérence',
+      'program.days': 'Journées du programme',
+      'no.program.assigned': 'Aucun programme assigné',
+      'my.clients': 'Mes clients',
+      'new.message': 'Nouveau message',
+      'awaiting.check.in': 'En attente d`enregistrement',
+      'new.feedback': 'Nouveau commentaire',
+      'clients.empty.noClientsYet': 'Pas encore de clients. Acceptez les demandes pour les voir ici.',
+      'clients.empty.noClientsMatchFilters': 'Aucun client ne correspond aux filtres actuels.',
       
       // Programs
       'programs.description': 'Gérez tous vos programmes créés. Assignez-les, planifiez-les et modifiez-les facilement.',
       
       // Library
+      'library': 'Bibliothèque',
       'library.title': 'Votre Bibliothèque',
       'library.title.helper': 'Il sagit de votre collection personnelle dexercices, de recettes et dactivités de bien-être que vous réutilisez lors de lélaboration de vos programmes.',
       'library.searchPlaceholder': 'Rechercher {{category}}...',
@@ -740,6 +813,18 @@ const resources = {
       'library.filter': 'Filtrer',
       'library.filterByType': 'Filtrer par Type',
       'library.items': 'éléments',
+      'library.no.content': 'Aucun contenu trouvé',
+      'adjust.your.search.filters': 'Essayez de modifier vos filtres de recherche ou de catégorie.',
+      'loading.your.content': 'Chargement de votre contenu...',
+      'library.access.required': 'Accès à la bibliothèque requis',
+      'library.find.coach': 'Vous devez être suivi par un coach pour accéder à la bibliothèque. Trouvez un coach dans la section « Mon coach » pour commencer votre programme de remise en forme.',
+      'content.assigned': 'Contenu attribué à vos programmes',
+      'all': 'Toute',
+      'fitness': 'Aptitude',
+      'nutrition': 'Nutrition',
+      'mental.health': 'Santé mentale',
+      'switch.plan': 'Vous ne voyez actuellement que le contenu associé à vos programmes. Passez à un abonnement payant pour accéder à la bibliothèque complète d`exercices, de recettes et de guides de bien-être de votre coach.',
+      'empty.library': 'Votre entraîneur na pas encore attribué de contenu de bibliothèque à vos programmes. Veuillez réessayer plus tard ou contacter votre entraîneur.',
       
       // Blog
       'blog.title': 'Articles de Blog',
@@ -994,6 +1079,7 @@ const resources = {
       'clientStatus.onTrack': 'Auf Kurs',
       'clientStatus.offTrack': 'Nicht auf Kurs',
       'clientStatus.soonToExpire': 'Läuft bald ab',
+      'no.program': 'Dieser Kunde hat noch keine zugewiesenen oder geplanten Programme.',
       
       // Settings
       'settings.changePassword': 'Passwort ändern',
@@ -1041,11 +1127,25 @@ const resources = {
       'clients.status': 'Status',
       'clients.badges': 'Abzeichen',
       'clients.activeFilters': 'Aktive Filter',
+      'clients.profile': 'Kundenprofil',
+      'progress.programs': 'Fortschritte & Programme',
+      'communication': 'Kommunikation',
+      'last.check.in': 'Letzter Check-in',
+      'adherence': 'Einhaltung',
+      'program.days': 'Programmtage',
+      'no.program.assigned': 'Kein Programm zugewiesen',
+      'my.clients': 'Meine Kunden',
+      'new.message': 'Neue Nachricht',
+      'awaiting.check.in': 'Warten auf Check-in',
+      'new.feedback': 'Neues Feedback',
+      'clients.empty.noClientsYet': 'Noch keine Kunden. Akzeptieren Sie Anfragen, um sie hier zu sehen.',
+      'clients.empty.noClientsMatchFilters': 'Es gibt keine Kunden, die den aktuellen Filtern entsprechen.',
       
       // Programs
       'programs.description': 'Verwalten Sie alle Ihre erstellten Programme. Weisen Sie sie zu, planen Sie sie und bearbeiten Sie sie mit Leichtigkeit.',
       
       // Library
+      'library': 'Bibliothek',
       'library.title': 'Ihre Bibliothek',
       'library.title.helper': 'Dies ist Ihre persönliche Sammlung von Übungen, Rezepten und Wellness-Aktivitäten, die Sie beim Erstellen von Programmen wiederverwenden können.',
       'library.searchPlaceholder': '{{category}} durchsuchen...',
@@ -1053,7 +1153,19 @@ const resources = {
       'library.filter': 'Filter',
       'library.filterByType': 'Nach Typ filtern',
       'library.items': 'Elemente',
-      
+      'library.no.content': 'Keine Inhalte gefunden',
+      'adjust.your.search.filters': 'Versuchen Sie, Ihre Such- oder Kategoriefilter anzupassen.',
+      'loading.your.content': 'Ihre Inhalte werden geladen...',
+      'library.access.required': 'Bibliothekszugang erforderlich',
+      'library.find.coach': 'Um auf die Bibliothek zugreifen zu können, benötigen Sie einen zugewiesenen Coach. Suchen Sie sich im Bereich „Mein Coach“ einen Coach aus, um mit Ihrem Fitnessprogramm zu beginnen.',
+      'content.assigned': 'Ihren Programmen zugewiesene Inhalte',
+      'all': 'Alle',
+      'fitness': 'Fitness',
+      'nutrition': 'Ernährung',
+      'mental.health': 'Psychische Gesundheit',
+      'switch.plan': 'Sie sehen aktuell nur die Inhalte Ihrer Programme. Mit einem Upgrade auf ein kostenpflichtiges Abo erhalten Sie Zugriff auf die vollständige Bibliothek Ihres Coaches mit Übungen, Rezepten und Wellness-Ratgebern.',
+      'empty.library': 'Ihr Coach hat Ihren Programmen noch keine Bibliotheksinhalte zugewiesen. Schauen Sie später noch einmal vorbei oder kontaktieren Sie Ihren Coach.',
+
       // Blog
       'blog.title': 'Blog-Beiträge',
       'blog.title.helper': 'Teilen Sie Wissen, Tipps und Neuigkeiten mit Ihren Kunden und Followern.',
@@ -1307,6 +1419,7 @@ const resources = {
       'clientStatus.onTrack': 'På Rett Spor',
       'clientStatus.offTrack': 'Av Sporet',
       'clientStatus.soonToExpire': 'Utløper Snart',
+      'no.program': 'Denne klienten har ingen tildelte eller planlagte programmer ennå.',
       
       // Settings
       'settings.changePassword': 'Endre Passord',
@@ -1354,11 +1467,24 @@ const resources = {
       'clients.status': 'Status',
       'clients.badges': 'Merker',
       'clients.activeFilters': 'Aktive Filtre',
+      'clients.profile': 'Klientprofil',
+      'progress.programs': 'Fremgang og programmer',
+      'communication': 'Kommunikasjon',
+      'last.check.in': 'Siste innsjekking',
+      'adherence': 'Etterlevelse',
+      'program.days': 'Programdager',
+      'no.program.assigned': 'Ingen program tildelt',
+      'my.clients': 'Mine kunder',
+      'new.message': 'Ny melding',
+      'new.feedback': 'Ny tilbakemelding',
+      'clients.empty.noClientsYet': 'Ingen kunder ennå. Godta forespørsler om å se dem her.',
+      'clients.empty.noClientsMatchFilters': 'Ingen kunder samsvarer med de gjeldende filtrene.',
       
       // Programs
       'programs.description': 'Administrer alle programmene du har opprettet. Tildel, planlegg og rediger dem enkelt.',
       
       // Library
+      'library': 'Bibliotek',
       'library.title': 'Ditt Bibliotek',
       'library.title.helper': 'Dette er din personlige samling av øvelser, oppskrifter og velværeaktiviteter som du bruker om igjen når du bygger programmer.',
       'library.searchPlaceholder': 'Søk {{category}}...',
@@ -1366,7 +1492,19 @@ const resources = {
       'library.filter': 'Filter',
       'library.filterByType': 'Filtrer etter Type',
       'library.items': 'elementer',
-      
+      'library.no.content': 'Fant ikke noe innhold',
+      'adjust.your.search.filters': 'Prøv å justere søke- eller kategorifiltrene dine.',
+      'loading.your.content': 'Laster inn innholdet ditt ...',
+      'library.access.required': 'Tilgang til bibliotek kreves',
+      'library.find.coach': 'Du må være tildelt en trener for å få tilgang til biblioteket. Finn en trener fra «Min trener»-delen for å komme i gang med treningsreisen din.',
+      'content.assigned': 'Innhold som er tilordnet programmene dine',
+      'all': 'Alle',
+      'fitness': 'Trening',
+      'nutrition': 'Ernæring',
+      'mental.health': 'Psykisk helse',
+      'switch.plan': 'Du ser for øyeblikket bare innhold som er tilordnet programmene dine. Oppgrader til et betalt abonnement for å få tilgang til trenerens komplette bibliotek med øvelser, oppskrifter og velværeguider.',
+      'empty.library': 'Treneren din har ikke tilordnet noe bibliotekinnhold til programmene dine ennå. Kom tilbake senere, eller kontakt treneren din.',
+
       // Blog
       'blog.title': 'Blogginnlegg',
       'blog.title.helper': 'Del kunnskap, tips og oppdateringer med dine kunder og følgere.',
@@ -1620,6 +1758,7 @@ const resources = {
       'clientStatus.onTrack': 'På Rätt Väg',
       'clientStatus.offTrack': 'Ute Ur Kurs',
       'clientStatus.soonToExpire': 'Upphör Snart',
+      'no.program': 'Den här klienten har inga tilldelade eller schemalagda program ännu.',
       
       // Settings
       'settings.changePassword': 'Ändra Lösenord',
@@ -1667,11 +1806,25 @@ const resources = {
       'clients.status': 'Status',
       'clients.badges': 'Märken',
       'clients.activeFilters': 'Aktiva Filter',
-      
+      'clients.profile': 'Klientprofil',
+      'progress.programs': 'Framsteg och program',
+      'communication': 'Kommunikation',
+      'last.check.in': 'Senaste incheckning',
+      'adherence': 'Efterlevnad',
+      'program.days': 'Programdagar',
+      'no.program.assigned': 'Inget program tilldelat',
+      'my.clients': 'Mina kunder',
+      'new.message': 'Nytt meddelande',
+      'awaiting.check.in': 'Väntar på incheckning',
+      'new.feedback': 'Ny feedback',
+      'clients.empty.noClientsYet': 'Inga kunder ännu. Acceptera förfrågningar för att se dem här.',
+      'clients.empty.noClientsMatchFilters': 'Inga kunder matchar de aktuella filtren.',
+
       // Programs
       'programs.description': 'Hantera alla program du har skapat. Tilldela, schemalägg och redigera dem enkelt.',
       
       // Library
+      'library': 'Bibliotek',
       'library.title': 'Ditt Bibliotek',
       'library.title.helper': 'Detta är din personliga samling av övningar, recept och hälsoaktiviteter som du återanvänder när du skapar program.',
       'library.searchPlaceholder': 'Sök {{category}}...',
@@ -1679,6 +1832,18 @@ const resources = {
       'library.filter': 'Filter',
       'library.filterByType': 'Filtrera efter Typ',
       'library.items': 'objekt',
+      'library.no.content': 'Inget innehåll hittades',
+      'adjust.your.search.filters': 'Försök att justera dina sök- eller kategorifilter.',
+      'loading.your.content': 'Laddar ditt innehåll...',
+      'library.access.required': 'Biblioteksåtkomst krävs',
+      'library.find.coach': 'Du måste vara tilldelad en coach för att få tillgång till biblioteket. Hitta en coach från avsnittet "Min coach" för att komma igång med din träningsresa.',
+      'content.assigned': 'Innehåll som är tilldelat dina program',
+      'all': 'Alla',
+      'fitness': 'Kondition',
+      'nutrition': 'Näring',
+      'mental.health': 'Psykisk hälsa',
+      'switch.plan': 'Du ser för närvarande bara innehåll som är kopplat till dina program. Uppgradera till en betald plan för att få tillgång till din coachs kompletta bibliotek med övningar, recept och hälsoguider.',
+      'empty.library': 'Din coach har inte tilldelat något biblioteksinnehåll till dina program ännu. Kom tillbaka senare eller kontakta din coach.',
       
       // Blog
       'blog.title': 'Blogginlägg',
@@ -1933,6 +2098,7 @@ const resources = {
       'clientStatus.onTrack': 'På Rette Spor',
       'clientStatus.offTrack': 'Ude Af Kurs',
       'clientStatus.soonToExpire': 'Udløber Snart',
+      'no.program': 'Denne klient har endnu ingen tildelte eller planlagte programmer.',
       
       // Settings
       'settings.changePassword': 'Skift Adgangskode',
@@ -1980,11 +2146,25 @@ const resources = {
       'clients.status': 'Status',
       'clients.badges': 'Mærker',
       'clients.activeFilters': 'Aktive Filtre',
+      'clients.profile': 'Klientprofil',
+      'progress.programs': 'Fremskridt og programmer',
+      'communication': 'Meddelelse',
+      'last.check.in': 'Sidste indtjekning',
+      'adherence': 'Overholdelse',
+      'program.days': 'Programdage',
+      'no.program.assigned': 'Intet program tildelt',
+      'my.clients': 'Mine kunder',
+      'new.message': 'Ny besked',
+      'awaiting.check.in': 'Afventer check-in',
+      'new.feedback': 'Ny feedback',
+      'clients.empty.noClientsYet': 'Ingen kunder endnu. Accepter anmodninger om at se dem her.',
+      'clients.empty.noClientsMatchFilters': 'Ingen kunder matcher de aktuelle filtre.',
       
       // Programs
       'programs.description': 'Administrer alle programmer, du har oprettet. Tildel, planlæg og rediger dem nemt.',
       
       // Library
+      'library': 'Bibliotek',
       'library.title': 'Dit Bibliotek',
       'library.title.helper': 'Dette er din personlige samling af øvelser, opskrifter og wellness-aktiviteter, som du genbruger, når du udvikler programmer.',
       'library.searchPlaceholder': 'Søg {{category}}...',
@@ -1992,7 +2172,19 @@ const resources = {
       'library.filter': 'Filter',
       'library.filterByType': 'Filtrer efter Type',
       'library.items': 'elementer',
-      
+      'library.no.content': 'Intet indhold fundet',
+      'adjust.your.search.filters': 'Prøv at justere dine søge- eller kategorifiltre.',
+      'loading.your.content': 'Indlæser dit indhold...',
+      'library.access.required': 'Adgang til biblioteket kræves',
+      'library.find.coach': 'Du skal have en tilknyttet træner for at få adgang til biblioteket. Find en træner i afsnittet "Min træner" for at komme i gang med din fitnessrejse.',
+      'content.assigned': 'Indhold tildelt dine programmer',
+      'all': 'Alle',
+      'fitness': 'Fitness',
+      'nutrition': 'Ernæring',
+      'mental.health': 'Mental sundhed',
+      'switch.plan': 'Du ser i øjeblikket kun indhold, der er knyttet til dine programmer. Opgrader til et betalt abonnement for at få adgang til din træners komplette bibliotek af øvelser, opskrifter og wellness-guider.',
+      'empty.library': 'Din træner har endnu ikke tildelt noget biblioteksindhold til dine programmer. Tjek tilbage senere, eller kontakt din træner.',
+
       // Blog
       'blog.title': 'Blogindlæg',
       'blog.title.helper': 'Del viden, tips og opdateringer med dine kunder og følgere.',

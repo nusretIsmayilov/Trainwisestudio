@@ -96,7 +96,7 @@ const ClientProfileTab: React.FC<ClientProfileTabProps> = ({ client }) => {
         <CardHeader>
           <CardTitle className="flex items-center gap-2 text-base">
             <Activity className="h-5 w-5" />
-            Programs
+            {t('programs.title')}
           </CardTitle>
         </CardHeader>
         <CardContent className="space-y-4">
@@ -104,8 +104,8 @@ const ClientProfileTab: React.FC<ClientProfileTabProps> = ({ client }) => {
             <div className="flex items-center gap-3 p-4 rounded-xl border border-amber-200 bg-amber-50">
               <AlertCircle className="h-5 w-5 text-amber-600" />
               <div>
-                <p className="font-medium text-amber-800">Missing a program</p>
-                <p className="text-sm text-amber-700">This client doesn't have any assigned or scheduled programs yet.</p>
+                <p className="font-medium text-amber-800">{t('clientStatus.missingProgram')}</p>
+                <p className="text-sm text-amber-700">{t('no.program')}</p>
               </div>
             </div>
           ) : (

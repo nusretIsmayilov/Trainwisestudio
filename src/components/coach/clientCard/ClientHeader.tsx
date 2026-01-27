@@ -4,12 +4,14 @@ import { Badge } from "@/components/ui/badge";
 import { Award, Clock, Calendar } from "lucide-react";
 import { motion } from "framer-motion";
 import { useRealTimeClientData } from "@/hooks/useRealTimeClientData";
+import { useTranslation } from "react-i18next";
 
 interface ClientHeaderProps {
   client: any | null;
 }
 
 const ClientHeader: React.FC<ClientHeaderProps> = ({ client }) => {
+  const { t } = useTranslation();
   const { clientData, loading } = useRealTimeClientData(client?.id);
 
   if (loading) {
@@ -54,7 +56,7 @@ const ClientHeader: React.FC<ClientHeaderProps> = ({ client }) => {
     clientData.checkinHistory?.some(
       (c) =>
         c.status === "responded" &&
-        new Date(c.date) > new Date(Date.now() - 24 * 60 * 60 * 1000)
+        new Date(c.date) > new Date(Date.now() - 24 * 60 * 60 * 1000),
     ) || false;
 
   const onTrack = clientData.adherence >= 70; // Consider on track if adherence is 70% or higher
@@ -77,7 +79,7 @@ const ClientHeader: React.FC<ClientHeaderProps> = ({ client }) => {
           <motion.img
             className="h-16 w-16 sm:h-18 sm:w-18 rounded-full object-cover border border-border shadow-sm"
             src={avatar}
-            alt= {displayName}
+            alt={displayName}
             initial={{ scale: 0.85, opacity: 0 }}
             animate={{ scale: 1, opacity: 1 }}
             transition={{ duration: 0.4, delay: 0.1 }}
@@ -107,21 +109,21 @@ const ClientHeader: React.FC<ClientHeaderProps> = ({ client }) => {
         {[
           {
             icon: Calendar,
-            label: "Last Check-in",
+            label: t("last.check.in"),
             value: lastCheckIn,
           },
           {
             icon: Award,
-            label: "Adherence",
+            label: t("adherence"),
             value: adherence,
           },
           {
             icon: Clock,
-            label: "Program Days",
+            label: t("program.days"),
             value:
               clientData.programDays.total > 0
                 ? `${clientData.programDays.remaining} remaining`
-                : "No program assigned",
+                : t("no.program.assigned"),
           },
         ].map((stat, i) => (
           <motion.div
