@@ -13,12 +13,14 @@ import { useAuth } from "@/contexts/AuthContext";
 import { SidebarTrigger } from "@/components/ui/sidebar";
 import { useConversations } from "@/hooks/useConversations";
 import { LanguageSwitcher } from "@/components/ui/LanguageSwitcher";
+import { useTranslation } from "react-i18next";
 
 interface TopNavProps {
   title?: string;
 }
 
 const TopNav = ({ title }: TopNavProps) => {
+  const { t } = useTranslation();
   const { user, profile, signOut } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
@@ -30,28 +32,28 @@ const TopNav = ({ title }: TopNavProps) => {
   };
 
   const getPageTitle = () => {
-  const path = location.pathname;
+    const path = location.pathname;
 
-  if (path.startsWith("/coach/dashboard")) return "Dashboard";
-  if (path.startsWith("/coach/clients")) return "Clients";
-  if (path.startsWith("/coach/messages")) return "Messages";
-  if (path.startsWith("/coach/programs")) return "Programs";
-  if (path.startsWith("/coach/settings")) return "Settings";
-  if (path.startsWith("/coach/library")) return "Library";
-  if (path.startsWith("/coach/blog")) return "Blog";
-  if (path.startsWith("/coach/income")) return "Income";
+    if (path.startsWith("/coach/dashboard")) return "Dashboard";
+    if (path.startsWith("/coach/clients")) return "Clients";
+    if (path.startsWith("/coach/messages")) return "Messages";
+    if (path.startsWith("/coach/programs")) return "Programs";
+    if (path.startsWith("/coach/settings")) return "Settings";
+    if (path.startsWith("/coach/library")) return "Library";
+    if (path.startsWith("/coach/blog")) return "Blog";
+    if (path.startsWith("/coach/income")) return "Income";
 
-  if (path.startsWith("/customer/dashboard")) return "Dashboard";
-  if (path.startsWith("/customer/programs")) return "My Programs";
-  if (path.startsWith("/customer/messages")) return "Messages";
-  if (path.startsWith("/customer/settings")) return "Settings";
-  if (path.startsWith("/customer/library")) return "Library";
-  if (path.startsWith("/customer/progress")) return "Progress";
-  if (path.startsWith("/customer/my-coach")) return "My Coach";
-  if (path.startsWith("/customer/blog")) return "Blog";
+    if (path.startsWith("/customer/dashboard")) return "Dashboard";
+    if (path.startsWith("/customer/programs")) return "My Programs";
+    if (path.startsWith("/customer/messages")) return "Messages";
+    if (path.startsWith("/customer/settings")) return "Settings";
+    if (path.startsWith("/customer/library")) return "Library";
+    if (path.startsWith("/customer/progress")) return "Progress";
+    if (path.startsWith("/customer/my-coach")) return "My Coach";
+    if (path.startsWith("/customer/blog")) return "Blog";
 
-  return "TrainWise";
-};
+    return "TrainWise";
+  };
 
   const getInitials = () => {
     if (profile?.full_name) {
@@ -113,7 +115,7 @@ const TopNav = ({ title }: TopNavProps) => {
                   to={settingsHref}
                   className="flex items-center gap-2 cursor-pointer"
                 >
-                  <Settings className="h-4 w-4" /> Settings
+                  <Settings className="h-4 w-4" /> {t("nav.settings")}
                 </Link>
               </DropdownMenuItem>
               <DropdownMenuSeparator />
@@ -121,7 +123,7 @@ const TopNav = ({ title }: TopNavProps) => {
                 onClick={handleSignOut}
                 className="flex items-center gap-2 cursor-pointer text-destructive"
               >
-                <LogOut className="h-4 w-4" /> Sign out
+                <LogOut className="h-4 w-4" /> {t('nav.logout')}
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>

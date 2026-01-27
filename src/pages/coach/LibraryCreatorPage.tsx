@@ -17,10 +17,6 @@ interface LibraryCreatorPageProps {
   activeCategory: LibraryCategory;
 }
 
-/**
- * 🔑 UI-only alanları burada genişletiyoruz
- * LibraryItem bozulmaz
- */
 type FormField = keyof LibraryItem | "heroImageUrl";
 
 const LibraryCreatorPage: React.FC<LibraryCreatorPageProps> = ({
@@ -36,7 +32,6 @@ const LibraryCreatorPage: React.FC<LibraryCreatorPageProps> = ({
 
   useEffect(() => {
     setFormData((prev) => {
-      // EDIT MODE
       if (initialItem) {
         return {
           ...prev,
@@ -44,7 +39,6 @@ const LibraryCreatorPage: React.FC<LibraryCreatorPageProps> = ({
           category: activeCategory,
           isCustom: true,
 
-          // 🔥 en kritik satır
           heroImageUrl:
             (prev as any).heroImageUrl ??
             (initialItem as any).hero_image_url ??
@@ -52,7 +46,6 @@ const LibraryCreatorPage: React.FC<LibraryCreatorPageProps> = ({
         };
       }
 
-      // CREATE MODE
       return {
         ...prev,
         category: activeCategory,
@@ -62,10 +55,6 @@ const LibraryCreatorPage: React.FC<LibraryCreatorPageProps> = ({
   }, [initialItem, activeCategory]);
 
   const handleFormChange = useCallback(async (field: FormField, value: any) => {
-    /**
-     * 🟢 HERO IMAGE UPLOAD
-     * blob → Supabase → public URL
-     */
     if (
       field === "heroImageUrl" &&
       typeof value === "string" &&
@@ -121,7 +110,6 @@ const LibraryCreatorPage: React.FC<LibraryCreatorPageProps> = ({
   const handleSubmit = async () => {
     console.log("SUBMIT TIKLANDI – formData:", formData);
 
-    // Zorunlu field kontrolleri
     if (!formData.name || !formData.introduction) {
       alert("Please fill in Name and Introduction.");
       return;
@@ -132,13 +120,12 @@ const LibraryCreatorPage: React.FC<LibraryCreatorPageProps> = ({
       return;
     }
 
-    // Kategori bazlı details objesini oluştur
     let details: Record<string, any> = {};
 
     if (activeCategory === "exercise") {
       details = {
-        muscleGroup: formData.muscleGroup || "", // ← formData'da muscleGroup var mı? yoksa formdan doğru isim kullan
-        howTo: formData.howTo || [], // ← medya + adımlar array'i
+        muscleGroup: formData.muscleGroup || "",
+        howTo: formData.howTo || [],
         proTip: formData.proTip || "",
         whatToAvoid: formData.whatToAvoid || "",
       };
@@ -156,24 +143,23 @@ const LibraryCreatorPage: React.FC<LibraryCreatorPageProps> = ({
       };
     }
 
-    console.log("Hazırlanan details:", details); // ← bunu ekle, neyin gönderildiğini gör
+    console.log("Prepared details:", details);
 
-    // Tek upsertItem çağrısı – tüm veriyi buraya koy
     const payload = {
-      id: formData.id, // editing varsa
+      id: formData.id,
       name: formData.name,
       category: activeCategory,
       introduction: formData.introduction,
       hero_image_url: formData.heroImageUrl || null,
-      ...details, // ← muscleGroup, howTo vs. buraya yayılıyor
+      ...details,
     };
 
     try {
       await upsertItem(payload);
-      console.log("Upsert başarılı – payload:", payload);
+      console.log("Upsert succsess – payload:", payload);
       onSubmit({ ...formData, category: activeCategory } as LibraryItem);
     } catch (err) {
-      console.error("Upsert HATASI:", err);
+      console.error("Upsert ERROR:", err);
     }
   };
 

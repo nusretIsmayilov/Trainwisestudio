@@ -10,7 +10,7 @@ import React, {
 } from 'react';
 import { User, Session } from '@supabase/supabase-js';
 import { supabase } from '@/lib/supabase/client';
-import { useNavigate } from 'react-router-dom'; // ✅ EKLENDİ
+import { useNavigate } from 'react-router-dom';
 
 export interface Profile {
   id: string;
@@ -44,7 +44,7 @@ interface AuthContextType {
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const navigate = useNavigate(); // ✅ EKLENDİ
+  const navigate = useNavigate();
 
   const [user, setUser] = useState<User | null>(null);
   const [session, setSession] = useState<Session | null>(null);
@@ -53,7 +53,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
   const initialLoadComplete = useRef(false);
   const pendingProfileFetch = useRef<Promise<Profile | null> | null>(null);
-  const hasRedirected = useRef(false); // ✅ EKLENDİ (loop önler)
+  const hasRedirected = useRef(false);
 
   const fetchProfile = useCallback(async (targetUser: User): Promise<Profile | null> => {
     if (pendingProfileFetch.current) {
@@ -146,7 +146,6 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     };
   }, [fetchProfile]);
 
-  // ✅ 🔥 ASIL ÇÖZÜM BURADA
   useEffect(() => {
   if (
     authState !== 'authenticated' ||

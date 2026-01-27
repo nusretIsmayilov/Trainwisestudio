@@ -1,7 +1,6 @@
 // src/lib/test-urls.ts
 
 const getBaseUrl = () => {
-  // Aynı mantık, force-urls.ts ile tamamen aynı
   return import.meta.env.VITE_APP_URL ?? window.location.origin;
 };
 
@@ -27,7 +26,6 @@ export const testPasswordResetUrl = () => {
   return url;
 };
 
-// Development ortamında otomatik test
 if (import.meta.env.DEV) {
   console.group('🧪 URL Tests (development only)');
   console.log('Magic Link    :', testMagicLinkUrl());

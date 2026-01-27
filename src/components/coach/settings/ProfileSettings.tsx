@@ -11,9 +11,6 @@ import { ProfileCompleteness } from "./ProfileCompleteness";
 import { ProfileViewMode } from "./ProfileViewMode";
 import { ProfileEditMode } from "./ProfileEditMode";
 
-/* ===========================
-   🔥 SADECE GEREKLİ NORMALIZER
-   =========================== */
 const normalizeSocials = (socials: any): CoachProfile["socials"] => {
   if (!socials) return [];
 
@@ -140,9 +137,6 @@ const ProfileSettings: React.FC<ProfileSettingsProps> = ({ onUpdate }) => {
     setSocialValidation(validation);
   }, [formData.socials]);
 
-  /* ===========================
-     ✅ DOĞRU YERDE TANIMLI
-     =========================== */
   const handleSave = async (): Promise<void> => {
     const invalidSocials = formData.socials.filter(
       (s) => s.url.trim() && socialValidation[s.id] === false

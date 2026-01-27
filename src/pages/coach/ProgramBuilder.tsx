@@ -160,7 +160,7 @@ const ProgramBuilder = () => {
     const programsPath = "/coach/programs";
     const targetUrl = `${baseUrl}${programsPath}`;
 
-    console.log(`Programs sayfasına yönlendiriliyor: ${targetUrl}`);
+    console.log(`It redirects to the Programs page: ${targetUrl}`);
 
     setTimeout(() => {
       window.location.href = targetUrl;

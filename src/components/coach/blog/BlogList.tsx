@@ -3,6 +3,7 @@
 import React from 'react';
 import { BlogPost } from '@/mockdata/blog/mockBlog';
 import BlogCard from './BlogCard';
+import { useTranslation } from 'react-i18next';
 
 interface BlogListProps {
   filteredPosts: BlogPost[];
@@ -12,11 +13,12 @@ interface BlogListProps {
 }
 
 const BlogList: React.FC<BlogListProps> = ({ filteredPosts, onEdit, onDelete, onView }) => {
+  const { t } = useTranslation();
   if (filteredPosts.length === 0) {
     return (
       <div className="py-20 text-center text-muted-foreground">
-        <p className="text-xl font-semibold mb-2">No Blog Posts Found 😔</p>
-        <p>Start by creating a new post using the **+** button!</p>
+        <p className="text-xl font-semibold mb-2">{t("no.blog.posts.found")} 😔</p>
+        <p>{t("blog.add.message")}</p>
       </div>
     );
   }

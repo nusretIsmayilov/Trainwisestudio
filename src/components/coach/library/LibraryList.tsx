@@ -4,6 +4,7 @@ import React from "react";
 import { LibraryItem, LibraryCategory } from "@/mockdata/library/mockLibrary";
 import LibraryCard from "./LibraryCard";
 import { motion } from "framer-motion";
+import { useTranslation } from "react-i18next";
 
 interface LibraryListProps {
   filteredItems: LibraryItem[];
@@ -43,6 +44,7 @@ const LibraryList: React.FC<LibraryListProps> = ({
   onDelete,
   onView,
 }) => {
+  const { t } = useTranslation();
   if (filteredItems.length === 0) {
     return (
       <motion.div
@@ -51,8 +53,8 @@ const LibraryList: React.FC<LibraryListProps> = ({
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.3 }}
       >
-        <p className="text-xl font-semibold mb-2">No Content Found</p>
-        <p>Try adjusting your search or category filters.</p>
+        <p className="text-xl font-semibold mb-2"> {t("library.no.content")}</p>
+        <p>{t("adjust.your.search.filters")}</p>
       </motion.div>
     );
   }

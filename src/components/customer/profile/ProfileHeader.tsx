@@ -77,7 +77,6 @@ const ProfileHeader = forwardRef<ProfileHeaderRef, ProfileHeaderProps>(
       cancel: handleCancel,
     }));
 
-    // ✅ SADECE BURADA TİP EKLENDİ
     const handleImageUpload = async (
       event: React.ChangeEvent<HTMLInputElement>
     ): Promise<void> => {
@@ -161,7 +160,6 @@ const ProfileHeader = forwardRef<ProfileHeaderRef, ProfileHeaderProps>(
 
     return (
       <div className="relative rounded-3xl overflow-hidden shadow-xl w-full">
-        {/* JSX AYNEN KALDI */}
         <input
           ref={fileInputRef}
           type="file"

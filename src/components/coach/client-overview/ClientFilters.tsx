@@ -32,19 +32,19 @@ const ClientFilters = ({ onFilterChange, totalCount = 0, filteredCount = 0 }: Cl
   const { t } = useTranslation();
 
   const statusOptions = [
-    { value: 'no_status', label: 'No Status', icon: Clock, color: 'bg-gray-500/10 text-gray-700 dark:text-gray-300' },
-    { value: 'waiting_offer', label: 'Waiting Offer', icon: DollarSign, color: 'bg-yellow-500/10 text-yellow-700 dark:text-yellow-300' },
-    { value: 'missing_program', label: 'Missing Program', icon: AlertCircle, color: 'bg-red-500/10 text-red-700 dark:text-red-300' },
-    { value: 'program_active', label: 'Program Active', icon: CheckCircle, color: 'bg-blue-500/10 text-blue-700 dark:text-blue-300' },
-    { value: 'on_track', label: 'On Track', icon: CheckCircle, color: 'bg-green-500/10 text-green-700 dark:text-green-300' },
-    { value: 'off_track', label: 'Off Track', icon: AlertCircle, color: 'bg-red-500/10 text-red-700 dark:text-red-300' },
-    { value: 'soon_to_expire', label: 'Soon to Expire', icon: Clock, color: 'bg-orange-500/10 text-orange-700 dark:text-orange-300' }
+    { value: 'no_status', label: t('clientStatus.noStatus'), icon: Clock, color: 'bg-gray-500/10 text-gray-700 dark:text-gray-300' },
+    { value: 'waiting_offer', label: t( 'clientStatus.waitingOffer'), icon: DollarSign, color: 'bg-yellow-500/10 text-yellow-700 dark:text-yellow-300' },
+    { value: 'missing_program', label: t('clientStatus.missingProgram'), icon: AlertCircle, color: 'bg-red-500/10 text-red-700 dark:text-red-300' },
+    { value: 'program_active', label: t('clientStatus.programActive'), icon: CheckCircle, color: 'bg-blue-500/10 text-blue-700 dark:text-blue-300' },
+    { value: 'on_track', label: t('clientStatus.onTrack'), icon: CheckCircle, color: 'bg-green-500/10 text-green-700 dark:text-green-300' },
+    { value: 'off_track', label: t('clientStatus.offTrack'), icon: AlertCircle, color: 'bg-red-500/10 text-red-700 dark:text-red-300' },
+    { value: 'soon_to_expire', label: t('clientStatus.soonToExpire'), icon: Clock, color: 'bg-orange-500/10 text-orange-700 dark:text-orange-300' }
   ];
 
   const badgeOptions = [
-    { value: 'new_message', label: 'New Message', icon: MessageCircle, color: 'bg-blue-500/10 text-blue-700 dark:text-blue-300' },
-    { value: 'awaiting_checkin', label: 'Awaiting Check-in', icon: Clock, color: 'bg-yellow-500/10 text-yellow-700 dark:text-yellow-300' },
-    { value: 'new_feedback', label: 'New Feedback', icon: CheckCircle, color: 'bg-green-500/10 text-green-700 dark:text-green-300' }
+    { value: 'new_message', label: t('new.message'), icon: MessageCircle, color: 'bg-blue-500/10 text-blue-700 dark:text-blue-300' },
+    { value: 'awaiting_checkin', label: t('awaiting.check.in'), icon: Clock, color: 'bg-yellow-500/10 text-yellow-700 dark:text-yellow-300' },
+    { value: 'new_feedback', label: t('new.feedback'), icon: CheckCircle, color: 'bg-green-500/10 text-green-700 dark:text-green-300' }
   ];
 
   const handleStatusToggle = (status: string) => {
@@ -105,7 +105,7 @@ const ClientFilters = ({ onFilterChange, totalCount = 0, filteredCount = 0 }: Cl
                 className="h-8 text-xs"
               >
                 <X className="w-3 h-3 mr-1" />
-                Clear
+                {t('clients.clearAll')}
               </Button>
             )}
             <Button

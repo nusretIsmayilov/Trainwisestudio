@@ -14,7 +14,6 @@ interface CreateProgramData {
   category: ProgramCategory;
   status?: ProgramStatus;
 
-  // ✅ YENİ EKLENENLER
   muscleGroups?: string[] | null;
   equipment?: string[] | null;
   benefits?: string | null;
@@ -465,7 +464,6 @@ export const useProgramMutations = () => {
         status: data.status as ProgramStatus,
         category: data.category as ProgramCategory,
 
-        // 🔥 EKSİK OLANLAR
         muscleGroups: data.muscle_groups,
         equipment: data.equipment,
         benefits: data.benefits,

@@ -139,7 +139,6 @@ const QuickStats = () => {
     calculateStats();
   }, [checkins, weightEntries, weightTrendValue]);
 
-  /* GERİ KALAN DOSYA AYNEN DEVAM EDİYOR — DOKUNULMADI */
 
   const statItems = [
     {
@@ -196,7 +195,6 @@ const QuickStats = () => {
       : []),
   ];
 
-  /* … (alt kısım aynen, hiç dokunulmadı) */
 };
 
 export default QuickStats;

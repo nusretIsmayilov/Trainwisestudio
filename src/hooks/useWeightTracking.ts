@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from "react"; // ✅ useCallback eklendi
+import { useState, useEffect, useCallback } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/contexts/AuthContext";
 import { useRefresh } from "@/contexts/RefreshContext";
@@ -42,7 +42,7 @@ export const useWeightTracking = () => {
       setEntries(data || []);
     } catch (err) {
       setError(
-        err instanceof Error ? err.message : "Failed to fetch weight entries"
+        err instanceof Error ? err.message : "Failed to fetch weight entries",
       );
     } finally {
       setLoading(false);
@@ -66,7 +66,7 @@ export const useWeightTracking = () => {
           "user_id,date",
           {
             invalidateQueries: [queryKeys.profile(user.id)],
-          }
+          },
         );
 
         const optimisticData = {
@@ -91,7 +91,7 @@ export const useWeightTracking = () => {
       } catch (queueError) {
         console.warn(
           "Queue failed, falling back to direct operation:",
-          queueError
+          queueError,
         );
 
         const { data: existingEntry } = await supabase
@@ -141,7 +141,7 @@ export const useWeightTracking = () => {
       }
     } catch (err) {
       setError(
-        err instanceof Error ? err.message : "Failed to add weight entry"
+        err instanceof Error ? err.message : "Failed to add weight entry",
       );
       throw err;
     }

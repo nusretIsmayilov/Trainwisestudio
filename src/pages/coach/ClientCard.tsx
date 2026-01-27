@@ -8,8 +8,10 @@ import ClientProfileTab from '@/components/coach/clientCard/tabs/ClientProfileTa
 import ProgressProgramsTab from '@/components/coach/clientCard/tabs/ProgressProgramsTab';
 import CommunicationTab from '@/components/coach/clientCard/tabs/CommunicationTab';
 import ClientActionButton from '@/components/coach/clientCard/ClientActionButton';
+import { useTranslation } from 'react-i18next';
 
 const ClientCard = () => {
+  const { t } = useTranslation();
   const { clientId } = useParams();
   const [client, setClient] = useState<any>(null);
   useEffect(() => {
@@ -96,22 +98,22 @@ const ClientCard = () => {
             value="profile"
             className="w-full rounded-xl data-[state=active]:bg-background data-[state=active]:shadow-sm transition-all text-xs sm:text-sm font-medium py-3 sm:py-1.5 px-4 sm:px-3 h-auto"
           >
-            <span className="hidden sm:inline">Client Profile</span>
-            <span className="sm:hidden">Profile</span>
+            <span className="hidden sm:inline">{t('clients.profile')}</span>
+            <span className="sm:hidden">{t('settings.profile')}</span>
           </TabsTrigger>
           <TabsTrigger
             value="progress"
             className="w-full rounded-xl data-[state=active]:bg-background data-[state=active]:shadow-sm transition-all text-xs sm:text-sm font-medium py-3 sm:py-1.5 px-4 sm:px-3 h-auto"
           >
-            <span className="hidden sm:inline">Progress & Programs</span>
-            <span className="sm:hidden">Progress</span>
+            <span className="hidden sm:inline">{t('progress.programs')}</span>
+            <span className="sm:hidden">{t('nav.progress')}</span>
           </TabsTrigger>
           <TabsTrigger
             value="communication"
             className="w-full rounded-xl data-[state=active]:bg-background data-[state=active]:shadow-sm transition-all text-xs sm:text-sm font-medium py-3 sm:py-1.5 px-4 sm:px-3 h-auto"
           >
-            <span className="hidden sm:inline">Communication</span>
-            <span className="sm:hidden">Messages</span>
+            <span className="hidden sm:inline">{t('communication')}</span>
+            <span className="sm:hidden">{t('messages.title')}</span>
           </TabsTrigger>
         </TabsList>
 

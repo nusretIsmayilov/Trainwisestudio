@@ -8,17 +8,16 @@ import { Dumbbell, Utensils, Feather, ArrowLeft } from "lucide-react";
 import { motion } from "framer-motion";
 import { cn } from "@/lib/utils";
 
-// Opsiyonel: Tipi daha güvenli hale getirmek için (mockLibrary.ts'te tanımlı olmalı)
-// Eğer tanımlı değilse, geçici olarak interface genişletiyoruz
+
 interface ExtendedLibraryItem extends LibraryItem {
   hero_image_url?: string | null;
   howTo?: Array<{ id: string; type: "step" | "image"; value: string }>;
   content?: Array<{ type: string; value: string }>;
-  // diğer olası field'lar...
+ 
 }
 
 interface LibraryViewerProps {
-  item: ExtendedLibraryItem; // veya sadece LibraryItem, eğer tip güncellendiyse
+  item: ExtendedLibraryItem; 
   onBack: () => void;
 }
 
@@ -69,7 +68,6 @@ const LibraryViewer: React.FC<LibraryViewerProps> = ({ item, onBack }) => {
     }
   };
 
-  // Hero image – tip güvenli erişim
   const imageUrl = item.hero_image_url ?? getFallbackImage(item.category);
 
   const renderContent = () => {
@@ -195,7 +193,7 @@ const LibraryViewer: React.FC<LibraryViewerProps> = ({ item, onBack }) => {
                             className="w-full"
                             src={contentItem.value}
                           >
-                            Tarayıcınız ses oynatmayı desteklemiyor.
+                            Your browser does not support audio playback.
                           </audio>
                         </div>
                       ) : contentItem.type === "video" ? (
@@ -205,7 +203,7 @@ const LibraryViewer: React.FC<LibraryViewerProps> = ({ item, onBack }) => {
                             className="w-full h-full rounded-md"
                             src={contentItem.value}
                           >
-                            Tarayıcınız video oynatmayı desteklemiyor.
+                            Your browser does not support video playback.
                           </video>
                         </div>
                       ) : (
@@ -213,7 +211,7 @@ const LibraryViewer: React.FC<LibraryViewerProps> = ({ item, onBack }) => {
                           {contentItem.value}
                           <br />
                           <span className="text-xs text-destructive">
-                            (Desteklenmeyen içerik tipi: {contentItem.type})
+                            (Unsupported content type: {contentItem.type})
                           </span>
                         </p>
                       )}
