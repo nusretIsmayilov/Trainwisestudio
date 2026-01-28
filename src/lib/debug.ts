@@ -18,8 +18,8 @@ export const debugUrls = () => {
       VITE_API_PROXY_TARGET: import.meta.env.VITE_API_PROXY_TARGET,
     },
     config: {
-      appUrl: import.meta.env.VITE_APP_URL || (import.meta.env.PROD ? 'https://trainwisestudio-ten.vercel.app' : window.location.origin),
-      hardcodedDomain: 'https://trainwisestudio-ten.vercel.app',
+      appUrl: import.meta.env.VITE_APP_URL || (import.meta.env.PROD ? 'https://trainwisestudio-theta.vercel.app' : window.location.origin),
+      hardcodedDomain: 'https://trainwisestudio-theta.vercel.app',
     }
   };
 
