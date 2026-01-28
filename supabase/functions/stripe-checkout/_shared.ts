@@ -85,5 +85,5 @@ export function arePriceIdsConfigured(): boolean {
 ======================= */
 
 export function getAppUrl(): string {
-  return process.env.PUBLIC_APP_URL || "https://trainwisestudio-theta.vercel.app";
+  return process.env.PUBLIC_APP_URL || "https://trainwisestudio.netlify.app";
 }
