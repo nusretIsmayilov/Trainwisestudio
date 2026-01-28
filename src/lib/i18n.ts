@@ -143,6 +143,9 @@ const resources = {
       'mental.health': 'Mental Health',
       'switch.plan': 'You are currently seeing only content assigned to your programs. Upgrade to a paid plan to access your coach`s complete library of exercises, recipes, and wellness guides.',
       'empty.library': 'Your coach hasn`t assigned any library content to your programs yet. Check back later or contact your coach.',
+      'explore.exercises': 'Explore exercises, recipes, and wellness guides from your coach.',
+      'no.items.found': 'No items found for your search.',
+      'search.placeholder': 'Search for an exercise or recipe...',
 
       // Blog
       'blog.title': 'Blog Posts',
@@ -244,6 +247,14 @@ const resources = {
       'dashboard.clientStatuses': 'Client Statuses',
       'dashboard.clientStatusesDescription': 'An overview of all your clients and their current status.',
       'dashboard.noClientsYet': 'No clients yet.',
+      'daily.check.in': 'Daily Check-in',
+      'today`s.focus': 'Today`s Focus',
+      'no.programs.scheduled.for.today': 'No programs scheduled for today',
+      'check.back.tomorrow': 'Check back tomorrow or contact your coach for new programs.',
+      'main.goal': 'Main Goal',
+      'later.today': 'Later Today',
+      'begin': 'Begin',
+      'coach.upgradePrompt': "You have access to programs through your coach. Upgrade for full program access and insights.",
       
       // Programs
       'programs.title': 'Programs',
@@ -254,6 +265,11 @@ const resources = {
       'programs.startDate': 'Start Date',
       'programs.endDate': 'End Date',
       'programs.status': 'Status',
+      'AI.onboarding.complete': 'AI Onboarding Complete',
+      'your.personalized': 'Your personalized launch plan is ready',
+      'we.analyzed.your.onboarding': 'We analyzed your onboarding answers, generated fresh programs, and created insights to keep you on track.',
+      'insights': 'Insights',
+      'insights.data': 'Insights will appear as soon as we have more data.',
       
       // Progress
       'progress.title': 'Progress',
@@ -484,6 +500,9 @@ const resources = {
       'mental.health': 'Salud Mental',
       'switch.plan': 'Actualmente solo ves el contenido asignado a tus programas. Pásate a un plan de pago para acceder a la biblioteca completa de ejercicios, recetas y guías de bienestar de tu entrenador.',
       'empty.library': 'Tu coach aún no ha asignado ningún contenido de la biblioteca a tus programas. Vuelve más tarde o contacta con él.',
+      'explore.exercises': 'Explora ejercicios, recetas y guías de bienestar de tu entrenador.',
+      'no.items.found': 'No se encontraron artículos para su búsqueda.',
+      'search.placeholder': 'Buscar un ejercicio o receta...',
       
       // Blog
       'blog.title': 'Publicaciones del Blog',
@@ -586,6 +605,14 @@ const resources = {
       'dashboard.clientStatuses': 'Estados de Clientes',
       'dashboard.clientStatusesDescription': 'Una visión general de todos tus clientes y su estado actual.',
       'dashboard.noClientsYet': 'Aún no hay clientes.',
+      'daily.check.in': 'Check-in diario',
+      'today`s.focus': 'Enfoque de hoy',
+      'no.programs.scheduled.for.today': 'No hay programas programados para hoy',
+      'check.back.tomorrow': 'Vuelva mañana o comuníquese con su entrenador para obtener nuevos programas.',
+      'main.goal': 'Objetivo principal',
+      'later.today': 'Más tarde hoy',
+      'begin': 'Comenzar',
+      'coach.upgradePrompt': "Tienes acceso a los programas a través de tu coach. Actualízate para obtener acceso completo al programa y más información.",
       
       // Programs
       'programs.title': 'Programas',
@@ -596,6 +623,11 @@ const resources = {
       'programs.startDate': 'Fecha de Inicio',
       'programs.endDate': 'Fecha de Fin',
       'programs.status': 'Estado',
+      'AI.onboarding.complete': 'AI Onboarding completa',
+      'your.personalized': 'Tu plan de lanzamiento personalizado está listo',
+      'we.analyzed.your.onboarding' : 'Analizamos sus respuestas de incorporación, generamos nuevos programas y creamos información para ayudarle a seguir encaminado.',
+      'insights': 'Perspectivas',
+      'insights.data': 'Los detalles aparecerán tan pronto como tengamos más datos.',
       
       // Progress
       'progress.title': 'Progreso',
@@ -825,6 +857,9 @@ const resources = {
       'mental.health': 'Santé mentale',
       'switch.plan': 'Vous ne voyez actuellement que le contenu associé à vos programmes. Passez à un abonnement payant pour accéder à la bibliothèque complète d`exercices, de recettes et de guides de bien-être de votre coach.',
       'empty.library': 'Votre entraîneur na pas encore attribué de contenu de bibliothèque à vos programmes. Veuillez réessayer plus tard ou contacter votre entraîneur.',
+      'explore.exercises': 'Découvrez des exercices, des recettes et des guides de bien-être proposés par votre coach.',
+      'no.items.found': 'Aucun résultat trouvé pour votre recherche.',
+      'search.placeholder': 'Recherchez un exercice ou une recette...',
       
       // Blog
       'blog.title': 'Articles de Blog',
@@ -926,6 +961,14 @@ const resources = {
       'dashboard.clientStatuses': 'Statuts des Clients',
       'dashboard.clientStatusesDescription': 'Un aperçu de tous vos clients et leur statut actuel.',
       'dashboard.noClientsYet': 'Aucun client pour le moment.',
+      'daily.check.in': 'Contrôle quotidien',
+      'today`s.focus': 'Sujet du jour',
+      'no.programs.scheduled.for.today': 'Aucun programme n`est prévu aujourd`hui.',
+      'check.back.tomorrow': 'Revenez consulter cette page demain ou contactez votre entraîneur pour connaître les nouveaux programmes.',
+      'main.goal': 'Objectif principal',
+      'later.today': "Plus tard aujourd'hui",
+      'begin': 'Commencer',
+      'coach.upgradePrompt': "Vous avez accès aux programmes via votre coach. Passez à la version supérieure pour un accès complet aux programmes et aux analyses.",
       
       // Programs
       'programs.title': 'Programmes',
@@ -936,6 +979,11 @@ const resources = {
       'programs.startDate': 'Date de début',
       'programs.endDate': 'Date de fin',
       'programs.status': 'Statut',
+      'AI.onboarding.complete': "Intégration de l'IA terminée",
+      'your.personalized': 'Votre plan de lancement personnalisé est prêt.',
+      'we.analyzed.your.onboarding' : 'Nous avons analysé vos réponses lors de votre intégration, généré de nouveaux programmes et créé des informations pour vous aider à rester sur la bonne voie.',
+      'insights': 'Inzich',
+      'insights.data': 'Des analyses seront publiées dès que nous aurons davantage de données.',
       
       // Progress
       'progress.title': 'Progrès',
@@ -1165,6 +1213,9 @@ const resources = {
       'mental.health': 'Psychische Gesundheit',
       'switch.plan': 'Sie sehen aktuell nur die Inhalte Ihrer Programme. Mit einem Upgrade auf ein kostenpflichtiges Abo erhalten Sie Zugriff auf die vollständige Bibliothek Ihres Coaches mit Übungen, Rezepten und Wellness-Ratgebern.',
       'empty.library': 'Ihr Coach hat Ihren Programmen noch keine Bibliotheksinhalte zugewiesen. Schauen Sie später noch einmal vorbei oder kontaktieren Sie Ihren Coach.',
+      'explore.exercises': 'Entdecken Sie Übungen, Rezepte und Wellness-Ratgeber Ihres Coaches.',
+      'no.items.found': 'Ihre Suche ergab keine Treffer.',
+      'search.placeholder': 'Suche nach einer Übung oder einem Rezept...',
 
       // Blog
       'blog.title': 'Blog-Beiträge',
@@ -1266,6 +1317,14 @@ const resources = {
       'dashboard.clientStatuses': 'Kundenstatus',
       'dashboard.clientStatusesDescription': 'Eine Übersicht aller deiner Kunden und ihres aktuellen Status.',
       'dashboard.noClientsYet': 'Noch keine Kunden.',
+      'daily.check.in': 'Tägliches Einchecken',
+      'today`s.focus': 'Heutiger Fokus',
+      'no.programs.scheduled.for.today': 'Heute sind keine Programme geplant.',
+      'check.back.tomorrow': 'Schauen Sie morgen wieder vorbei oder kontaktieren Sie Ihren Trainer, um sich über neue Programme zu informieren.',
+      'main.goal': 'Hauptziel',
+      'later.today': "Später heute",
+      'begin': 'Beginnen',
+      'coach.upgradePrompt': "Sie haben über Ihren Coach Zugriff auf die Programme. Für vollen Zugriff und umfassende Einblicke können Sie ein Upgrade durchführen.",
       
       // Programs
       'programs.title': 'Programme',
@@ -1276,6 +1335,11 @@ const resources = {
       'programs.startDate': 'Startdatum',
       'programs.endDate': 'Enddatum',
       'programs.status': 'Status',
+      'AI.onboarding.complete': "KI-Onboarding abgeschlossen",
+      'your.personalized': 'Ihr personalisierter Startplan ist bereit.',
+      'we.analyzed.your.onboarding' : 'Wir haben Ihre Antworten beim Onboarding analysiert, neue Programme entwickelt und Erkenntnisse gewonnen, um Sie auf Kurs zu halten.',
+      'insights': 'Einblicke',
+      'insights.data': 'Die ersten Erkenntnisse werden veröffentlicht, sobald uns mehr Daten vorliegen.',
       
       // Progress
       'progress.title': 'Fortschritt',
@@ -1504,6 +1568,9 @@ const resources = {
       'mental.health': 'Psykisk helse',
       'switch.plan': 'Du ser for øyeblikket bare innhold som er tilordnet programmene dine. Oppgrader til et betalt abonnement for å få tilgang til trenerens komplette bibliotek med øvelser, oppskrifter og velværeguider.',
       'empty.library': 'Treneren din har ikke tilordnet noe bibliotekinnhold til programmene dine ennå. Kom tilbake senere, eller kontakt treneren din.',
+      'explore.exercises': 'Utforsk øvelser, oppskrifter og velværeguider fra treneren din.',
+      'no.items.found': 'Ingen elementer funnet for søket ditt.',
+      'search.placeholder': 'Søk etter en øvelse eller oppskrift...',
 
       // Blog
       'blog.title': 'Blogginnlegg',
@@ -1605,6 +1672,14 @@ const resources = {
       'dashboard.clientStatuses': 'Klientstatuser',
       'dashboard.clientStatusesDescription': 'En oversikt over alle klientene dine og deres nåværende status.',
       'dashboard.noClientsYet': 'Ingen klienter ennå.',
+      'daily.check.in': 'Daglig innsjekking',
+      'today`s.focus': 'Dagens fokus',
+      'no.programs.scheduled.for.today': 'Ingen programmer planlagt for i dag',
+      'check.back.tomorrow': 'Sjekk tilbake i morgen eller kontakt treneren din for nye programmer.',
+      'main.goal': 'Hovedmål',
+      'later.today': "Senere i dag",
+      'begin': 'Begynne',
+      'coach.upgradePrompt': "Du har tilgang til programmene gjennom treneren din. Oppgrader for full programtilgang og innsikt.",
       
       // Programs
       'programs.title': 'Programmer',
@@ -1615,6 +1690,11 @@ const resources = {
       'programs.startDate': 'Startdato',
       'programs.endDate': 'Sluttdato',
       'programs.status': 'Status',
+      'AI.onboarding.complete': "AI-onboarding fullført",
+      'your.personalized': 'Din personlige lanseringsplan er klar',
+      'we.analyzed.your.onboarding' : 'Vi analyserte svarene dine fra introduksjonen, genererte nye programmer og skapte innsikt for å holde deg på rett spor.',
+      'insights': 'Innsikt',
+      'insights.data': 'Innsikten vil vises så snart vi har mer data.',
       
       // Progress
       'progress.title': 'Fremgang',
@@ -1844,6 +1924,9 @@ const resources = {
       'mental.health': 'Psykisk hälsa',
       'switch.plan': 'Du ser för närvarande bara innehåll som är kopplat till dina program. Uppgradera till en betald plan för att få tillgång till din coachs kompletta bibliotek med övningar, recept och hälsoguider.',
       'empty.library': 'Din coach har inte tilldelat något biblioteksinnehåll till dina program ännu. Kom tillbaka senare eller kontakta din coach.',
+      'explore.exercises': 'Utforska övningar, recept och hälsoguider från din coach.',
+      'no.items.found': 'Inga objekt hittades för din sökning.',
+      'search.placeholder': 'Sök efter en övning eller ett recept...',
       
       // Blog
       'blog.title': 'Blogginlägg',
@@ -1945,6 +2028,14 @@ const resources = {
       'dashboard.clientStatuses': 'Klientstatuser',
       'dashboard.clientStatusesDescription': 'En översikt över alla dina klienter och deras nuvarande status.',
       'dashboard.noClientsYet': 'Inga klienter ännu.',
+      'daily.check.in': 'Daglig incheckning',
+      'today`s.focus': 'Dagens fokus',
+      'no.programs.scheduled.for.today': 'Inga program planerade för idag',
+      'check.back.tomorrow': 'Återkom imorgon eller kontakta din tränare för nya program.',
+      'main.goal': 'Huvudmål',
+      'later.today': "Senare idag",
+      'begin': 'Börja',
+      'coach.upgradePrompt': "Du har tillgång till programmen via din coach. Uppgradera för fullständig programåtkomst och insikter.",
       
       // Programs
       'programs.title': 'Program',
@@ -1955,6 +2046,11 @@ const resources = {
       'programs.startDate': 'Startdatum',
       'programs.endDate': 'Slutdatum',
       'programs.status': 'Status',
+      'AI.onboarding.complete': "AI-introduktion klar",
+      'your.personalized': 'Din personliga lanseringsplan är klar',
+      'we.analyzed.your.onboarding' : 'Vi analyserade era svar från introduktionen, genererade nya program och skapade insikter för att hålla er på rätt spår.',
+      'insights': 'Insikter',
+      'insights.data': 'Insikter kommer att visas så snart vi har mer data.',
       
       // Progress
       'progress.title': 'Framsteg',
@@ -2184,6 +2280,9 @@ const resources = {
       'mental.health': 'Mental sundhed',
       'switch.plan': 'Du ser i øjeblikket kun indhold, der er knyttet til dine programmer. Opgrader til et betalt abonnement for at få adgang til din træners komplette bibliotek af øvelser, opskrifter og wellness-guider.',
       'empty.library': 'Din træner har endnu ikke tildelt noget biblioteksindhold til dine programmer. Tjek tilbage senere, eller kontakt din træner.',
+      'explore.exercises': 'Udforsk øvelser, opskrifter og wellness-guides fra din træner.',
+      'no.items.found': 'Ingen elementer fundet til din søgning.',
+      'search.placeholder': 'Søg efter en øvelse eller opskrift...',
 
       // Blog
       'blog.title': 'Blogindlæg',
@@ -2285,6 +2384,14 @@ const resources = {
       'dashboard.clientStatuses': 'Klientstatuser',
       'dashboard.clientStatusesDescription': 'En oversigt over alle dine klienter og deres nuværende status.',
       'dashboard.noClientsYet': 'Ingen klienter endnu.',
+      'daily.check.in': 'Daglig incheckning',
+      'today`s.focus': 'Dagens fokus',
+      'no.programs.scheduled.for.today': 'Ingen programmer planlagt til i dag',
+      'check.back.tomorrow': 'Kig tilbage i morgen eller kontakt din træner for nye programmer.',
+      'main.goal': 'Hovedmål',
+      'later.today': "Senere i dag",
+      'begin': 'Begynde',
+      'coach.upgradePrompt': "Du har adgang til programmerne gennem din coach. Opgrader for at få fuld programadgang og indsigt.",
       
       // Programs
       'programs.title': 'Programmer',
@@ -2295,6 +2402,11 @@ const resources = {
       'programs.startDate': 'Startdato',
       'programs.endDate': 'Slutdato',
       'programs.status': 'Status',
+      'AI.onboarding.complete': "AI-onboarding fuldført",
+      'your.personalized': 'Din personlige lanceringsplan er klar',
+      'we.analyzed.your.onboarding' : 'Vi analyserede jeres svar fra onboarding-processen, genererede nye programmer og skabte indsigt, der holder jer på sporet.',
+      'insights': 'Indsigt',
+      'insights.data': 'Indsigter vises, så snart vi har flere data.',
       
       // Progress
       'progress.title': 'Fremskridt',

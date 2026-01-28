@@ -195,7 +195,9 @@ export default function LibraryPage() {
                 Unlock Full Library Access
               </h3>
             </div>
-            <p className="text-muted-foreground max-w-2xl mx-auto">{t("switch.plan")}</p>
+            <p className="text-muted-foreground max-w-2xl mx-auto">
+              {t("switch.plan")}
+            </p>
             <Button className="mt-2">Upgrade Now</Button>
           </CardContent>
         </Card>
@@ -264,7 +266,7 @@ export default function LibraryPage() {
       <div className="text-center space-y-2">
         <h1 className="text-4xl font-bold tracking-tight">{t("library")}</h1>
         <p className="text-muted-foreground text-lg">
-          Explore exercises, recipes, and wellness guides from your coach.
+          {t("explore.exercises")}
         </p>
       </div>
 
@@ -272,7 +274,7 @@ export default function LibraryPage() {
         <div className="relative max-w-xl mx-auto">
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
           <Input
-            placeholder="Search for an exercise or recipe..."
+            placeholder={t('search.placeholder')}
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             className="pl-10 h-12 text-base rounded-full"
@@ -304,7 +306,7 @@ export default function LibraryPage() {
 
       {filteredItems.length === 0 && (
         <div className="p-8 text-center border border-dashed rounded-2xl text-gray-500">
-          <p>No items found for your search.</p>
+          <p>{t("no.items.found")}</p>
         </div>
       )}
 

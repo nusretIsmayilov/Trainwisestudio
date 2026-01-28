@@ -1,8 +1,9 @@
-import { Bot, Sparkles, ListChecks } from 'lucide-react';
-import { Card, CardContent } from '@/components/ui/card';
-import { Badge } from '@/components/ui/badge';
-import { CustomerProgram } from '@/hooks/useCustomerPrograms';
-import { AIInsight, AIRecommendation } from '@/hooks/useAIPersonalization';
+import { Bot, Sparkles, ListChecks } from "lucide-react";
+import { Card, CardContent } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
+import { CustomerProgram } from "@/hooks/useCustomerPrograms";
+import { AIInsight, AIRecommendation } from "@/hooks/useAIPersonalization";
+import { useTranslation } from "react-i18next";
 
 type Props = {
   loading: boolean;
@@ -13,24 +14,35 @@ type Props = {
 
 const InsightRow = ({ insight }: { insight: AIInsight }) => (
   <div className="flex items-start gap-3 rounded-xl border border-emerald-100/50 dark:border-emerald-500/20 bg-emerald-50/50 dark:bg-emerald-500/5 p-3">
-    <div className="text-xl">{insight.emoji || '💡'}</div>
+    <div className="text-xl">{insight.emoji || "💡"}</div>
     <div>
       <p className="text-sm font-semibold">{insight.title}</p>
       <p className="text-sm text-muted-foreground">{insight.text}</p>
     </div>
-    <Badge variant={insight.type === 'warning' ? 'destructive' : 'secondary'} className="ml-auto text-xs">
-      {insight.type === 'warning' ? 'Focus' : 'Win'}
+    <Badge
+      variant={insight.type === "warning" ? "destructive" : "secondary"}
+      className="ml-auto text-xs"
+    >
+      {insight.type === "warning" ? "Focus" : "Win"}
     </Badge>
   </div>
 );
 
-const RecommendationRow = ({ recommendation }: { recommendation: AIRecommendation }) => (
+const RecommendationRow = ({
+  recommendation,
+}: {
+  recommendation: AIRecommendation;
+}) => (
   <div className="flex items-start gap-3 rounded-xl border border-amber-100/50 dark:border-amber-500/20 bg-amber-50/40 dark:bg-amber-500/5 p-3">
-    <div className="text-xl">{recommendation.emoji || '✨'}</div>
+    <div className="text-xl">{recommendation.emoji || "✨"}</div>
     <div>
       <p className="text-sm font-semibold">{recommendation.title}</p>
-      <p className="text-xs uppercase tracking-wide text-muted-foreground">{recommendation.category}</p>
-      <p className="text-sm text-muted-foreground">{recommendation.description}</p>
+      <p className="text-xs uppercase tracking-wide text-muted-foreground">
+        {recommendation.category}
+      </p>
+      <p className="text-sm text-muted-foreground">
+        {recommendation.description}
+      </p>
     </div>
   </div>
 );
@@ -38,14 +50,21 @@ const RecommendationRow = ({ recommendation }: { recommendation: AIRecommendatio
 const PlanRow = ({ plan }: { plan: CustomerProgram }) => (
   <div className="rounded-xl border border-indigo-100/60 dark:border-indigo-500/30 bg-indigo-50/60 dark:bg-indigo-500/5 p-3 flex flex-col gap-1">
     <div className="flex items-center gap-2">
-      <Badge variant="outline" className="bg-indigo-500/10 text-indigo-700 dark:text-indigo-200 border-none">
+      <Badge
+        variant="outline"
+        className="bg-indigo-500/10 text-indigo-700 dark:text-indigo-200 border-none"
+      >
         <Bot className="w-3 h-3 mr-1" />
         AI Plan
       </Badge>
-      <span className="text-xs uppercase tracking-wide text-muted-foreground">{plan.category}</span>
+      <span className="text-xs uppercase tracking-wide text-muted-foreground">
+        {plan.category}
+      </span>
     </div>
     <p className="text-sm font-semibold">{plan.name}</p>
-    <p className="text-xs text-muted-foreground line-clamp-2">{plan.description}</p>
+    <p className="text-xs text-muted-foreground line-clamp-2">
+      {plan.description}
+    </p>
   </div>
 );
 
@@ -66,12 +85,28 @@ const Skeleton = () => (
   </Card>
 );
 
-const AIPersonalizationPanel = ({ loading, insights, recommendations, plans }: Props) => {
-  if (loading && insights.length === 0 && recommendations.length === 0 && plans.length === 0) {
+const AIPersonalizationPanel = ({
+  loading,
+  insights,
+  recommendations,
+  plans,
+}: Props) => {
+  const { t } = useTranslation();
+  if (
+    loading &&
+    insights.length === 0 &&
+    recommendations.length === 0 &&
+    plans.length === 0
+  ) {
     return <Skeleton />;
   }
 
-  if (!loading && insights.length === 0 && recommendations.length === 0 && plans.length === 0) {
+  if (
+    !loading &&
+    insights.length === 0 &&
+    recommendations.length === 0 &&
+    plans.length === 0
+  ) {
     return null;
   }
 
@@ -81,11 +116,15 @@ const AIPersonalizationPanel = ({ loading, insights, recommendations, plans }: P
         <div className="flex flex-col gap-2">
           <div className="flex items-center gap-2 text-emerald-700 dark:text-emerald-200">
             <Bot className="w-5 h-5" />
-            <span className="text-sm font-semibold uppercase tracking-wide">AI Onboarding Complete</span>
+            <span className="text-sm font-semibold uppercase tracking-wide">
+              {t("AI.onboarding.complete")}
+            </span>
           </div>
-          <h2 className="text-2xl font-bold tracking-tight">Your personalized launch plan is ready</h2>
+          <h2 className="text-2xl font-bold tracking-tight">
+            {t("your.personalized")}
+          </h2>
           <p className="text-muted-foreground text-sm">
-            We analyzed your onboarding answers, generated fresh programs, and created insights to keep you on track.
+            {t('we.analyzed.your.onboarding')}
           </p>
         </div>
 
@@ -93,24 +132,36 @@ const AIPersonalizationPanel = ({ loading, insights, recommendations, plans }: P
           <div className="space-y-3">
             <div className="flex items-center gap-2 text-sm font-semibold uppercase tracking-wide text-emerald-700 dark:text-emerald-300">
               <Sparkles className="w-4 h-4" />
-              Insights
+              {t('insights')}
             </div>
             {insights.length === 0 ? (
-              <p className="text-sm text-muted-foreground">Insights will appear as soon as we have more data.</p>
+              <p className="text-sm text-muted-foreground">
+                {t( 'insights.data')}
+              </p>
             ) : (
-              insights.slice(0, 3).map((insight) => <InsightRow key={insight.id} insight={insight} />)
+              insights
+                .slice(0, 3)
+                .map((insight) => (
+                  <InsightRow key={insight.id} insight={insight} />
+                ))
             )}
           </div>
 
           <div className="space-y-3">
             <div className="flex items-center gap-2 text-sm font-semibold uppercase tracking-wide text-amber-700 dark:text-amber-300">
               <ListChecks className="w-4 h-4" />
-              Recommendations
+              {t('profile.recommendations')}
             </div>
             {recommendations.length === 0 ? (
-              <p className="text-sm text-muted-foreground">We will add actionable steps after your first check-ins.</p>
+              <p className="text-sm text-muted-foreground">
+                We will add actionable steps after your first check-ins.
+              </p>
             ) : (
-              recommendations.slice(0, 3).map((rec) => <RecommendationRow key={rec.id} recommendation={rec} />)
+              recommendations
+                .slice(0, 3)
+                .map((rec) => (
+                  <RecommendationRow key={rec.id} recommendation={rec} />
+                ))
             )}
           </div>
 
@@ -120,9 +171,13 @@ const AIPersonalizationPanel = ({ loading, insights, recommendations, plans }: P
               AI Programs
             </div>
             {plans.length === 0 ? (
-              <p className="text-sm text-muted-foreground">We&apos;ll auto-generate plans once your subscription activates.</p>
+              <p className="text-sm text-muted-foreground">
+                We&apos;ll auto-generate plans once your subscription activates.
+              </p>
             ) : (
-              plans.slice(0, 3).map((plan) => <PlanRow key={plan.id} plan={plan} />)
+              plans
+                .slice(0, 3)
+                .map((plan) => <PlanRow key={plan.id} plan={plan} />)
             )}
           </div>
         </div>
@@ -132,5 +187,3 @@ const AIPersonalizationPanel = ({ loading, insights, recommendations, plans }: P
 };
 
 export default AIPersonalizationPanel;
-
-

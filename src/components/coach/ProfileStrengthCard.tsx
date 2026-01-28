@@ -1,15 +1,21 @@
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Progress } from '@/components/ui/progress';
-import { Badge } from '@/components/ui/badge';
-import { Button } from '@/components/ui/button';
-import { CheckCircle, AlertCircle, TrendingUp, Target } from 'lucide-react';
-import { useProfileStrength } from '@/hooks/useProfileStrength';
-import { getProfileStrengthColor, getProfileStrengthBgColor, getProfileStrengthIcon } from '@/lib/coach/profile-strength';
-import { useNavigate } from 'react-router-dom';
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Progress } from "@/components/ui/progress";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { CheckCircle, AlertCircle, TrendingUp, Target } from "lucide-react";
+import { useProfileStrength } from "@/hooks/useProfileStrength";
+import {
+  getProfileStrengthColor,
+  getProfileStrengthBgColor,
+  getProfileStrengthIcon,
+} from "@/lib/coach/profile-strength";
+import { useNavigate } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 
 export const ProfileStrengthCard = () => {
   const { strengthData, loading, error } = useProfileStrength();
   const navigate = useNavigate();
+  const { t } = useTranslation();
 
   if (loading) {
     return (
@@ -41,14 +47,15 @@ export const ProfileStrengthCard = () => {
         </CardHeader>
         <CardContent>
           <p className="text-sm text-muted-foreground">
-            {error || 'Unable to calculate profile strength'}
+            {error || "Unable to calculate profile strength"}
           </p>
         </CardContent>
       </Card>
     );
   }
 
-  const { percentage, level, recommendations, completedItems, missingItems } = strengthData;
+  const { percentage, level, recommendations, completedItems, missingItems } =
+    strengthData;
 
   return (
     <Card>
@@ -64,10 +71,15 @@ export const ProfileStrengthCard = () => {
           <div className="flex items-center justify-center gap-2">
             <span className="text-3xl">{getProfileStrengthIcon(level)}</span>
             <div>
-              <div className={`text-2xl font-bold ${getProfileStrengthColor(percentage)}`}>
+              <div
+                className={`text-2xl font-bold ${getProfileStrengthColor(percentage)}`}
+              >
                 {percentage}%
               </div>
-              <Badge variant="secondary" className={getProfileStrengthBgColor(percentage)}>
+              <Badge
+                variant="secondary"
+                className={getProfileStrengthBgColor(percentage)}
+              >
                 {level.charAt(0).toUpperCase() + level.slice(1)}
               </Badge>
             </div>
@@ -84,7 +96,10 @@ export const ProfileStrengthCard = () => {
             </h4>
             <div className="space-y-1">
               {completedItems.map((item, index) => (
-                <div key={index} className="flex items-center gap-2 text-sm text-green-600">
+                <div
+                  key={index}
+                  className="flex items-center gap-2 text-sm text-green-600"
+                >
                   <CheckCircle className="h-3 w-3" />
                   <span>{item}</span>
                 </div>
@@ -102,7 +117,10 @@ export const ProfileStrengthCard = () => {
             </h4>
             <div className="space-y-1">
               {missingItems.slice(0, 3).map((item, index) => (
-                <div key={index} className="flex items-center gap-2 text-sm text-amber-600">
+                <div
+                  key={index}
+                  className="flex items-center gap-2 text-sm text-amber-600"
+                >
                   <AlertCircle className="h-3 w-3" />
                   <span>{item}</span>
                 </div>
@@ -121,7 +139,7 @@ export const ProfileStrengthCard = () => {
           <div className="space-y-2">
             <h4 className="text-sm font-medium flex items-center gap-1">
               <TrendingUp className="h-4 w-4" />
-              Recommendations
+              {t('profile.recommendations')}
             </h4>
             <div className="space-y-1">
               {recommendations.slice(0, 2).map((rec, index) => (
@@ -134,11 +152,11 @@ export const ProfileStrengthCard = () => {
         )}
 
         {/* Action Button */}
-        <Button 
-          variant="outline" 
-          size="sm" 
+        <Button
+          variant="outline"
+          size="sm"
           className="w-full"
-          onClick={() => navigate('/coach/settings')}
+          onClick={() => navigate("/coach/settings")}
         >
           Improve Profile
         </Button>

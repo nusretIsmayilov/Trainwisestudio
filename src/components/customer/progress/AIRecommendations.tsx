@@ -1,7 +1,8 @@
-import { Card, CardContent } from '@/components/ui/card';
-import { Badge } from '@/components/ui/badge';
-import { AIRecommendation } from '@/hooks/useAIPersonalization';
-import { Sparkles } from 'lucide-react';
+import { Card, CardContent } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
+import { AIRecommendation } from "@/hooks/useAIPersonalization";
+import { Sparkles } from "lucide-react";
+import { useTranslation } from "react-i18next";
 
 type Props = {
   recommendations: AIRecommendation[];
@@ -9,6 +10,7 @@ type Props = {
 };
 
 const AIRecommendations = ({ recommendations, loading }: Props) => {
+  const { t } = useTranslation();
   if (loading && recommendations.length === 0) {
     return (
       <Card className="border-2 border-dashed border-muted">
@@ -29,16 +31,24 @@ const AIRecommendations = ({ recommendations, loading }: Props) => {
       <CardContent className="p-6 space-y-4">
         <div className="flex items-center gap-2 text-amber-700 dark:text-amber-200">
           <Sparkles className="w-4 h-4" />
-          <p className="text-sm font-semibold uppercase tracking-wide">AI Recommendations</p>
+          <p className="text-sm font-semibold uppercase tracking-wide">
+            {t("dashboard.recommendations")}
+          </p>
         </div>
         <div className="space-y-4">
-          {recommendations.map(rec => (
-            <div key={rec.id} className="rounded-2xl border border-amber-100 dark:border-amber-500/20 bg-white dark:bg-transparent p-4 space-y-2">
+          {recommendations.map((rec) => (
+            <div
+              key={rec.id}
+              className="rounded-2xl border border-amber-100 dark:border-amber-500/20 bg-white dark:bg-transparent p-4 space-y-2"
+            >
               <div className="flex items-center gap-2">
-                <span className="text-xl">{rec.emoji || '✨'}</span>
+                <span className="text-xl">{rec.emoji || "✨"}</span>
                 <div>
                   <p className="text-base font-semibold">{rec.title}</p>
-                  <Badge variant="outline" className="text-xs uppercase tracking-wide">
+                  <Badge
+                    variant="outline"
+                    className="text-xs uppercase tracking-wide"
+                  >
                     {rec.category}
                   </Badge>
                 </div>
@@ -53,5 +63,3 @@ const AIRecommendations = ({ recommendations, loading }: Props) => {
 };
 
 export default AIRecommendations;
-
-
