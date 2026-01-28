@@ -52,7 +52,7 @@ const FeaturedPost = ({ post, onReadMore }) => {
                 <img
                   src={post.author.avatarUrl}
                   alt={post.author.name}
-                  className="w-8 h-8 rounded-full"
+                  className="w-8 h-8 rounded-full object-cover"
                 />
                 <span className="hover:underline">{post.author.name}</span>
               </div>

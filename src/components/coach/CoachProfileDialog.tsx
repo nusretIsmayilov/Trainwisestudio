@@ -59,6 +59,7 @@ const CoachProfileDialog = ({
                       : "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde"
                   }
                   alt={coachData.full_name}
+                  className="object-cover"
                 />
                 <AvatarFallback className="text-lg bg-primary/10 text-primary">
                   {coachData.full_name
