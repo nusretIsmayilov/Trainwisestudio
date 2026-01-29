@@ -146,33 +146,33 @@ const goals = [
 ];
 
 const allergies = [
-  { id: 'dairy', label: 'allergy.dairy', icon: '🥛' },
-  { id: 'gluten', label: 'allergy.gluten', icon: '🍞' },
-  { id: 'nuts', label: 'allergy.nuts', icon: '🥜' },
-  { id: 'egg', label: 'allergy.egg', icon: '🥚' },
-  { id: 'soy', label: 'allergy.soy', icon: '🌱' },
-  { id: 'fish', label: 'allergy.fish', icon: '🐟' },
-  { id: 'shellfish', label: 'allergy.shellfish', icon: '🦞' },
-  { id: 'lactose', label: 'allergy.lactose', icon: '🧀' },
+  { id: "dairy", label: "allergy.dairy", icon: "🥛" },
+  { id: "gluten", label: "allergy.gluten", icon: "🍞" },
+  { id: "nuts", label: "allergy.nuts", icon: "🥜" },
+  { id: "egg", label: "allergy.egg", icon: "🥚" },
+  { id: "soy", label: "allergy.soy", icon: "🌱" },
+  { id: "fish", label: "allergy.fish", icon: "🐟" },
+  { id: "shellfish", label: "allergy.shellfish", icon: "🦞" },
+  { id: "lactose", label: "allergy.lactose", icon: "🧀" },
 ];
 
 const trainingOptions = [
-  { id: 'strength', label: 'training.strength', icon: '💪' },
-  { id: 'cardio', label: 'training.cardio', icon: '🏃‍♂️' },
-  { id: 'endurance', label: 'training.endurance', icon: '🚴‍♀️' },
-  { id: 'weights', label: 'training.weights', icon: '🏋️' },
-  { id: 'calisthenics', label: 'training.calisthenics', icon: '🤸' },
-  { id: 'hiit', label: 'training.hiit', icon: '🔥' },
-  { id: 'outdoor', label: 'training.outdoor', icon: '🌲' },
-  { id: 'running', label: 'training.running', icon: '👟' },
+  { id: "strength", label: "training.strength", icon: "💪" },
+  { id: "cardio", label: "training.cardio", icon: "🏃‍♂️" },
+  { id: "endurance", label: "training.endurance", icon: "🚴‍♀️" },
+  { id: "weights", label: "training.weights", icon: "🏋️" },
+  { id: "calisthenics", label: "training.calisthenics", icon: "🤸" },
+  { id: "hiit", label: "training.hiit", icon: "🔥" },
+  { id: "outdoor", label: "training.outdoor", icon: "🌲" },
+  { id: "running", label: "training.running", icon: "👟" },
 ];
 
 const injuries = [
-  { id: "lower-back", label: 'training.lowerBack', icon: "🤕" },
-  { id: "neck", label: 'training.neck', icon: "🧣" },
-  { id: "knee", label: 'training.knee', icon: "🦵" },
-  { id: "shoulder", label: 'training.shoulder', icon: "🙋‍♂️" },
-  { id: "wrist-elbow", label: 'training.wristElbow', icon: "💪" },
+  { id: "lower-back", label: "training.lowerBack", icon: "🤕" },
+  { id: "neck", label: "training.neck", icon: "🧣" },
+  { id: "knee", label: "training.knee", icon: "🦵" },
+  { id: "shoulder", label: "training.shoulder", icon: "🙋‍♂️" },
+  { id: "wrist-elbow", label: "training.wristElbow", icon: "💪" },
 ];
 
 const meditationOptions = [
@@ -1027,10 +1027,12 @@ const PersonalInfoSection = forwardRef<
             ) : (
               <p className="text-sm text-muted-foreground py-2">
                 {onboardingData?.meditation_experience
-                  ? meditationOptions.find(
-                      (opt) =>
-                        opt.value === onboardingData.meditation_experience,
-                    )?.labelKey || "Not specified"
+                  ? t(
+                      meditationOptions.find(
+                        (opt) =>
+                          opt.value === onboardingData.meditation_experience,
+                      )?.labelKey || "Not specified",
+                    )
                   : "Not specified"}
               </p>
             )}
