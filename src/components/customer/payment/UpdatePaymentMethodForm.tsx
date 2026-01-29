@@ -1,43 +1,51 @@
-import { useState } from 'react';
-import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { CreditCard, Lock } from 'lucide-react';
-import { useNavigate } from 'react-router-dom';
-import { toast } from 'sonner';
-import { countries } from '@/data/countries';
+import { useState } from "react";
+import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { CreditCard, Lock } from "lucide-react";
+import { useNavigate } from "react-router-dom";
+import { toast } from "sonner";
+import { countries } from "@/data/countries";
+import { useTranslation } from "react-i18next";
 
 const UpdatePaymentMethodForm = () => {
+  const { t } = useTranslation();
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
   const [formData, setFormData] = useState({
-    cardNumber: '',
-    expiryMonth: '',
-    expiryYear: '',
-    cvc: '',
-    nameOnCard: '',
-    country: ''
+    cardNumber: "",
+    expiryMonth: "",
+    expiryYear: "",
+    cvc: "",
+    nameOnCard: "",
+    country: "",
   });
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
 
-    await new Promise(resolve => setTimeout(resolve, 2000));
+    await new Promise((resolve) => setTimeout(resolve, 2000));
     setIsLoading(false);
 
-    toast.success('Payment method updated successfully!');
-    navigate('/customer/settings');
+    toast.success("Payment method updated successfully!");
+    navigate("/customer/settings");
   };
 
   const handleInputChange = (field: string, value: string) => {
-    setFormData(prev => ({ ...prev, [field]: value }));
+    setFormData((prev) => ({ ...prev, [field]: value }));
   };
 
   const months = Array.from({ length: 12 }, (_, i) => {
-    const month = (i + 1).toString().padStart(2, '0');
+    const month = (i + 1).toString().padStart(2, "0");
     return { value: month, label: month };
   });
 
@@ -62,7 +70,7 @@ const UpdatePaymentMethodForm = () => {
               id="cardNumber"
               placeholder="1234 5678 9012 3456"
               value={formData.cardNumber}
-              onChange={(e) => handleInputChange('cardNumber', e.target.value)}
+              onChange={(e) => handleInputChange("cardNumber", e.target.value)}
               required
             />
           </div>
@@ -70,12 +78,17 @@ const UpdatePaymentMethodForm = () => {
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
             <div className="space-y-2">
               <Label htmlFor="expiryMonth">Month</Label>
-              <Select value={formData.expiryMonth} onValueChange={(value) => handleInputChange('expiryMonth', value)}>
+              <Select
+                value={formData.expiryMonth}
+                onValueChange={(value) =>
+                  handleInputChange("expiryMonth", value)
+                }
+              >
                 <SelectTrigger>
                   <SelectValue placeholder="MM" />
                 </SelectTrigger>
                 <SelectContent>
-                  {months.map(month => (
+                  {months.map((month) => (
                     <SelectItem key={month.value} value={month.value}>
                       {month.label}
                     </SelectItem>
@@ -86,12 +99,17 @@ const UpdatePaymentMethodForm = () => {
 
             <div className="space-y-2">
               <Label htmlFor="expiryYear">Year</Label>
-              <Select value={formData.expiryYear} onValueChange={(value) => handleInputChange('expiryYear', value)}>
+              <Select
+                value={formData.expiryYear}
+                onValueChange={(value) =>
+                  handleInputChange("expiryYear", value)
+                }
+              >
                 <SelectTrigger>
                   <SelectValue placeholder="YYYY" />
                 </SelectTrigger>
                 <SelectContent>
-                  {years.map(year => (
+                  {years.map((year) => (
                     <SelectItem key={year.value} value={year.value}>
                       {year.label}
                     </SelectItem>
@@ -106,7 +124,7 @@ const UpdatePaymentMethodForm = () => {
                 id="cvc"
                 placeholder="123"
                 value={formData.cvc}
-                onChange={(e) => handleInputChange('cvc', e.target.value)}
+                onChange={(e) => handleInputChange("cvc", e.target.value)}
                 maxLength={4}
                 required
               />
@@ -119,14 +137,17 @@ const UpdatePaymentMethodForm = () => {
               id="nameOnCard"
               placeholder="John Smith"
               value={formData.nameOnCard}
-              onChange={(e) => handleInputChange('nameOnCard', e.target.value)}
+              onChange={(e) => handleInputChange("nameOnCard", e.target.value)}
               required
             />
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="country">Country</Label>
-            <Select value={formData.country} onValueChange={(value) => handleInputChange('country', value)}>
+            <Label htmlFor="country">{t("profile.country")}</Label>
+            <Select
+              value={formData.country}
+              onValueChange={(value) => handleInputChange("country", value)}
+            >
               <SelectTrigger>
                 <SelectValue placeholder="Select country" />
               </SelectTrigger>
@@ -149,13 +170,17 @@ const UpdatePaymentMethodForm = () => {
             <Button
               type="button"
               variant="outline"
-              onClick={() => navigate('/customer/settings')}
+              onClick={() => navigate("/customer/settings")}
               className="w-full sm:w-auto"
             >
               Cancel
             </Button>
-            <Button type="submit" disabled={isLoading} className="w-full sm:w-auto">
-              {isLoading ? 'Saving...' : 'Save Payment Method'}
+            <Button
+              type="submit"
+              disabled={isLoading}
+              className="w-full sm:w-auto"
+            >
+              {isLoading ? "Saving..." : "Save Payment Method"}
             </Button>
           </div>
         </form>

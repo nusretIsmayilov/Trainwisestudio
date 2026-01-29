@@ -7,6 +7,7 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { cn } from "@/lib/utils";
+import { useTranslation } from "react-i18next";
 
 interface CreationWrapperProps {
   children: React.ReactNode;
@@ -60,6 +61,7 @@ const LibraryCreationWrapper: React.FC<CreationWrapperProps> = ({
   const details = CATEGORY_DETAILS[category] || CATEGORY_DETAILS.exercise;
   const isMobile = typeof window !== "undefined" && window.innerWidth < 768;
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const { t } = useTranslation();
 
   const userImageUrl = (formData as any).heroImageUrl;
   const hasUserImage = !!userImageUrl;
@@ -104,7 +106,7 @@ const LibraryCreationWrapper: React.FC<CreationWrapperProps> = ({
           className="gap-2 bg-primary hover:bg-primary/90"
         >
           <Save className="h-4 w-4" />{" "}
-          {isEditing ? "Save Changes" : "Create Item"}
+          {isEditing ? t("profile.saveChanges") : "Create Item"}
         </Button>
       </div>
 

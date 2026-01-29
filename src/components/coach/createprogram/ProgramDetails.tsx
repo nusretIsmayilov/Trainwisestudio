@@ -11,6 +11,7 @@ import { Card } from "@/components/ui/card";
 import { MultiSelect } from "@/components/ui/multi-select";
 import { Switch } from "@/components/ui/switch";
 import { MUSCLE_GROUPS, EQUIPMENT_OPTIONS } from "@/constants/fitness";
+import { useTranslation } from "react-i18next";
 import { cn } from "@/lib/utils";
 import { ProgramCategory } from "@/mockdata/createprogram/mockExercises";
 import { useCoachLibrary } from "@/hooks/useCoachLibrary";
@@ -92,6 +93,7 @@ const ProgramDetails: React.FC<ProgramDetailsProps> = ({
 
   // When editing, initialData arrives asynchronously. Only reset once when it first becomes available
   const didInitialResetRef = useRef(false);
+  const { t } = useTranslation();
   useEffect(() => {
     if (didInitialResetRef.current) return;
     if (initialData && Object.keys(initialData).length > 0) {
@@ -127,19 +129,20 @@ const ProgramDetails: React.FC<ProgramDetailsProps> = ({
       (i) =>
         (selectedCategory === "fitness" && i.category === "exercise") ||
         (selectedCategory === "nutrition" && i.category === "recipe") ||
-        (selectedCategory === "mental health" && i.category === "mental health")
+        (selectedCategory === "mental health" &&
+          i.category === "mental health"),
     );
   }, [libraryItems, selectedCategory]);
 
   const toggleLibrarySelect = (id: string) => {
     setSelectedLibraryIds((prev) =>
-      prev.includes(id) ? prev.filter((x) => x !== id) : [...prev, id]
+      prev.includes(id) ? prev.filter((x) => x !== id) : [...prev, id],
     );
   };
 
   const submitWithLibrary = (data: ProgramDetailsForm) => {
     const attached = filteredLibrary.filter((i) =>
-      selectedLibraryIds.includes(i.id)
+      selectedLibraryIds.includes(i.id),
     );
     const merged: any = { ...data };
     if (attached.length > 0) {
@@ -228,8 +231,8 @@ const ProgramDetails: React.FC<ProgramDetailsProps> = ({
                   selectedCategory === option.value
                     ? "border-primary ring-2 ring-primary/50"
                     : isEditing
-                    ? "border-border opacity-50"
-                    : "border-border hover:border-primary/50"
+                      ? "border-border opacity-50"
+                      : "border-border hover:border-primary/50",
                 )}
               >
                 <div className="text-2xl">{option.emoji}</div>
@@ -297,7 +300,9 @@ const ProgramDetails: React.FC<ProgramDetailsProps> = ({
 
       {selectedCategory === "nutrition" && (
         <div className="space-y-2">
-          <Label htmlFor="allergies">Allergies / Restrictions</Label>
+          <Label htmlFor="allergies">
+            {t("profile.allergies")} / Restrictions
+          </Label>
           <Input
             id="allergies"
             placeholder="e.g., Gluten, Dairy"

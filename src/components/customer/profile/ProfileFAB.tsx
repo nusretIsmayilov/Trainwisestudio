@@ -1,9 +1,10 @@
-'use client';
+"use client";
 
-import React from 'react';
-import { Button } from '@/components/ui/button';
-import { Edit, Save, X, Loader2 } from 'lucide-react';
-import { AnimatePresence, motion } from 'framer-motion';
+import React from "react";
+import { Button } from "@/components/ui/button";
+import { Edit, Save, X, Loader2 } from "lucide-react";
+import { AnimatePresence, motion } from "framer-motion";
+import { useTranslation } from "react-i18next";
 
 interface ProfileFABProps {
   isEditing: boolean;
@@ -13,7 +14,14 @@ interface ProfileFABProps {
   onCancel: () => void;
 }
 
-export default function ProfileFAB({ isEditing, isSaving, onEdit, onSave, onCancel }: ProfileFABProps) {
+export default function ProfileFAB({
+  isEditing,
+  isSaving,
+  onEdit,
+  onSave,
+  onCancel,
+}: ProfileFABProps) {
+  const { t } = useTranslation();
   const handlePrimaryClick = () => {
     if (isSaving) return;
     if (isEditing) {
@@ -40,7 +48,7 @@ export default function ProfileFAB({ isEditing, isSaving, onEdit, onSave, onCanc
               className="rounded-full shadow-sm"
             >
               <X className="h-4 w-4 mr-1" />
-              Cancel
+              {t('common.cancel')}
             </Button>
           </motion.div>
         )}
@@ -55,17 +63,17 @@ export default function ProfileFAB({ isEditing, isSaving, onEdit, onSave, onCanc
         {isSaving ? (
           <>
             <Loader2 className="h-4 w-4 animate-spin text-primary-foreground" />
-            Saving...
+            {t("saving")}
           </>
         ) : isEditing ? (
           <>
             <Save className="h-4 w-4 text-primary-foreground" />
-            Save Changes
+            {t('profile.saveChanges')}
           </>
         ) : (
           <>
             <Edit className="h-4 w-4 text-primary-foreground" />
-            Edit Profile
+            {t('profile.editProfile')}
           </>
         )}
       </Button>

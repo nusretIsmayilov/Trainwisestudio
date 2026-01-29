@@ -169,18 +169,18 @@ const ClientProfileTab: React.FC<ClientProfileTabProps> = ({ client }) => {
         </CardHeader>
         <CardContent>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-            <InfoItem icon={User} label="Name" value={clientData.full_name} />
-            <InfoItem icon={Calendar} label="Age" value={clientData.personalInfo.age ? `${clientData.personalInfo.age} years old` : 'Not provided'} />
-            <InfoItem icon={Heart} label="Gender" value={clientData.personalInfo.gender} />
-            <InfoItem icon={Ruler} label="Height" value={clientData.personalInfo.height} />
-            <InfoItem icon={Weight} label="Weight" value={clientData.personalInfo.weight} />
-            <InfoItem icon={Phone} label="Phone" value={clientData.phone || 'Not provided'} />
+            <InfoItem icon={User} label={t('clients.name')} value={clientData.full_name} />
+            <InfoItem icon={Calendar} label={t('profile.age')} value={clientData.personalInfo.age ? `${clientData.personalInfo.age} years old` : 'Not provided'} />
+            <InfoItem icon={Heart} label={t('profile.gender')} value={clientData.personalInfo.gender} />
+            <InfoItem icon={Ruler} label={t('height.cm')} value={clientData.personalInfo.height} />
+            <InfoItem icon={Weight} label={t('weight.kg')} value={clientData.personalInfo.weight} />
+            <InfoItem icon={Phone} label={t('phone')} value={clientData.phone || 'Not provided'} />
             <InfoItem icon={Mail} label="Email" value={clientData.email} />
             {/* Real Membership Info */}
             <div className="space-y-1">
               <div className="flex items-center gap-2 text-sm text-muted-foreground">
                 <Crown className="h-4 w-4 text-yellow-500" />
-                Membership
+                {t('clients.membership')}
               </div>
               {clientData.membership.hasPaymentPlan ? (
                 <Badge className="rounded-full px-3 py-1 text-xs bg-yellow-100 text-yellow-700 border-yellow-200">
@@ -188,7 +188,7 @@ const ClientProfileTab: React.FC<ClientProfileTabProps> = ({ client }) => {
                 </Badge>
               ) : (
                 <Badge className="rounded-full px-3 py-1 text-xs bg-gray-100 text-gray-700 border-gray-200">
-                  Free Plan
+                  {t('clients.freePlan')}
                 </Badge>
               )}
             </div>
@@ -231,7 +231,7 @@ const ClientProfileTab: React.FC<ClientProfileTabProps> = ({ client }) => {
           </div>
 
           <div>
-            <h4 className="text-sm font-medium text-muted-foreground mb-2">Training Dislikes</h4>
+            <h4 className="text-sm font-medium text-muted-foreground mb-2">{t('profile.trainingDislikes')}</h4>
             <p className="text-sm">
               {clientData.preferences.dislikes && clientData.preferences.dislikes.length > 0 
                 ? clientData.preferences.dislikes.join(', ')
@@ -241,7 +241,7 @@ const ClientProfileTab: React.FC<ClientProfileTabProps> = ({ client }) => {
           </div>
 
           <div>
-            <h4 className="text-sm font-medium text-muted-foreground mb-2">Meditation Experience</h4>
+            <h4 className="text-sm font-medium text-muted-foreground mb-2">{t('profile.meditationExperience')}</h4>
             <p className="text-sm">{clientData.preferences.meditationExperience}</p>
           </div>
         </CardContent>
@@ -252,12 +252,12 @@ const ClientProfileTab: React.FC<ClientProfileTabProps> = ({ client }) => {
         <CardHeader className="pb-3">
           <CardTitle className="flex items-center gap-2 text-base">
             <Heart className="h-5 w-5 text-rose-500" />
-            Health Information
+            {t('profile.healthInformation')}
           </CardTitle>
         </CardHeader>
         <CardContent className="space-y-5">
           <div>
-            <h4 className="text-sm font-medium text-muted-foreground mb-2">Allergies</h4>
+            <h4 className="text-sm font-medium text-muted-foreground mb-2">{t('profile.allergies')}</h4>
             <div className="flex flex-wrap gap-2">
               {clientData.preferences.allergies && clientData.preferences.allergies.length > 0 ? (
                 clientData.preferences.allergies.map((allergy: string, index: number) => (
@@ -272,7 +272,7 @@ const ClientProfileTab: React.FC<ClientProfileTabProps> = ({ client }) => {
           </div>
 
           <div>
-            <h4 className="text-sm font-medium text-muted-foreground mb-2">Past Injuries</h4>
+            <h4 className="text-sm font-medium text-muted-foreground mb-2">{t('profile.pastInjuries')}</h4>
             <div className="flex flex-wrap gap-2">
               {clientData.preferences.injuries && clientData.preferences.injuries.length > 0 ? (
                 clientData.preferences.injuries.map((injury: string, index: number) => (

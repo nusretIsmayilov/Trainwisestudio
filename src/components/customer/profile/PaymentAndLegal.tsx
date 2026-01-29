@@ -167,7 +167,7 @@ useEffect(() => {
         <h3 className="text-xl font-semibold mb-4">{t('profile.settingsLegal')}</h3>
         <Accordion type="multiple" className="w-full">
           <AccordionItem value="item-1">
-            <AccordionTrigger className="text-base font-medium">Payment & Subscription</AccordionTrigger>
+            <AccordionTrigger className="text-base font-medium">{t('profile.paymentSubscription')}</AccordionTrigger>
             <AccordionContent className="p-4 space-y-6">
               {paymentLoading ? (
                 <div className="text-center py-4">Loading payment information...</div>
@@ -183,7 +183,7 @@ useEffect(() => {
                       <p><strong>Next Billing:</strong> {paymentInfo.currentPlan.nextBillingDate}</p>
                     )}
                     <p>
-                      <strong>Status:</strong>{' '}
+                      <strong>{t('clients.status')}:</strong>{' '}
                       <span
                         className={`capitalize ${
                           paymentInfo.currentPlan.status === 'active'
@@ -269,17 +269,17 @@ useEffect(() => {
           
           
           <AccordionItem value="item-2">
-            <AccordionTrigger className="text-base font-medium">Account Security</AccordionTrigger>
+            <AccordionTrigger className="text-base font-medium">{t('profile.accountSecurity')}</AccordionTrigger>
             <AccordionContent className="p-4 space-y-4">
               <div className="space-y-4">
                 <div className="space-y-3">
                   <div className="flex items-center gap-2 mb-3">
                     <Lock className="h-5 w-5" />
-                    <h4 className="font-medium">Change Password</h4>
+                    <h4 className="font-medium">{t('settings.changePassword')}</h4>
                   </div>
                   <div className="space-y-3">
                     <div>
-                      <Label htmlFor="current-password">Current Password</Label>
+                      <Label htmlFor="current-password">{t('account.currentPassword')}</Label>
                       <div className="relative">
                         <Input 
                           id="current-password"
@@ -298,7 +298,7 @@ useEffect(() => {
                       </div>
                     </div>
                     <div>
-                      <Label htmlFor="new-password">New Password</Label>
+                      <Label htmlFor="new-password">{t('auth.newPassword')}</Label>
                       <div className="relative">
                         <Input 
                           id="new-password"
@@ -317,7 +317,7 @@ useEffect(() => {
                       </div>
                     </div>
                     <div>
-                      <Label htmlFor="confirm-password">Confirm New Password</Label>
+                      <Label htmlFor="confirm-password">{t('auth.confirmPassword')}</Label>
                       <div className="relative">
                         <Input 
                           id="confirm-password"
@@ -339,7 +339,7 @@ useEffect(() => {
                       onClick={handlePasswordChange} 
                       className="w-full bg-red-600 hover:bg-red-700"
                     >
-                      Update Password
+                      {t('settings.updatePassword')}
                     </Button>
                   </div>
                 </div>
@@ -348,7 +348,7 @@ useEffect(() => {
           </AccordionItem>
           
           <AccordionItem value="item-3">
-            <AccordionTrigger className="text-base font-medium">Privacy Policy & Terms</AccordionTrigger>
+            <AccordionTrigger className="text-base font-medium">{t('profile.privacyPolicy')}</AccordionTrigger>
             <AccordionContent className="p-4 space-y-4">
               <div className="space-y-4">
                 <div className="flex items-center justify-between p-4 border rounded-lg">

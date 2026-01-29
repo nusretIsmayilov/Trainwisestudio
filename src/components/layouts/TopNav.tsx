@@ -34,23 +34,23 @@ const TopNav = ({ title }: TopNavProps) => {
   const getPageTitle = () => {
     const path = location.pathname;
 
-    if (path.startsWith("/coach/dashboard")) return "Dashboard";
-    if (path.startsWith("/coach/clients")) return "Clients";
-    if (path.startsWith("/coach/messages")) return "Messages";
-    if (path.startsWith("/coach/programs")) return "Programs";
-    if (path.startsWith("/coach/settings")) return "Settings";
-    if (path.startsWith("/coach/library")) return "Library";
-    if (path.startsWith("/coach/blog")) return "Blog";
-    if (path.startsWith("/coach/income")) return "Income";
+    if (path.startsWith("/coach/dashboard")) return t("nav.dashboard");
+    if (path.startsWith("/coach/clients")) return t("nav.clients");
+    if (path.startsWith("/coach/messages")) return t("messages.title");
+    if (path.startsWith("/coach/programs")) return t("nav.programs");
+    if (path.startsWith("/coach/settings")) return t("nav.settings");
+    if (path.startsWith("/coach/library")) return t("nav.library");
+    if (path.startsWith("/coach/blog")) return t("nav.blog");
+    if (path.startsWith("/coach/income")) return t("nav.income");
 
-    if (path.startsWith("/customer/dashboard")) return "Dashboard";
-    if (path.startsWith("/customer/programs")) return "My Programs";
-    if (path.startsWith("/customer/messages")) return "Messages";
-    if (path.startsWith("/customer/settings")) return "Settings";
-    if (path.startsWith("/customer/library")) return "Library";
-    if (path.startsWith("/customer/progress")) return "Progress";
-    if (path.startsWith("/customer/my-coach")) return "My Coach";
-    if (path.startsWith("/customer/blog")) return "Blog";
+    if (path.startsWith("/customer/dashboard")) return t("nav.dashboard");
+    if (path.startsWith("/customer/programs")) return t('nav.my.programs');
+    if (path.startsWith("/customer/messages")) return t("messages.title");
+    if (path.startsWith("/customer/settings")) return t("nav.settings");
+    if (path.startsWith("/customer/library")) return t("nav.library");
+    if (path.startsWith("/customer/progress")) return t("nav.progress");
+    if (path.startsWith("/customer/my-coach")) return t("mycoach.myCoach");
+    if (path.startsWith("/customer/blog")) return t("nav.blog");
 
     return "TrainWise";
   };
@@ -123,7 +123,7 @@ const TopNav = ({ title }: TopNavProps) => {
                 onClick={handleSignOut}
                 className="flex items-center gap-2 cursor-pointer text-destructive"
               >
-                <LogOut className="h-4 w-4" /> {t('nav.logout')}
+                <LogOut className="h-4 w-4" /> {t("nav.logout")}
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>

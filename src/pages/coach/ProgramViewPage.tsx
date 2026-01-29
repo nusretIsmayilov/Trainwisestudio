@@ -1,17 +1,27 @@
-'use client';
+"use client";
 
-import React, { useState, useEffect } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
-import { motion } from 'framer-motion';
-import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Badge } from '@/components/ui/badge';
-import { ArrowLeft, Edit, Calendar, User, Clock, Play, Pencil } from 'lucide-react';
-import { useProgramMutations } from '@/hooks/useProgramMutations';
-import { Program } from '@/types/program';
-import ProgramPlanViewer from '@/components/coach/programs/ProgramPlanViewer';
+import React, { useState, useEffect } from "react";
+import { useParams, useNavigate } from "react-router-dom";
+import { motion } from "framer-motion";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
+import {
+  ArrowLeft,
+  Edit,
+  Calendar,
+  User,
+  Clock,
+  Play,
+  Pencil,
+} from "lucide-react";
+import { useProgramMutations } from "@/hooks/useProgramMutations";
+import { Program } from "@/types/program";
+import ProgramPlanViewer from "@/components/coach/programs/ProgramPlanViewer";
+import { useTranslation } from "react-i18next";
 
 const ProgramViewPage = () => {
+  const { t } = useTranslation();
   const { id } = useParams();
   const navigate = useNavigate();
   const { getProgramById, loading } = useProgramMutations();
@@ -29,30 +39,42 @@ const ProgramViewPage = () => {
     loadProgram();
   }, [id, getProgramById]);
 
-  const getStatusBadge = (status: Program['status']) => {
+  const getStatusBadge = (status: Program["status"]) => {
     switch (status) {
-      case 'active':
-        return <Badge className="bg-emerald-100 text-emerald-700 hover:bg-emerald-100"><Play className="h-3 w-3 mr-1" /> Active</Badge>;
-      case 'scheduled':
-        return <Badge className="bg-blue-100 text-blue-700 hover:bg-blue-100"><Clock className="h-3 w-3 mr-1" /> Scheduled</Badge>;
-      case 'draft':
-        return <Badge className="bg-orange-100 text-orange-700 hover:bg-orange-100"><Pencil className="h-3 w-3 mr-1" /> Draft</Badge>;
+      case "active":
+        return (
+          <Badge className="bg-emerald-100 text-emerald-700 hover:bg-emerald-100">
+            <Play className="h-3 w-3 mr-1" /> Active
+          </Badge>
+        );
+      case "scheduled":
+        return (
+          <Badge className="bg-blue-100 text-blue-700 hover:bg-blue-100">
+            <Clock className="h-3 w-3 mr-1" /> Scheduled
+          </Badge>
+        );
+      case "draft":
+        return (
+          <Badge className="bg-orange-100 text-orange-700 hover:bg-orange-100">
+            <Pencil className="h-3 w-3 mr-1" /> Draft
+          </Badge>
+        );
       default:
         return <Badge variant="secondary">Normal</Badge>;
     }
   };
 
   const getClientName = (clientId: string | null) => {
-    if (!clientId) return 'Unassigned';
+    if (!clientId) return "Unassigned";
     // TODO: Replace with real client data from database
     const mockClients = [
-      { id: 'client-1', name: 'John Doe' },
-      { id: 'client-2', name: 'Jane Smith' },
-      { id: 'client-3', name: 'Alex Johnson' },
-      { id: 'client-4', name: 'Sarah Williams' },
+      { id: "client-1", name: "John Doe" },
+      { id: "client-2", name: "Jane Smith" },
+      { id: "client-3", name: "Alex Johnson" },
+      { id: "client-4", name: "Sarah Williams" },
     ];
-    const client = mockClients.find(c => c.id === clientId);
-    return client?.name || 'Unknown Client';
+    const client = mockClients.find((c) => c.id === clientId);
+    return client?.name || "Unknown Client";
   };
 
   if (loading) {
@@ -70,10 +92,10 @@ const ProgramViewPage = () => {
       <div className="flex items-center justify-center min-h-screen">
         <div className="text-center">
           <div className="text-red-500">Program not found</div>
-          <Button 
-            variant="outline" 
+          <Button
+            variant="outline"
             className="mt-4"
-            onClick={() => navigate('/coach/programs')}
+            onClick={() => navigate("/coach/programs")}
           >
             Back to Programs
           </Button>
@@ -95,7 +117,7 @@ const ProgramViewPage = () => {
           <Button
             variant="ghost"
             size="icon"
-            onClick={() => navigate('/coach/programs')}
+            onClick={() => navigate("/coach/programs")}
           >
             <ArrowLeft className="h-4 w-4" />
           </Button>
@@ -133,7 +155,11 @@ const ProgramViewPage = () => {
               <div className="flex items-center gap-2">
                 <Calendar className="h-4 w-4 text-muted-foreground" />
                 <span className="font-medium">Scheduled Date:</span>
-                <span>{program.scheduledDate ? new Date(program.scheduledDate).toLocaleDateString() : 'Not scheduled'}</span>
+                <span>
+                  {program.scheduledDate
+                    ? new Date(program.scheduledDate).toLocaleDateString()
+                    : "Not scheduled"}
+                </span>
               </div>
               <div className="flex items-center gap-2">
                 <Clock className="h-4 w-4 text-muted-foreground" />
@@ -142,8 +168,10 @@ const ProgramViewPage = () => {
               </div>
               <div className="flex items-center gap-2">
                 <span className="font-medium">AI Generated:</span>
-                <Badge variant={program.isAIGenerated ? "default" : "secondary"}>
-                  {program.isAIGenerated ? 'Yes' : 'No'}
+                <Badge
+                  variant={program.isAIGenerated ? "default" : "secondary"}
+                >
+                  {program.isAIGenerated ? "Yes" : "No"}
                 </Badge>
               </div>
             </div>
@@ -157,7 +185,10 @@ const ProgramViewPage = () => {
               <CardTitle>Program Plan</CardTitle>
             </CardHeader>
             <CardContent>
-              <ProgramPlanViewer plan={program.plan} category={program.category} />
+              <ProgramPlanViewer
+                plan={program.plan}
+                category={program.category}
+              />
             </CardContent>
           </Card>
         )}
@@ -174,46 +205,45 @@ const ProgramViewPage = () => {
           </Card>
         )}
         {/* Extra Program Details */}
-{(program.muscleGroups?.length ||
-  program.equipment?.length ||
-  program.benefits ||
-  program.allergies) && (
-  <Card>
-    <CardHeader>
-      <CardTitle>Additional Details</CardTitle>
-    </CardHeader>
-    <CardContent className="space-y-3">
-      {program.muscleGroups?.length > 0 && (
-        <div>
-          <span className="font-medium">Muscle Groups:</span>{" "}
-          {program.muscleGroups.join(", ")}
-        </div>
-      )}
+        {(program.muscleGroups?.length ||
+          program.equipment?.length ||
+          program.benefits ||
+          program.allergies) && (
+          <Card>
+            <CardHeader>
+              <CardTitle>Additional Details</CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-3">
+              {program.muscleGroups?.length > 0 && (
+                <div>
+                  <span className="font-medium">Muscle Groups:</span>{" "}
+                  {program.muscleGroups.join(", ")}
+                </div>
+              )}
 
-      {program.equipment?.length > 0 && (
-        <div>
-          <span className="font-medium">Equipment Needed:</span>{" "}
-          {program.equipment.join(", ")}
-        </div>
-      )}
+              {program.equipment?.length > 0 && (
+                <div>
+                  <span className="font-medium">Equipment Needed:</span>{" "}
+                  {program.equipment.join(", ")}
+                </div>
+              )}
 
-      {program.benefits && (
-        <div>
-          <span className="font-medium">Benefits:</span>{" "}
-          {program.benefits}
-        </div>
-      )}
+              {program.benefits && (
+                <div>
+                  <span className="font-medium">Benefits:</span>{" "}
+                  {program.benefits}
+                </div>
+              )}
 
-      {program.allergies && (
-        <div>
-          <span className="font-medium">Allergies:</span>{" "}
-          {program.allergies}
-        </div>
-      )}
-    </CardContent>
-  </Card>
-)}
-
+              {program.allergies && (
+                <div>
+                  <span className="font-medium">{t("profile.allergies")}:</span>{" "}
+                  {program.allergies}
+                </div>
+              )}
+            </CardContent>
+          </Card>
+        )}
       </div>
     </motion.div>
   );

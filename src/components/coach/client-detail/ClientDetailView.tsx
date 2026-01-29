@@ -28,8 +28,10 @@ import { useNavigate } from "react-router-dom";
 import { useCoachRequests } from "@/hooks/useCoachRequests";
 import { toast } from "sonner";
 import ClientProgramsDisplay from "./ClientProgramsDisplay";
+import { useTranslation } from "react-i18next";
 
 const ClientDetailView = ({ client, onClose, loading = false }) => {
+  const { t } = useTranslation();
   const { clientStatus, loading: statusLoading } = useClientStatus(client?.id);
   const { user } = useAuth();
   const navigate = useNavigate();
@@ -158,8 +160,8 @@ const ClientDetailView = ({ client, onClose, loading = false }) => {
     if (client?.id) {
       navigate(
         `/coach/messages?client=${client.id}&name=${encodeURIComponent(
-          client.name || "Client"
-        )}`
+          client.name || "Client",
+        )}`,
       );
       onClose();
     }
@@ -203,7 +205,7 @@ const ClientDetailView = ({ client, onClose, loading = false }) => {
       <div
         className={cn(
           "flex items-center gap-2 px-3 py-1 rounded-full text-sm font-medium",
-          config.className
+          config.className,
         )}
       >
         <Icon className="w-4 h-4" />
@@ -296,10 +298,10 @@ const ClientDetailView = ({ client, onClose, loading = false }) => {
                         clientStatus.latest_offer_status === "pending"
                           ? "text-blue-600"
                           : clientStatus.latest_offer_status === "accepted"
-                          ? "text-green-600"
-                          : clientStatus.latest_offer_status === "rejected"
-                          ? "text-red-600"
-                          : "text-gray-600"
+                            ? "text-green-600"
+                            : clientStatus.latest_offer_status === "rejected"
+                              ? "text-red-600"
+                              : "text-gray-600",
                       )}
                     >
                       {clientStatus.latest_offer_status || "Unknown"}
@@ -364,7 +366,7 @@ const ClientDetailView = ({ client, onClose, loading = false }) => {
                   <div className="grid grid-cols-2 gap-4">
                     <StatItem
                       icon={Calendar}
-                      label="Age"
+                      label={t("profile.age")}
                       value={client.personalInfo.age}
                     />
                     <StatItem
@@ -386,7 +388,7 @@ const ClientDetailView = ({ client, onClose, loading = false }) => {
                       </span>
                     </p>
                     <p className="font-semibold text-muted-foreground">
-                      Allergies:{" "}
+                      {t('profile.allergies')}:{" "}
                       <span className="text-foreground">
                         {client.preferences.allergies.join(", ") || "None"}
                       </span>

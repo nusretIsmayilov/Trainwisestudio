@@ -113,7 +113,7 @@ const SideNav = ({ navItems }: SideNavProps) => {
                             >
                               <item.icon className="h-5 w-5 shrink-0" />
                               {showText && (
-                                <span className="text-sm font-medium flex-1">{item.name}</span>
+                                <span className="text-sm font-medium flex-1">{t(item.name)}</span>
                               )}
                               {showText && !itemHasAccess && (
                                 <Lock className="h-3 w-3 text-muted-foreground shrink-0" />

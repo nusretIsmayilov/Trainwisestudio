@@ -22,6 +22,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { AuthLayout } from "@/components/layouts/AuthLayout";
 import { AuthCard } from "@/components/shared/AuthCard";
 import { Loader2, Eye, EyeOff } from "lucide-react";
+import { useTranslation } from "react-i18next";
 
 const formSchema = z
   .object({
@@ -38,6 +39,7 @@ const formSchema = z
   });
 
 const UpdatePasswordPage = () => {
+  const { t } = useTranslation();
   const navigate = useNavigate();
   const [isSubmitting, setIsSubmitting] = useState(false);
 
@@ -176,7 +178,7 @@ const UpdatePasswordPage = () => {
               {isSubmitting && (
                 <Loader2 className="mr-2 h-4 w-4 animate-spin" />
               )}
-              Update Password
+              {t("settings.updatePassword")}
             </Button>
           </form>
         </Form>

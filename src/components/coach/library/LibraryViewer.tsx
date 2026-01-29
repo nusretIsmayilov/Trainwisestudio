@@ -7,21 +7,21 @@ import { LibraryItem } from "@/mockdata/library/mockLibrary";
 import { Dumbbell, Utensils, Feather, ArrowLeft } from "lucide-react";
 import { motion } from "framer-motion";
 import { cn } from "@/lib/utils";
-
+import { useTranslation } from "react-i18next";
 
 interface ExtendedLibraryItem extends LibraryItem {
   hero_image_url?: string | null;
   howTo?: Array<{ id: string; type: "step" | "image"; value: string }>;
   content?: Array<{ type: string; value: string }>;
- 
 }
 
 interface LibraryViewerProps {
-  item: ExtendedLibraryItem; 
+  item: ExtendedLibraryItem;
   onBack: () => void;
 }
 
 const LibraryViewer: React.FC<LibraryViewerProps> = ({ item, onBack }) => {
+  const { t } = useTranslation();
   const getDetails = () => {
     let icon: React.ReactNode;
     let primaryDetail: string;
@@ -41,7 +41,8 @@ const LibraryViewer: React.FC<LibraryViewerProps> = ({ item, onBack }) => {
       case "mental health":
         icon = <Feather className="h-6 w-6" />;
         primaryDetail =
-          item.content?.[0]?.type === "soundfile" || item.content?.[0]?.type === "audio"
+          item.content?.[0]?.type === "soundfile" ||
+          item.content?.[0]?.type === "audio"
             ? "Audio Session"
             : "Guided Text";
         secondaryTag = item.isCustom ? "My Activity" : "Meditation";
@@ -87,7 +88,10 @@ const LibraryViewer: React.FC<LibraryViewerProps> = ({ item, onBack }) => {
                 <h3 className="text-lg font-semibold mb-2">How to Perform</h3>
                 <ol className="list-decimal list-inside space-y-4">
                   {item.howTo.map((step, index) => (
-                    <li key={step.id || index} className="text-muted-foreground">
+                    <li
+                      key={step.id || index}
+                      className="text-muted-foreground"
+                    >
                       {step.type === "step" ? (
                         <span>{step.value}</span>
                       ) : step.type === "image" ? (
@@ -98,8 +102,13 @@ const LibraryViewer: React.FC<LibraryViewerProps> = ({ item, onBack }) => {
                             className="max-w-full h-auto rounded-lg shadow-md object-contain"
                             loading="lazy"
                             onError={(e) => {
-                              e.currentTarget.src = getFallbackImage(item.category);
-                              console.log("Image load error in howTo:", step.id);
+                              e.currentTarget.src = getFallbackImage(
+                                item.category,
+                              );
+                              console.log(
+                                "Image load error in howTo:",
+                                step.id,
+                              );
                             }}
                           />
                         </div>
@@ -120,7 +129,9 @@ const LibraryViewer: React.FC<LibraryViewerProps> = ({ item, onBack }) => {
         return (
           <div className="space-y-4">
             <div>
-              <h3 className="text-lg font-semibold mb-2">Allergies</h3>
+              <h3 className="text-lg font-semibold mb-2">
+                {t("profile.allergies")}
+              </h3>
               <p className="text-muted-foreground">
                 {item.allergies || "Allergy Free"}
               </p>
@@ -182,11 +193,14 @@ const LibraryViewer: React.FC<LibraryViewerProps> = ({ item, onBack }) => {
                             className="max-w-full h-auto rounded-md shadow-sm object-contain"
                             loading="lazy"
                             onError={(e) => {
-                              e.currentTarget.src = getFallbackImage(item.category);
+                              e.currentTarget.src = getFallbackImage(
+                                item.category,
+                              );
                             }}
                           />
                         </div>
-                      ) : contentItem.type === "audio" || contentItem.type === "soundfile" ? (
+                      ) : contentItem.type === "audio" ||
+                        contentItem.type === "soundfile" ? (
                         <div className="mt-2">
                           <audio
                             controls
@@ -249,7 +263,7 @@ const LibraryViewer: React.FC<LibraryViewerProps> = ({ item, onBack }) => {
               "text-xs font-medium px-2 py-1 rounded-full",
               item.isCustom
                 ? "bg-primary/10 text-primary border border-primary/30"
-                : "bg-muted text-muted-foreground"
+                : "bg-muted text-muted-foreground",
             )}
           >
             {secondaryTag}
