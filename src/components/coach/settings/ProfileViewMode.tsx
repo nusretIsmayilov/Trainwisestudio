@@ -153,7 +153,7 @@ export const ProfileViewMode: React.FC<ProfileViewModeProps> = ({
           <CardHeader>
             <CardTitle className="flex items-center gap-2 text-xl">
               <Award className="h-5 w-5" />
-              Certifications & Credentials
+              {t('cert.title')}
             </CardTitle>
           </CardHeader>
           <CardContent>

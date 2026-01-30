@@ -170,17 +170,17 @@ useEffect(() => {
             <AccordionTrigger className="text-base font-medium">{t('profile.paymentSubscription')}</AccordionTrigger>
             <AccordionContent className="p-4 space-y-6">
               {paymentLoading ? (
-                <div className="text-center py-4">Loading payment information...</div>
+                <div className="text-center py-4">{t('payment.loadingInfo')}</div>
               ) : paymentInfo ? (
                 <>
                   <div className="space-y-2 text-sm">
-                    <p><strong>Current Plan:</strong> {paymentInfo.currentPlan.name}</p>
-                    <p><strong>Price:</strong> {paymentInfo.currentPlan.price}</p>
+                    <p><strong>{t('payment.currentPlan')}</strong> {paymentInfo.currentPlan.name}</p>
+                    <p><strong>{t("payment.price")}:</strong> {paymentInfo.currentPlan.price}</p>
                     {paymentInfo.currentPlan.billingCycle && (
-                      <p><strong>Billing Cycle:</strong> {paymentInfo.currentPlan.billingCycle}</p>
+                      <p><strong>{t('payment.billingCycle')}</strong> {paymentInfo.currentPlan.billingCycle}</p>
                     )}
                     {paymentInfo.currentPlan.showNextBilling && paymentInfo.currentPlan.nextBillingDate && (
-                      <p><strong>Next Billing:</strong> {paymentInfo.currentPlan.nextBillingDate}</p>
+                      <p><strong>{t('payment.nextBilling')}</strong> {paymentInfo.currentPlan.nextBillingDate}</p>
                     )}
                     <p>
                       <strong>{t('clients.status')}:</strong>{' '}
@@ -199,17 +199,17 @@ useEffect(() => {
                   </div>
                   {paymentInfo.paymentMethod && paymentInfo.currentPlan.type === 'subscription' ? (
                     <div className="space-y-2 text-sm">
-                      <p><strong>Card:</strong> {paymentInfo.paymentMethod.brand} ending in {paymentInfo.paymentMethod.last4}</p>
-                      <p><strong>Expires:</strong> {paymentInfo.paymentMethod.expiry}</p>
+                      <p><strong>{t('payment.card')}:</strong> {paymentInfo.paymentMethod.brand} ending in {paymentInfo.paymentMethod.last4}</p>
+                      <p><strong>{t('payment.expires')}</strong> {paymentInfo.paymentMethod.expiry}</p>
                     </div>
                   ) : paymentInfo.currentPlan.type === 'subscription' ? (
                     <div className="space-y-2 text-sm text-muted-foreground">
-                      <p>No payment method on file</p>
+                      <p>{t('payment.noMethod')}</p>
                     </div>
                   ) : null}
                 </>
               ) : (
-                <div className="text-center py-4 text-muted-foreground">No payment information available</div>
+                <div className="text-center py-4 text-muted-foreground">{t('billing.noInfo')}</div>
               )}
                 {/* Payment method updates are managed in Stripe Billing Portal */}
               <div className="space-y-4">
@@ -226,7 +226,7 @@ useEffect(() => {
                         {portalLoading ? (
                           <>
                             <Loader2 className="h-4 w-4 animate-spin mr-2" />
-                            Opening Portal...
+                            {t('payment.openingPortal')}
                           </>
                         ) : (
                           'Manage Billing'
@@ -238,7 +238,7 @@ useEffect(() => {
                         className="ml-2"
                         onClick={handleCancelAtPeriodEnd}
                       >
-                        Cancel Subscription
+                        {t('payment.cancelSubscription')}
                       </Button>
                       <Button 
                         variant="destructive" 
@@ -246,20 +246,18 @@ useEffect(() => {
                         className="ml-2"
                         onClick={handleCancelNow}
                       >
-                        Cancel Now
+                        {t('payment.cancelNow')}
                       </Button>
                     </>
                   ) : paymentInfo?.currentPlan?.type === 'coach' ? (
-                    <div className="rounded-lg border p-4 text-sm text-muted-foreground">
-                      Billing is handled directly with your coach. Reach out to them to make changes.
-                    </div>
+                    <div className="rounded-lg border p-4 text-sm text-muted-foreground">{t('billing.handledByCoach')}</div>
                   ) : (
                     <Button 
                       variant="secondary" 
                       size="sm" 
                       onClick={handleSubscribe}
                     >
-                      Subscribe {getCurrencyOption(selectedCurrency).price}/mo (7-day trial)
+                      {t('billing.subscribe')} {getCurrencyOption(selectedCurrency).price}{t('billing.monthlyTrial')}
                     </Button>
                   )}
                 </div>
@@ -353,9 +351,9 @@ useEffect(() => {
               <div className="space-y-4">
                 <div className="flex items-center justify-between p-4 border rounded-lg">
                   <div>
-                    <h4 className="font-medium">Privacy Policy</h4>
+                    <h4 className="font-medium">{t('policy.privacyPolicy')}</h4>
                     <p className="text-sm text-muted-foreground">
-                      Learn how we protect and use your data
+                      {t('policy.learnDataUse')}
                     </p>
                   </div>
                   <Button 
@@ -363,15 +361,15 @@ useEffect(() => {
                     size="sm"
                     onClick={() => navigate('/privacy')}
                   >
-                    Read Policy
+                    {t('policy.readPolicy')}
                   </Button>
                 </div>
 
                 <div className="flex items-center justify-between p-4 border rounded-lg">
                   <div>
-                    <h4 className="font-medium">Terms of Service</h4>
+                    <h4 className="font-medium">{t('policy.termsOfService')}</h4>
                     <p className="text-sm text-muted-foreground">
-                      Review our terms and conditions
+                      {t('policy.reviewTerms')}
                     </p>
                   </div>
                   <Button 
@@ -379,7 +377,7 @@ useEffect(() => {
                     size="sm"
                     onClick={() => navigate('/terms')}
                   >
-                    Read Terms
+                    {t('policy.readTerms')}
                   </Button>
                 </div>
               </div>

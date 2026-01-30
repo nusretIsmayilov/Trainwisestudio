@@ -17,6 +17,7 @@ import {
   Youtube,
   ExternalLink,
 } from "lucide-react";
+import { useTranslation } from "react-i18next";
 
 interface Props {
   open: boolean;
@@ -31,6 +32,7 @@ const CoachProfileDialog = ({
   loading,
   coachData,
 }: Props) => {
+  const { t } = useTranslation();
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
@@ -70,9 +72,7 @@ const CoachProfileDialog = ({
               </Avatar>
 
               <div className="flex-1">
-                <h2 className="text-2xl font-bold">
-                  {coachData.full_name}
-                </h2>
+                <h2 className="text-2xl font-bold">{coachData.full_name}</h2>
                 <p className="text-lg text-primary font-medium">
                   Fitness & Wellness Coach
                 </p>
@@ -80,9 +80,7 @@ const CoachProfileDialog = ({
                 <div className="flex items-center gap-4 mt-2 text-sm text-muted-foreground">
                   <div className="flex items-center gap-1">
                     <Star className="w-4 h-4 text-yellow-500 fill-yellow-500" />
-                    <span className="font-semibold text-foreground">
-                      4.8
-                    </span>
+                    <span className="font-semibold text-foreground">4.8</span>
                     <span>(127 reviews)</span>
                   </div>
                   <span>•</span>
@@ -103,7 +101,7 @@ const CoachProfileDialog = ({
             {coachData.skills?.length > 0 && (
               <div>
                 <h3 className="text-lg font-semibold mb-3">
-                  Skills & Specialties
+                  {t("skills.title")}
                 </h3>
                 <div className="flex flex-wrap gap-2">
                   {coachData.skills.map((skill: string, idx: number) => (
@@ -127,21 +125,16 @@ const CoachProfileDialog = ({
                   Certifications
                 </h3>
                 <div className="space-y-2">
-                  {coachData.certifications.map(
-                    (cert: any, idx: number) => (
-                      <Card
-                        key={idx}
-                        className="border-l-4 border-l-primary/50"
-                      >
-                        <CardContent className="p-3">
-                          <p className="font-medium">{cert.name}</p>
-                          <p className="text-sm text-muted-foreground">
-                            {cert.issuer} • {cert.year}
-                          </p>
-                        </CardContent>
-                      </Card>
-                    )
-                  )}
+                  {coachData.certifications.map((cert: any, idx: number) => (
+                    <Card key={idx} className="border-l-4 border-l-primary/50">
+                      <CardContent className="p-3">
+                        <p className="font-medium">{cert.name}</p>
+                        <p className="text-sm text-muted-foreground">
+                          {cert.issuer} • {cert.year}
+                        </p>
+                      </CardContent>
+                    </Card>
+                  ))}
                 </div>
               </div>
             )}
@@ -167,9 +160,7 @@ const CoachProfileDialog = ({
                         variant="outline"
                         size="sm"
                         className="gap-2"
-                        onClick={() =>
-                          window.open(social.url, "_blank")
-                        }
+                        onClick={() => window.open(social.url, "_blank")}
                       >
                         <IconComponent className="w-4 h-4" />
                         {social.platform}

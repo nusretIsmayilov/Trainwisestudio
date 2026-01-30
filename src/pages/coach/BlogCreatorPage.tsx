@@ -45,7 +45,6 @@ interface BlogCreatorPageProps {
 
 const allCategories: BlogCategory[] = ["fitness", "nutrition", "mental health"];
 
-// ✅ NEW: Normalize whatever comes from DB into BlogContentItem[] for the editor
 const normalizeContentForEditor = (raw: any): BlogContentItem[] => {
   const ensureShape = (arr: any[]): BlogContentItem[] => {
     return arr.filter(Boolean).map((it: any, idx: number) => {

@@ -11,6 +11,7 @@ import { DollarSign, Clock, Check, X } from "lucide-react";
 import { createOfferCheckoutSession } from "@/lib/stripe/api";
 import { cn } from "@/lib/utils";
 import { supabase } from "@/integrations/supabase/client";
+import { useTranslation } from "react-i18next";
 
 interface OfferMessageProps {
   message: MessageWithSender;
@@ -62,6 +63,8 @@ export const OfferMessage: React.FC<OfferMessageProps> = ({
       toast.error("Failed to accept offer. Please try again.");
     }
   };
+
+  const { t } = useTranslation();
 
   const handleRejectOffer = async () => {
     try {
@@ -129,7 +132,7 @@ export const OfferMessage: React.FC<OfferMessageProps> = ({
     <div
       className={cn(
         "flex gap-2 sm:gap-3 max-w-[95%] sm:max-w-[85%] md:max-w-[80%]",
-        isOwn ? "ml-auto flex-row-reverse" : "mr-auto"
+        isOwn ? "ml-auto flex-row-reverse" : "mr-auto",
       )}
     >
       {!isOwn && (
@@ -154,7 +157,7 @@ export const OfferMessage: React.FC<OfferMessageProps> = ({
         <Card
           className={cn(
             "w-full max-w-full sm:max-w-sm",
-            isOwn ? "bg-primary/5" : "bg-muted/50"
+            isOwn ? "bg-primary/5" : "bg-muted/50",
           )}
         >
           <CardHeader className="pb-2 sm:pb-3 p-3 sm:p-6">
@@ -162,7 +165,7 @@ export const OfferMessage: React.FC<OfferMessageProps> = ({
               <div className="flex items-center gap-1.5 sm:gap-2">
                 <DollarSign className="w-3 h-3 sm:w-4 sm:h-4 text-primary" />
                 <span className="font-medium text-xs sm:text-sm mr-2">
-                  Coaching Offer
+                  {t('coaching.offer')}
                 </span>
               </div>
               {getStatusBadge()}
@@ -177,25 +180,27 @@ export const OfferMessage: React.FC<OfferMessageProps> = ({
             {offer && (
               <div className="space-y-2">
                 <div className="flex justify-between text-xs sm:text-sm">
-                  <span className="text-muted-foreground">Price:</span>
+                  <span className="text-muted-foreground">
+                    {t("payment.price")}:
+                  </span>
                   <span className="font-medium">
                     ${offer.price ?? (message as any)?.metadata?.price ?? ""}
                   </span>
                 </div>
                 <div className="flex justify-between text-xs sm:text-sm">
-                  <span className="text-muted-foreground">Duration:</span>
+                  <span className="text-muted-foreground">{t('programs.duration')}:</span>
                   <span className="font-medium">
                     {offer.duration_months ??
                       (message as any)?.metadata?.duration_months ??
                       ""}{" "}
-                    weeks
+                    {t('time.weeks')}
                   </span>
                 </div>
 
                 {offer.status === "pending" && !isExpired && hasExpiry && (
                   <div className="flex items-center gap-1 text-[10px] sm:text-xs text-muted-foreground">
                     <Clock className="w-3 h-3" />
-                    Expires{" "}
+                    {t('common.expires')}{" "}
                     {formatDistanceToNow(new Date(offer.expires_at), {
                       addSuffix: true,
                     })}
@@ -211,7 +216,7 @@ export const OfferMessage: React.FC<OfferMessageProps> = ({
                       className="flex-1 text-xs sm:text-sm"
                     >
                       <Check className="w-3 h-3 mr-1" />
-                      Accept
+                      {t('common.accept')}
                     </Button>
                     <Button
                       size="sm"
@@ -221,7 +226,7 @@ export const OfferMessage: React.FC<OfferMessageProps> = ({
                       className="flex-1 text-xs sm:text-sm"
                     >
                       <X className="w-3 h-3 mr-1" />
-                      Decline
+                      {t('common.decline')}
                     </Button>
                   </div>
                 )}

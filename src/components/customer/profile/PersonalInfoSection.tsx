@@ -854,7 +854,7 @@ const PersonalInfoSection = forwardRef<
                   })
                 ) : (
                   <p className="text-sm text-muted-foreground">
-                    No allergies recorded
+                    {t('health.noAllergies')}
                   </p>
                 )}
               </div>
@@ -940,7 +940,7 @@ const PersonalInfoSection = forwardRef<
                   })
                 ) : (
                   <p className="text-sm text-muted-foreground">
-                    No training preferences set
+                    {t('training.noPreferences')}
                   </p>
                 )}
               </div>
@@ -987,7 +987,7 @@ const PersonalInfoSection = forwardRef<
                   })
                 ) : (
                   <p className="text-sm text-muted-foreground">
-                    No training dislikes recorded
+                    {t('training.noDislikes')}
                   </p>
                 )}
               </div>
@@ -1031,9 +1031,9 @@ const PersonalInfoSection = forwardRef<
                       meditationOptions.find(
                         (opt) =>
                           opt.value === onboardingData.meditation_experience,
-                      )?.labelKey || "Not specified",
+                      )?.labelKey || t('common.notSpecified'),
                     )
-                  : "Not specified"}
+                  : t('common.notSpecified')}
               </p>
             )}
           </div>

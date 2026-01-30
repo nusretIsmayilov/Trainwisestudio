@@ -15,9 +15,11 @@ import { Card, CardContent } from "@/components/ui/card";
 
 import CoachProfileDialog from "@/components/coach/CoachProfileDialog";
 import { useCoachProfile } from "@/components/coach/useCoachProfile";
+import { useTranslation } from "react-i18next";
 
 const FeaturedPost = ({ post, onReadMore }) => {
   const { open, loading, coachData, openCoach, setOpen } = useCoachProfile();
+  const { t } = useTranslation();
 
   return (
     <>
@@ -63,7 +65,7 @@ const FeaturedPost = ({ post, onReadMore }) => {
               className="mt-4 px-6 py-3 rounded-full text-sm sm:text-base font-semibold"
               onClick={() => onReadMore(post.slug)}
             >
-              Read Full Article
+              {t("content.readFull")}
               <ArrowRight className="ml-2 h-4 w-4" />
             </Button>
           </div>

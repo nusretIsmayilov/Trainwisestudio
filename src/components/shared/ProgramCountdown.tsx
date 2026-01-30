@@ -1,14 +1,15 @@
-import { useState, useEffect } from 'react';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Badge } from '@/components/ui/badge';
-import { Progress } from '@/components/ui/progress';
-import { Clock, Calendar, Target, CheckCircle } from 'lucide-react';
+import { useState, useEffect } from "react";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
+import { Progress } from "@/components/ui/progress";
+import { Clock, Calendar, Target, CheckCircle } from "lucide-react";
+import { useTranslation } from "react-i18next";
 
 interface ProgramCountdownProps {
   programId: string;
   startDate: string;
   durationWeeks: number;
-  status: 'pending' | 'active' | 'completed' | 'paused';
+  status: "pending" | "active" | "completed" | "paused";
   onStatusChange?: (status: string) => void;
 }
 
@@ -20,19 +21,22 @@ interface TimeRemaining {
   seconds: number;
 }
 
-export const ProgramCountdown = ({ 
-  programId, 
-  startDate, 
-  durationWeeks, 
+export const ProgramCountdown = ({
+  programId,
+  startDate,
+  durationWeeks,
   status,
-  onStatusChange 
+  onStatusChange,
 }: ProgramCountdownProps) => {
-  const [timeRemaining, setTimeRemaining] = useState<TimeRemaining | null>(null);
+  const [timeRemaining, setTimeRemaining] = useState<TimeRemaining | null>(
+    null,
+  );
   const [progress, setProgress] = useState(0);
   const [isActive, setIsActive] = useState(false);
+  const { t } = useTranslation();
 
   useEffect(() => {
-    if (status !== 'active') {
+    if (status !== "active") {
       setIsActive(false);
       return;
     }
@@ -45,7 +49,9 @@ export const ProgramCountdown = ({
   const calculateTimeRemaining = () => {
     const start = new Date(startDate);
     const now = new Date();
-    const end = new Date(start.getTime() + (durationWeeks * 7 * 24 * 60 * 60 * 1000));
+    const end = new Date(
+      start.getTime() + durationWeeks * 7 * 24 * 60 * 60 * 1000,
+    );
 
     if (now >= end) {
       setTimeRemaining({
@@ -53,10 +59,10 @@ export const ProgramCountdown = ({
         days: 0,
         hours: 0,
         minutes: 0,
-        seconds: 0
+        seconds: 0,
       });
       setProgress(100);
-      onStatusChange?.('completed');
+      onStatusChange?.("completed");
       return;
     }
 
@@ -64,13 +70,13 @@ export const ProgramCountdown = ({
       // Program hasn't started yet
       const timeUntilStart = start.getTime() - now.getTime();
       const daysUntilStart = Math.ceil(timeUntilStart / (24 * 60 * 60 * 1000));
-      
+
       setTimeRemaining({
         weeks: Math.floor(daysUntilStart / 7),
         days: daysUntilStart % 7,
         hours: 0,
         minutes: 0,
-        seconds: 0
+        seconds: 0,
       });
       setProgress(0);
       return;
@@ -82,9 +88,15 @@ export const ProgramCountdown = ({
     const remaining = end.getTime() - now.getTime();
 
     const weeksRemaining = Math.floor(remaining / (7 * 24 * 60 * 60 * 1000));
-    const daysRemaining = Math.floor((remaining % (7 * 24 * 60 * 60 * 1000)) / (24 * 60 * 60 * 1000));
-    const hoursRemaining = Math.floor((remaining % (24 * 60 * 60 * 1000)) / (60 * 60 * 1000));
-    const minutesRemaining = Math.floor((remaining % (60 * 60 * 1000)) / (60 * 1000));
+    const daysRemaining = Math.floor(
+      (remaining % (7 * 24 * 60 * 60 * 1000)) / (24 * 60 * 60 * 1000),
+    );
+    const hoursRemaining = Math.floor(
+      (remaining % (24 * 60 * 60 * 1000)) / (60 * 60 * 1000),
+    );
+    const minutesRemaining = Math.floor(
+      (remaining % (60 * 60 * 1000)) / (60 * 1000),
+    );
     const secondsRemaining = Math.floor((remaining % (60 * 1000)) / 1000);
 
     setTimeRemaining({
@@ -92,7 +104,7 @@ export const ProgramCountdown = ({
       days: daysRemaining,
       hours: hoursRemaining,
       minutes: minutesRemaining,
-      seconds: secondsRemaining
+      seconds: secondsRemaining,
     });
 
     setProgress(Math.min((elapsed / totalDuration) * 100, 100));
@@ -100,21 +112,33 @@ export const ProgramCountdown = ({
 
   const getStatusBadge = () => {
     switch (status) {
-      case 'pending':
+      case "pending":
         return <Badge variant="secondary">Pending Start</Badge>;
-      case 'active':
-        return <Badge variant="default" className="bg-green-100 text-green-800">Active</Badge>;
-      case 'completed':
-        return <Badge variant="default" className="bg-blue-100 text-blue-800">Completed</Badge>;
-      case 'paused':
-        return <Badge variant="secondary" className="bg-yellow-100 text-yellow-800">Paused</Badge>;
+      case "active":
+        return (
+          <Badge variant="default" className="bg-green-100 text-green-800">
+            {t('status.active')}
+          </Badge>
+        );
+      case "completed":
+        return (
+          <Badge variant="default" className="bg-blue-100 text-blue-800">
+            Completed
+          </Badge>
+        );
+      case "paused":
+        return (
+          <Badge variant="secondary" className="bg-yellow-100 text-yellow-800">
+            Paused
+          </Badge>
+        );
       default:
-        return <Badge variant="outline">Unknown</Badge>;
+        return <Badge variant="outline">{t('status.unknown')}</Badge>;
     }
   };
 
   const formatTimeUnit = (value: number, unit: string) => {
-    return `${value} ${unit}${value !== 1 ? 's' : ''}`;
+    return `${value} ${unit}${value !== 1 ? "s" : ""}`;
   };
 
   if (!timeRemaining) {
@@ -123,7 +147,7 @@ export const ProgramCountdown = ({
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
             <Clock className="h-5 w-5" />
-            Program Timeline
+            {t("program.timeline")}
           </CardTitle>
         </CardHeader>
         <CardContent>
@@ -136,7 +160,11 @@ export const ProgramCountdown = ({
     );
   }
 
-  const isCompleted = status === 'completed' || (timeRemaining.weeks === 0 && timeRemaining.days === 0 && timeRemaining.hours === 0);
+  const isCompleted =
+    status === "completed" ||
+    (timeRemaining.weeks === 0 &&
+      timeRemaining.days === 0 &&
+      timeRemaining.hours === 0);
   const isPending = new Date() < new Date(startDate);
 
   return (
@@ -145,7 +173,7 @@ export const ProgramCountdown = ({
         <CardTitle className="flex items-center justify-between">
           <div className="flex items-center gap-2">
             <Clock className="h-5 w-5" />
-            Program Timeline
+            {t('program.timeline')}
           </div>
           {getStatusBadge()}
         </CardTitle>
@@ -179,25 +207,33 @@ export const ProgramCountdown = ({
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
               {timeRemaining.weeks > 0 && (
                 <div className="text-center">
-                  <div className="text-2xl font-bold text-blue-600">{timeRemaining.weeks}</div>
+                  <div className="text-2xl font-bold text-blue-600">
+                    {timeRemaining.weeks}
+                  </div>
                   <div className="text-xs text-muted-foreground">Weeks</div>
                 </div>
               )}
               {timeRemaining.days > 0 && (
                 <div className="text-center">
-                  <div className="text-2xl font-bold text-green-600">{timeRemaining.days}</div>
+                  <div className="text-2xl font-bold text-green-600">
+                    {timeRemaining.days}
+                  </div>
                   <div className="text-xs text-muted-foreground">Days</div>
                 </div>
               )}
               {timeRemaining.hours > 0 && (
                 <div className="text-center">
-                  <div className="text-2xl font-bold text-orange-600">{timeRemaining.hours}</div>
+                  <div className="text-2xl font-bold text-orange-600">
+                    {timeRemaining.hours}
+                  </div>
                   <div className="text-xs text-muted-foreground">Hours</div>
                 </div>
               )}
               {timeRemaining.minutes > 0 && (
                 <div className="text-center">
-                  <div className="text-2xl font-bold text-purple-600">{timeRemaining.minutes}</div>
+                  <div className="text-2xl font-bold text-purple-600">
+                    {timeRemaining.minutes}
+                  </div>
                   <div className="text-xs text-muted-foreground">Minutes</div>
                 </div>
               )}
@@ -210,7 +246,9 @@ export const ProgramCountdown = ({
           <div className="flex items-center gap-2 p-4 bg-green-50 border border-green-200 rounded-lg">
             <CheckCircle className="h-5 w-5 text-green-600" />
             <div>
-              <div className="font-medium text-green-800">Program Completed!</div>
+              <div className="font-medium text-green-800">
+                Program Completed!
+              </div>
               <div className="text-sm text-green-600">
                 Congratulations on completing your {durationWeeks}-week program
               </div>
@@ -233,7 +271,10 @@ export const ProgramCountdown = ({
           <div>
             <div className="text-muted-foreground">End Date</div>
             <div className="font-medium">
-              {new Date(new Date(startDate).getTime() + (durationWeeks * 7 * 24 * 60 * 60 * 1000)).toLocaleDateString()}
+              {new Date(
+                new Date(startDate).getTime() +
+                  durationWeeks * 7 * 24 * 60 * 60 * 1000,
+              ).toLocaleDateString()}
             </div>
           </div>
           <div>

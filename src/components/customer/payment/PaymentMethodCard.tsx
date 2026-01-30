@@ -1,16 +1,21 @@
-import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
-import { Badge } from '@/components/ui/badge';
-import { CreditCard, Check } from 'lucide-react';
-import { customerProfile } from '@/mockdata/profile/profileData';
+import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
+import { CreditCard, Check } from "lucide-react";
+import { customerProfile } from "@/mockdata/profile/profileData";
+import { useTranslation } from "react-i18next";
 
 interface PaymentMethodCardProps {
   showUpdateButton?: boolean;
   onUpdate?: () => void;
 }
 
-const PaymentMethodCard = ({ showUpdateButton = true, onUpdate }: PaymentMethodCardProps) => {
+const PaymentMethodCard = ({
+  showUpdateButton = true,
+  onUpdate,
+}: PaymentMethodCardProps) => {
   const { payment } = customerProfile;
+  const { t } = useTranslation();
 
   return (
     <Card className="shadow-sm border border-border">
@@ -23,12 +28,19 @@ const PaymentMethodCard = ({ showUpdateButton = true, onUpdate }: PaymentMethodC
       <CardContent className="space-y-4">
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 p-3 sm:p-4 bg-muted rounded-lg">
           <div className="space-y-1 text-sm sm:text-base">
-            <p className="font-medium">{payment.paymentMethod.brand} •••• {payment.paymentMethod.last4}</p>
-            <p className="text-xs sm:text-sm text-muted-foreground">Expires {payment.paymentMethod.expiry}</p>
+            <p className="font-medium">
+              {payment.paymentMethod.brand} •••• {payment.paymentMethod.last4}
+            </p>
+            <p className="text-xs sm:text-sm text-muted-foreground">
+              {t("common.expires")} {payment.paymentMethod.expiry}
+            </p>
           </div>
-          <Badge variant="secondary" className="bg-primary/10 text-primary text-xs sm:text-sm">
+          <Badge
+            variant="secondary"
+            className="bg-primary/10 text-primary text-xs sm:text-sm"
+          >
             <Check className="h-3 w-3 mr-1" />
-            Active
+            {t('status.active')}
           </Badge>
         </div>
 

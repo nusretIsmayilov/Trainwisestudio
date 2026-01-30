@@ -1,6 +1,15 @@
-import React, { useMemo } from 'react';
-import { Card, CardContent } from '@/components/ui/card';
-import { ComposedChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
+import React, { useMemo } from "react";
+import { Card, CardContent } from "@/components/ui/card";
+import {
+  ComposedChart,
+  Bar,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip,
+  ResponsiveContainer,
+} from "recharts";
+import { useTranslation } from "react-i18next";
 
 interface FitnessTrendChartProps {
   data: any[];
@@ -8,6 +17,7 @@ interface FitnessTrendChartProps {
 }
 
 const EnhancedFitnessTooltip = ({ active, payload, label }: any) => {
+  const { t } = useTranslation();
   if (active && payload && payload.length) {
     const data = payload[0]?.payload;
     if (!data) return null;
@@ -18,17 +28,26 @@ const EnhancedFitnessTooltip = ({ active, payload, label }: any) => {
           <p className="font-bold text-sm text-gray-900">{label}</p>
           <p className="text-xs text-gray-600">{data.fullDate}</p>
         </div>
-        
+
         {/* Weekly Summary */}
         <div className="mb-3">
           <div className="flex items-center justify-between mb-1">
-            <span className="text-xs font-medium text-gray-600">Weekly Progress:</span>
-            <span className={`text-xs font-bold ${data.adherence === 100 ? 'text-green-600' : data.adherence >= 80 ? 'text-amber-600' : 'text-red-600'}`}>
-              {data.adherence === 100 ? '🔥 Perfect Week!' : data.adherence >= 80 ? '💪 Strong Week' : '⚡ Room to Improve'}
+            <span className="text-xs font-medium text-gray-600">
+              {t("progress.weekly")}
+            </span>
+            <span
+              className={`text-xs font-bold ${data.adherence === 100 ? "text-green-600" : data.adherence >= 80 ? "text-amber-600" : "text-red-600"}`}
+            >
+              {data.adherence === 100
+                ? "🔥 Perfect Week!"
+                : data.adherence >= 80
+                  ? "💪 Strong Week"
+                  : "⚡ Room to Improve"}
             </span>
           </div>
           <div className="text-xs text-gray-500">
-            {data.weeklyWorkouts}/{data.plannedWorkouts} workouts completed ({data.adherence}%)
+            {data.weeklyWorkouts}/{data.plannedWorkouts}{" "}
+            {t("progress.workoutsCompleted")} ({data.adherence}%)
           </div>
         </div>
 
@@ -37,26 +56,31 @@ const EnhancedFitnessTooltip = ({ active, payload, label }: any) => {
           <div className="space-y-2">
             {data.benchPressWeight > 0 && (
               <div className="bg-green-50 p-2 rounded-lg">
-                <div className="text-xs font-semibold text-green-800">💪 Bench Press (Avg)</div>
+                <div className="text-xs font-semibold text-green-800">
+                  💪 {t("stats.benchAvg")}
+                </div>
                 <div className="text-xs text-green-700">
-                  {data.benchPressReps} reps × {data.benchPressWeight}kg
+                  {data.benchPressReps} {t("stats.reps")} ×{" "}
+                  {data.benchPressWeight}kg
                   {data.progression > 0 && (
                     <span className="ml-2 text-green-600 font-bold">
-                      +{data.progression}% from last week!
+                      +{data.progression}% {t("stats.fromLastWeek")}
                     </span>
                   )}
                 </div>
               </div>
             )}
-            
+
             {data.squatWeight > 0 && (
               <div className="bg-blue-50 p-2 rounded-lg">
-                <div className="text-xs font-semibold text-blue-800">🏋️ Squat (Avg)</div>
+                <div className="text-xs font-semibold text-blue-800">
+                  🏋️ {t("stats.squatAvg")}
+                </div>
                 <div className="text-xs text-blue-700">
-                  {data.squatReps} reps × {data.squatWeight}kg
+                  {data.squatReps} {t("stats.reps")} × {data.squatWeight}kg
                   {data.progression > 0 && (
                     <span className="ml-2 text-blue-600 font-bold">
-                      Weekly improvement achieved!
+                      {t("progress.weeklyImprovement")}
                     </span>
                   )}
                 </div>
@@ -65,15 +89,23 @@ const EnhancedFitnessTooltip = ({ active, payload, label }: any) => {
 
             {data.workoutDuration > 0 && (
               <div className="bg-purple-50 p-2 rounded-lg">
-                <div className="text-xs font-semibold text-purple-800">⏱️ Avg Duration</div>
-                <div className="text-xs text-purple-700">{data.workoutDuration} minutes per session</div>
+                <div className="text-xs font-semibold text-purple-800">
+                  ⏱️ {t("stats.avgDuration")}
+                </div>
+                <div className="text-xs text-purple-700">
+                  {data.workoutDuration} {t("stats.minutesPerSession")}
+                </div>
               </div>
             )}
 
             {data.newPR && (
               <div className="bg-yellow-50 p-2 rounded-lg">
-                <div className="text-xs font-semibold text-yellow-800">🏆 Personal Record!</div>
-                <div className="text-xs text-yellow-700">New milestone achieved this week</div>
+                <div className="text-xs font-semibold text-yellow-800">
+                  🏆 {t("progress.personalRecord")}
+                </div>
+                <div className="text-xs text-yellow-700">
+                  {t("progress.milestone")}
+                </div>
               </div>
             )}
           </div>
@@ -82,7 +114,9 @@ const EnhancedFitnessTooltip = ({ active, payload, label }: any) => {
         {/* Weekly Goals */}
         {data.perfectWeek && (
           <div className="mt-2 p-2 bg-green-50 rounded-lg">
-            <div className="text-xs text-green-700 font-medium">🎯 Perfect week completed!</div>
+            <div className="text-xs text-green-700 font-medium">
+              🎯 {t("progress.perfectWeek")}
+            </div>
           </div>
         )}
       </div>
@@ -91,14 +125,17 @@ const EnhancedFitnessTooltip = ({ active, payload, label }: any) => {
   return null;
 };
 
-const FitnessTrendChart: React.FC<FitnessTrendChartProps> = ({ data, selectedRange }) => {
+const FitnessTrendChart: React.FC<FitnessTrendChartProps> = ({
+  data,
+  selectedRange,
+}) => {
   const filteredData = useMemo(() => {
     const now = new Date();
     let rangeInWeeks = 4;
-    if (selectedRange === '12w') rangeInWeeks = 12;
-    if (selectedRange === '24w') rangeInWeeks = 24;
+    if (selectedRange === "12w") rangeInWeeks = 12;
+    if (selectedRange === "24w") rangeInWeeks = 24;
 
-    return data.filter(d => {
+    return data.filter((d) => {
       const date = new Date(d.date);
       const diffInTime = now.getTime() - date.getTime();
       const diffInWeeks = diffInTime / (1000 * 3600 * 24 * 7);
@@ -106,38 +143,45 @@ const FitnessTrendChart: React.FC<FitnessTrendChartProps> = ({ data, selectedRan
     });
   }, [selectedRange, data]);
 
+  const { t } = useTranslation();
+
   // Weekly aggregated fitness data for visualization
   const dummyFitnessData = useMemo(() => {
     const fitnessData = [];
     const today = new Date();
-    const weeks = selectedRange === '4w' ? 4 : selectedRange === '12w' ? 12 : 24;
-    
+    const weeks =
+      selectedRange === "4w" ? 4 : selectedRange === "12w" ? 12 : 24;
+
     for (let i = 0; i < weeks; i++) {
       const weekStart = new Date(today);
-      weekStart.setDate(today.getDate() - (i * 7));
+      weekStart.setDate(today.getDate() - i * 7);
       const weekEnd = new Date(weekStart);
       weekEnd.setDate(weekStart.getDate() - 6);
-      
+
       const weekLabel = `Week ${weeks - i}`;
-      const dateLabel = `${weekEnd.toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}-${weekStart.toLocaleDateString('en-US', { day: 'numeric' })}`;
-      
+      const dateLabel = `${weekEnd.toLocaleDateString("en-US", { month: "short", day: "numeric" })}-${weekStart.toLocaleDateString("en-US", { day: "numeric" })}`;
+
       // Simulate weekly workout data with realistic progression
       const weeklyWorkouts = Math.floor(Math.random() * 3) + 3; // 3-5 workouts per week
-      const completedWorkouts = Math.floor(weeklyWorkouts * (0.7 + Math.random() * 0.3)); // 70-100% completion
-      const weeklyAdherence = Math.round((completedWorkouts / weeklyWorkouts) * 100);
-      
+      const completedWorkouts = Math.floor(
+        weeklyWorkouts * (0.7 + Math.random() * 0.3),
+      ); // 70-100% completion
+      const weeklyAdherence = Math.round(
+        (completedWorkouts / weeklyWorkouts) * 100,
+      );
+
       // Progressive overload simulation
       const baseWeight = 80 + (weeks - i) * 2; // Progressive increase over weeks
       const benchPress = {
         reps: Math.floor(Math.random() * 3) + 8, // 8-10 reps average
         weight: baseWeight + Math.floor(Math.random() * 10),
-        improvement: i % 2 === 0 ? Math.floor(Math.random() * 10) + 2 : 0 // Bi-weekly improvements
+        improvement: i % 2 === 0 ? Math.floor(Math.random() * 10) + 2 : 0, // Bi-weekly improvements
       };
 
       const squat = {
         reps: Math.floor(Math.random() * 3) + 8, // 8-10 reps average
         weight: baseWeight + 20 + Math.floor(Math.random() * 15),
-        improvement: i % 3 === 0 ? Math.floor(Math.random() * 8) + 3 : 0 // Every 3 weeks improvements
+        improvement: i % 3 === 0 ? Math.floor(Math.random() * 8) + 3 : 0, // Every 3 weeks improvements
       };
 
       fitnessData.push({
@@ -163,57 +207,73 @@ const FitnessTrendChart: React.FC<FitnessTrendChartProps> = ({ data, selectedRan
   const chartData = filteredData.length > 0 ? filteredData : dummyFitnessData;
 
   const colors = {
-    adherence: '#60A5FA',
-    benchPress: '#34D399',
-    squat: '#F87171',
-    progression: '#FBBF24',
+    adherence: "#60A5FA",
+    benchPress: "#34D399",
+    squat: "#F87171",
+    progression: "#FBBF24",
   };
 
   return (
     <Card className="rounded-3xl shadow-xl bg-white/40 backdrop-blur-md border-none p-3 sm:p-4 lg:p-6 md:col-span-2 lg:col-span-3">
       <div className="flex items-center space-x-2 mb-3 sm:mb-4">
-        <h3 className="text-lg sm:text-xl font-bold text-gray-800">Fitness Trend 💪</h3>
+        <h3 className="text-lg sm:text-xl font-bold text-gray-800">
+          Fitness Trend 💪
+        </h3>
       </div>
       <CardContent className="p-0 h-48 sm:h-56 lg:h-64">
         <ResponsiveContainer width="100%" height="100%">
-          <ComposedChart data={chartData} margin={{ top: 5, right: 5, left: 0, bottom: 5 }}>
-            <CartesianGrid strokeDasharray="3 3" stroke="#e5e7eb" vertical={false} />
-            <XAxis 
-              dataKey="date" 
-              className="text-xs text-gray-500" 
+          <ComposedChart
+            data={chartData}
+            margin={{ top: 5, right: 5, left: 0, bottom: 5 }}
+          >
+            <CartesianGrid
+              strokeDasharray="3 3"
+              stroke="#e5e7eb"
+              vertical={false}
+            />
+            <XAxis
+              dataKey="date"
+              className="text-xs text-gray-500"
               tick={{ fontSize: 10 }}
               interval="preserveStartEnd"
             />
-            <YAxis 
-              className="text-xs text-gray-500" 
-              tick={{ fontSize: 10 }}
-            />
+            <YAxis className="text-xs text-gray-500" tick={{ fontSize: 10 }} />
             <Tooltip content={<EnhancedFitnessTooltip />} />
-            
+
             {/* Adherence as interactive bars with hover effects */}
-            <Bar 
-              dataKey="adherence" 
-              fill={colors.adherence} 
+            <Bar
+              dataKey="adherence"
+              fill={colors.adherence}
               radius={[6, 6, 0, 0]}
               cursor="pointer"
             />
           </ComposedChart>
         </ResponsiveContainer>
       </CardContent>
-      
+
       {/* Quick stats */}
       <div className="grid grid-cols-3 gap-2 sm:gap-3 lg:gap-4 mt-3 sm:mt-4">
         <div className="text-center">
-          <p className="text-sm sm:text-lg font-bold text-gray-800">{Math.round(chartData.reduce((acc, d) => acc + d.adherence, 0) / chartData.length)}%</p>
-          <p className="text-xs text-gray-500">Avg Adherence</p>
+          <p className="text-sm sm:text-lg font-bold text-gray-800">
+            {Math.round(
+              chartData.reduce((acc, d) => acc + d.adherence, 0) /
+                chartData.length,
+            )}
+            %
+          </p>
+          <p className="text-xs text-gray-500">{t("stats.avgAdherence")}</p>
         </div>
         <div className="text-center">
-          <p className="text-sm sm:text-lg font-bold text-gray-800">{chartData.filter(d => d.adherence === 100).length}</p>
-          <p className="text-xs text-gray-500">Perfect Days</p>
+          <p className="text-sm sm:text-lg font-bold text-gray-800">
+            {chartData.filter((d) => d.adherence === 100).length}
+          </p>
+          <p className="text-xs text-gray-500">{t('stats.perfectDays')}</p>
         </div>
         <div className="text-center">
-          <p className="text-sm sm:text-lg font-bold text-gray-800">{chartData.filter(d => d.adherence === 0).length}</p>
-          <p className="text-xs text-gray-500">Skipped Days</p>
+          <p className="text-sm sm:text-lg font-bold text-gray-800">
+            {chartData.filter((d) => d.adherence === 0).length}
+          </p>
+          <p className="text-xs text-gray-500">{t('stats.skippedDays')}</p>
         </div>
       </div>
     </Card>

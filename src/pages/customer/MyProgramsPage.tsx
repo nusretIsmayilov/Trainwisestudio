@@ -114,7 +114,7 @@ export default function MyProgramsPage() {
 
       <Tabs value={tab} onValueChange={(v) => setTab(v as TabType)}>
         <TabsList className="grid grid-cols-2 w-full max-w-sm mx-auto rounded-xl bg-card p-1 shadow-sm">
-          <TabsTrigger value="active">Active</TabsTrigger>
+          <TabsTrigger value="active">{t('status.active')}</TabsTrigger>
           <TabsTrigger value="scheduled">Scheduled</TabsTrigger>
         </TabsList>
       </Tabs>

@@ -1,14 +1,15 @@
-'use client';
+"use client";
 
-import React from 'react';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
-import { Badge } from '@/components/ui/badge';
-import { BlogPost, CATEGORY_DETAILS } from '@/mockdata/blog/mockBlog';
-import { ArrowLeft, Calendar, Edit, Trash2 } from 'lucide-react';
-import { motion } from 'framer-motion';
-import { cn } from '@/lib/utils';
-import DOMPurify from 'dompurify';
+import React from "react";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
+import { BlogPost, CATEGORY_DETAILS } from "@/mockdata/blog/mockBlog";
+import { ArrowLeft, Calendar, Edit, Trash2 } from "lucide-react";
+import { motion } from "framer-motion";
+import { cn } from "@/lib/utils";
+import DOMPurify from "dompurify";
+import { useTranslation } from "react-i18next";
 
 interface BlogViewerProps {
   post: BlogPost;
@@ -17,17 +18,26 @@ interface BlogViewerProps {
   onDelete?: (id: string) => void;
 }
 
-const BlogViewer: React.FC<BlogViewerProps> = ({ post, onBack, onEdit, onDelete }) => {
+const BlogViewer: React.FC<BlogViewerProps> = ({
+  post,
+  onBack,
+  onEdit,
+  onDelete,
+}) => {
   const details = CATEGORY_DETAILS[post.category];
   const Icon = details.icon;
-  const time = new Date(post.createdAt).toLocaleDateString('en-US', { 
-    year: 'numeric', 
-    month: 'long', 
-    day: 'numeric' 
+  const time = new Date(post.createdAt).toLocaleDateString("en-US", {
+    year: "numeric",
+    month: "long",
+    day: "numeric",
   });
 
+  const { t } = useTranslation();
   const handleDelete = () => {
-    if (onDelete && window.confirm('Are you sure you want to delete this blog post?')) {
+    if (
+      onDelete &&
+      window.confirm("Are you sure you want to delete this blog post?")
+    ) {
       onDelete(post.id);
     }
   };
@@ -43,11 +53,7 @@ const BlogViewer: React.FC<BlogViewerProps> = ({ post, onBack, onEdit, onDelete 
       {/* Header */}
       <div className="flex items-center justify-between mb-6">
         <div className="flex items-center gap-4">
-          <Button
-            variant="ghost"
-            size="icon"
-            onClick={onBack}
-          >
+          <Button variant="ghost" size="icon" onClick={onBack}>
             <ArrowLeft className="h-4 w-4" />
           </Button>
           <div>
@@ -62,7 +68,7 @@ const BlogViewer: React.FC<BlogViewerProps> = ({ post, onBack, onEdit, onDelete 
                 {time}
               </span>
               <Badge variant={post.isPublished ? "default" : "secondary"}>
-                {post.isPublished ? 'Published' : 'Draft'}
+                {post.isPublished ? "Published" : t("status.draft")}
               </Badge>
             </div>
           </div>
@@ -94,15 +100,16 @@ const BlogViewer: React.FC<BlogViewerProps> = ({ post, onBack, onEdit, onDelete 
       {/* Content */}
       <div className="grid gap-6">
         {/* Hero Image */}
-        {post.imageUrl && !post.imageUrl.startsWith('blob:') && (
+        {post.imageUrl && !post.imageUrl.startsWith("blob:") && (
           <Card>
             <div className="relative h-64 md:h-80 w-full bg-muted">
-              <img 
-                src={post.imageUrl} 
-                alt={post.title} 
-                className="w-full h-full object-cover rounded-t-lg" 
+              <img
+                src={post.imageUrl}
+                alt={post.title}
+                className="w-full h-full object-cover rounded-t-lg"
                 onError={(e) => {
-                  (e.target as HTMLImageElement).src = 'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?q=80&w=1200&auto=format&fit=crop';
+                  (e.target as HTMLImageElement).src =
+                    "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?q=80&w=1200&auto=format&fit=crop";
                 }}
               />
             </div>
@@ -129,54 +136,94 @@ const BlogViewer: React.FC<BlogViewerProps> = ({ post, onBack, onEdit, onDelete 
           <CardContent>
             <div className="space-y-6">
               {(() => {
-                const tryParse = (val: any) => { try { return JSON.parse(val); } catch { return null; } };
+                const tryParse = (val: any) => {
+                  try {
+                    return JSON.parse(val);
+                  } catch {
+                    return null;
+                  }
+                };
                 let parsed = tryParse(post.content);
-                if (!parsed && typeof post.content === 'string') {
+                if (!parsed && typeof post.content === "string") {
                   const once = tryParse(post.content);
-                  const twice = once && typeof once === 'string' ? tryParse(once) : null;
-                  parsed = Array.isArray(once) ? once : (Array.isArray(twice) ? twice : null);
+                  const twice =
+                    once && typeof once === "string" ? tryParse(once) : null;
+                  parsed = Array.isArray(once)
+                    ? once
+                    : Array.isArray(twice)
+                      ? twice
+                      : null;
                 }
 
                 if (Array.isArray(parsed)) {
                   return parsed.map((item: any, index: number) => (
                     <div key={item.id || index} className="space-y-4">
-                      {item.type === 'text' && (() => {
-                        const tryParse = (val: any) => { try { return JSON.parse(val); } catch { return null; } };
-                        let paragraphs: any[] | null = null;
-                        const parsedVal = tryParse(item.value);
-                        if (Array.isArray(parsedVal)) {
-                          paragraphs = parsedVal.map(v => (typeof v === 'object' && v !== null && 'value' in v) ? v.value : String(v));
-                        } else if (parsedVal && typeof parsedVal === 'object' && 'value' in parsedVal) {
-                          paragraphs = [parsedVal.value];
-                        }
-                        const textToRender = paragraphs ?? [item.value];
-                        return (
-                          <div className="prose max-w-none prose-headings:text-foreground prose-p:text-muted-foreground prose-strong:text-foreground prose-a:text-primary">
-                            {textToRender.map((t, i) => (
-                              <p key={i} className="whitespace-pre-wrap">{t}</p>
-                            ))}
-                          </div>
-                        );
-                      })()}
-                      {item.type === 'file' && (
+                      {item.type === "text" &&
+                        (() => {
+                          const tryParse = (val: any) => {
+                            try {
+                              return JSON.parse(val);
+                            } catch {
+                              return null;
+                            }
+                          };
+                          let paragraphs: any[] | null = null;
+                          const parsedVal = tryParse(item.value);
+                          if (Array.isArray(parsedVal)) {
+                            paragraphs = parsedVal.map((v) =>
+                              typeof v === "object" &&
+                              v !== null &&
+                              "value" in v
+                                ? v.value
+                                : String(v),
+                            );
+                          } else if (
+                            parsedVal &&
+                            typeof parsedVal === "object" &&
+                            "value" in parsedVal
+                          ) {
+                            paragraphs = [parsedVal.value];
+                          }
+                          const textToRender = paragraphs ?? [item.value];
+                          return (
+                            <div className="prose max-w-none prose-headings:text-foreground prose-p:text-muted-foreground prose-strong:text-foreground prose-a:text-primary">
+                              {textToRender.map((t, i) => (
+                                <p key={i} className="whitespace-pre-wrap">
+                                  {t}
+                                </p>
+                              ))}
+                            </div>
+                          );
+                        })()}
+                      {item.type === "file" && (
                         <div className="space-y-2">
-                          {item.mediaType === 'image' && (
-                            <img 
-                              src={item.value && !item.value.startsWith('blob:') ? item.value : 'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?q=80&w=800&auto=format&fit=crop'} 
-                              alt="Blog content" 
+                          {item.mediaType === "image" && (
+                            <img
+                              src={
+                                item.value && !item.value.startsWith("blob:")
+                                  ? item.value
+                                  : "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?q=80&w=800&auto=format&fit=crop"
+                              }
+                              alt="Blog content"
                               className="max-w-full h-auto rounded-lg shadow-md"
                               onError={(e) => {
-                                (e.target as HTMLImageElement).src = 'https://images.unsplash.com/photo-1546069901-ba9599a7e63c?q=80&w=800&auto=format&fit=crop';
+                                (e.target as HTMLImageElement).src =
+                                  "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?q=80&w=800&auto=format&fit=crop";
                               }}
                             />
                           )}
-                          {item.mediaType === 'video' && (
-                            <video 
-                              src={item.value && !item.value.startsWith('blob:') ? item.value : undefined} 
-                              controls 
+                          {item.mediaType === "video" && (
+                            <video
+                              src={
+                                item.value && !item.value.startsWith("blob:")
+                                  ? item.value
+                                  : undefined
+                              }
+                              controls
                               className="max-w-full h-auto rounded-lg shadow-md"
                               onError={(e) => {
-                                (e.target as HTMLVideoElement).style.display = 'none';
+                                (e.target as HTMLVideoElement).style.display =
+                                  "none";
                               }}
                             />
                           )}
@@ -187,19 +234,23 @@ const BlogViewer: React.FC<BlogViewerProps> = ({ post, onBack, onEdit, onDelete 
                 }
 
                 // If it looks like JSON but failed to parse, hide it in the viewer
-                if (typeof post.content === 'string') {
+                if (typeof post.content === "string") {
                   const trimmed = post.content.trim();
-                  const looksJsonArray = trimmed.startsWith('[') && trimmed.endsWith(']');
-                  const looksJsonObject = trimmed.startsWith('{') && trimmed.endsWith('}');
+                  const looksJsonArray =
+                    trimmed.startsWith("[") && trimmed.endsWith("]");
+                  const looksJsonObject =
+                    trimmed.startsWith("{") && trimmed.endsWith("}");
                   if (looksJsonArray || looksJsonObject) {
                     return null;
                   }
                 }
                 return (
-                  <div 
+                  <div
                     className="prose max-w-none prose-headings:text-foreground prose-p:text-muted-foreground prose-strong:text-foreground prose-a:text-primary"
-                    dangerouslySetInnerHTML={{ 
-                      __html: DOMPurify.sanitize(post.content || 'No content available.') 
+                    dangerouslySetInnerHTML={{
+                      __html: DOMPurify.sanitize(
+                        post.content || "No content available.",
+                      ),
                     }}
                   />
                 );
@@ -228,14 +279,16 @@ const BlogViewer: React.FC<BlogViewerProps> = ({ post, onBack, onEdit, onDelete 
                 </span>
               </div>
               <div>
-                <span className="font-medium">Category:</span>
-                <span className="ml-2 text-muted-foreground">{details.label}</span>
+                <span className="font-medium">{t('program.category')}</span>
+                <span className="ml-2 text-muted-foreground">
+                  {details.label}
+                </span>
               </div>
               <div>
                 <span className="font-medium">Status:</span>
                 <span className="ml-2">
                   <Badge variant={post.isPublished ? "default" : "secondary"}>
-                    {post.isPublished ? 'Published' : 'Draft'}
+                    {post.isPublished ? "Published" : t('status.draft')}
                   </Badge>
                 </span>
               </div>

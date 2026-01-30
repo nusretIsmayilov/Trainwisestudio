@@ -98,7 +98,7 @@ const UpdatePaymentMethodForm = () => {
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="expiryYear">Year</Label>
+              <Label htmlFor="expiryYear">{t('cert.year')}</Label>
               <Select
                 value={formData.expiryYear}
                 onValueChange={(value) =>

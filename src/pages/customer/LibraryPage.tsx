@@ -192,13 +192,13 @@ export default function LibraryPage() {
             <div className="flex items-center justify-center gap-2">
               <Crown className="w-6 h-6 text-primary" />
               <h3 className="text-xl font-semibold">
-                Unlock Full Library Access
+                {t('billing.unlockLibrary')}
               </h3>
             </div>
             <p className="text-muted-foreground max-w-2xl mx-auto">
               {t("switch.plan")}
             </p>
-            <Button className="mt-2">Upgrade Now</Button>
+            <Button className="mt-2">{t('billing.upgrade')}</Button>
           </CardContent>
         </Card>
 
@@ -245,7 +245,7 @@ export default function LibraryPage() {
               <Users className="w-6 h-6 text-muted-foreground" />
             </div>
             <h3 className="text-lg font-semibold mb-2">
-              No Assigned Content Yet
+              {t('content.noneAssigned')}
             </h3>
             <p className="text-muted-foreground">{t("empty.library")}</p>
           </Card>

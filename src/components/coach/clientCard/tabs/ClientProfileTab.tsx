@@ -117,7 +117,7 @@ const ClientProfileTab: React.FC<ClientProfileTabProps> = ({ client }) => {
                     {activePrograms.map(p => (
                       <div key={p.id} className="flex items-center gap-2 p-3 rounded-xl border bg-muted/30">
                         <Badge className="bg-emerald-100 text-emerald-700 border-emerald-200">
-                          <Play className="h-3 w-3 mr-1" /> Active
+                          <Play className="h-3 w-3 mr-1" /> {t('status.active')}
                         </Badge>
                         <span className="font-medium text-sm">{p.name}</span>
                       </div>
@@ -136,7 +136,7 @@ const ClientProfileTab: React.FC<ClientProfileTabProps> = ({ client }) => {
                       <div key={p.id} className="flex items-center justify-between p-3 rounded-xl border bg-muted/30">
                         <div className="flex items-center gap-2">
                           <Badge className="bg-blue-100 text-blue-700 border-blue-200">
-                            <Clock className="h-3 w-3 mr-1" /> Scheduled
+                            <Clock className="h-3 w-3 mr-1" /> {t('status.scheduled')}
                           </Badge>
                           <span className="font-medium text-sm">{p.name}</span>
                         </div>
@@ -266,7 +266,7 @@ const ClientProfileTab: React.FC<ClientProfileTabProps> = ({ client }) => {
                   </Badge>
                 ))
               ) : (
-                <p className="text-sm text-muted-foreground">No allergies specified</p>
+                <p className="text-sm text-muted-foreground">{t('health.noAllergiesSpecified')}</p>
               )}
             </div>
           </div>

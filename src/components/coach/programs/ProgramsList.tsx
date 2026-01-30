@@ -28,6 +28,7 @@ import { useCoachPrograms } from "@/hooks/useCoachPrograms";
 import { useProgramMutations } from "@/hooks/useProgramMutations";
 import { Card } from "@/components/ui/card";
 import { Frown, Play, Clock, Pencil, Users, PlusCircle } from "lucide-react";
+import { useTranslation } from "react-i18next";
 
 // Helper function to get status badge
 const getStatusBadge = (status: Program["status"]) => {
@@ -61,16 +62,17 @@ const getStatusBadge = (status: Program["status"]) => {
 
 const ProgramsList = () => {
   const [activeStatus, setActiveStatus] = useState<ProgramStatus | "all">(
-    "all"
+    "all",
   );
   const [activeCategory, setActiveCategory] = useState<ProgramCategory | "all">(
-    "all"
+    "all",
   );
   const [searchQuery, setSearchQuery] = useState("");
   const navigate = useNavigate();
   const location = useLocation();
   const { programs, loading, error, refetch } = useCoachPrograms();
   const { deleteProgram, loading: mutationLoading } = useProgramMutations();
+  const { t } = useTranslation();
 
   // Filter programs based on active filters
   const filteredPrograms = useMemo(() => {
@@ -127,7 +129,7 @@ const ProgramsList = () => {
           console.log(`Action: ${action} on program:`, program);
       }
     },
-    [navigate, deleteProgram]
+    [navigate, deleteProgram],
   );
 
   useEffect(() => {
@@ -156,7 +158,7 @@ const ProgramsList = () => {
           animate={{ opacity: 1 }}
           className="text-center py-12"
         >
-          <div className="text-muted-foreground">Loading programs...</div>
+          <div className="text-muted-foreground">{t('program.loading')}</div>
         </motion.div>
       ) : error ? (
         <motion.div
@@ -164,7 +166,7 @@ const ProgramsList = () => {
           animate={{ opacity: 1 }}
           className="text-center py-12"
         >
-          <div className="text-red-500">Error loading programs: {error}</div>
+          <div className="text-red-500">{t('program.loadError')} {error}</div>
         </motion.div>
       ) : filteredPrograms.length === 0 ? (
         <motion.div
@@ -175,7 +177,7 @@ const ProgramsList = () => {
           <div className="w-20 h-20 rounded-full bg-muted/50 flex items-center justify-center mb-6">
             <FileX className="h-10 w-10 text-muted-foreground" />
           </div>
-          <h3 className="font-bold text-2xl mb-2">No programs found</h3>
+          <h3 className="font-bold text-2xl mb-2">{t('program.empty')}</h3>
           <p className="text-muted-foreground text-lg max-w-md mb-6">
             {searchQuery || activeStatus !== "all" || activeCategory !== "all"
               ? "Try adjusting your search terms or filters to find what you're looking for."
@@ -186,7 +188,7 @@ const ProgramsList = () => {
             className="mt-6"
             onClick={() => navigate("/coach/programs/create")}
           >
-            Create New Program
+            {t('program.createNew')}
           </Button>
         </motion.div>
       ) : (
@@ -200,9 +202,9 @@ const ProgramsList = () => {
             <div className="flex flex-col gap-4">
               {/* Table Header for larger screens */}
               <div className="hidden md:grid grid-cols-4 gap-4 p-4 text-sm font-semibold text-muted-foreground border-b-2">
-                <div className="col-span-2">Program Name</div>
-                <div>Assigned Client</div>
-                <div className="text-right">Status</div>
+                <div className="col-span-2">{t('program.name')}</div>
+                <div>{t('program.assignedClient')}</div>
+                <div className="text-right">{t("clients.status")}</div>
               </div>
 
               {/* Programs List */}
@@ -261,20 +263,20 @@ const ProgramsList = () => {
                               onClick={() => handleAction("view", program)}
                             >
                               <Eye className="h-4 w-4 mr-2" />
-                              View Details
+                              {t('common.viewDetails')}
                             </DropdownMenuItem>
                             <DropdownMenuItem
                               onClick={() => handleAction("edit", program)}
                             >
                               <Edit className="h-4 w-4 mr-2" />
-                              Edit Program
+                              {t('program.edit')}
                             </DropdownMenuItem>
                             <DropdownMenuItem
                               onClick={() => handleAction("delete", program)}
                               className="text-destructive focus:text-destructive"
                             >
                               <Trash2 className="h-4 w-4 mr-2" />
-                              Delete Program
+                              {t('program.delete')}
                             </DropdownMenuItem>
                           </DropdownMenuContent>
                         </DropdownMenu>
@@ -308,20 +310,20 @@ const ProgramsList = () => {
                               onClick={() => handleAction("view", program)}
                             >
                               <Eye className="h-4 w-4 mr-2" />
-                              View Details
+                              {t('common.viewDetails')}
                             </DropdownMenuItem>
                             <DropdownMenuItem
                               onClick={() => handleAction("edit", program)}
                             >
                               <Edit className="h-4 w-4 mr-2" />
-                              Edit Program
+                              {t('program.edit')}
                             </DropdownMenuItem>
                             <DropdownMenuItem
                               onClick={() => handleAction("delete", program)}
                               className="text-destructive focus:text-destructive"
                             >
                               <Trash2 className="h-4 w-4 mr-2" />
-                              Delete Program
+                              {t('program.delete')}
                             </DropdownMenuItem>
                           </DropdownMenuContent>
                         </DropdownMenu>
@@ -331,7 +333,7 @@ const ProgramsList = () => {
                       </p>
                       <div className="flex items-center gap-2 text-sm text-muted-foreground">
                         <Users className="h-4 w-4 shrink-0" />
-                        <span>Client: {getClientName(program.assignedTo)}</span>
+                        <span>{t('income.client')}: {getClientName(program.assignedTo)}</span>
                       </div>
                       <div className="flex flex-wrap gap-2 mt-2">
                         {getStatusBadge(program.status)}

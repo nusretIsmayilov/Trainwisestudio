@@ -1,17 +1,19 @@
 // src/components/customer/TrialCountdown.tsx
-import { useState, useEffect } from 'react';
-import { Card, CardContent } from '@/components/ui/card';
-import { Badge } from '@/components/ui/badge';
-import { Clock, Zap } from 'lucide-react';
-import { useAuth } from '@/contexts/AuthContext';
-import { usePaymentPlan } from '@/hooks/usePaymentPlan';
-import { Button } from '@/components/ui/button';
-import { useNavigate } from 'react-router-dom';
+import { useState, useEffect } from "react";
+import { Card, CardContent } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
+import { Clock, Zap } from "lucide-react";
+import { useAuth } from "@/contexts/AuthContext";
+import { usePaymentPlan } from "@/hooks/usePaymentPlan";
+import { Button } from "@/components/ui/button";
+import { useNavigate } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 
 const TrialCountdown = () => {
   const { profile } = useAuth();
   const { planStatus } = usePaymentPlan();
   const navigate = useNavigate();
+  const { t } = useTranslation();
   const [timeRemaining, setTimeRemaining] = useState<{
     days: number;
     hours: number;
@@ -20,7 +22,7 @@ const TrialCountdown = () => {
   } | null>(null);
 
   useEffect(() => {
-    if (!profile?.plan_expiry || profile.plan !== 'trial') {
+    if (!profile?.plan_expiry || profile.plan !== "trial") {
       setTimeRemaining(null);
       return;
     }
@@ -36,7 +38,9 @@ const TrialCountdown = () => {
       }
 
       const days = Math.floor(diff / (1000 * 60 * 60 * 24));
-      const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      const hours = Math.floor(
+        (diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60),
+      );
       const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
       const seconds = Math.floor((diff % (1000 * 60)) / 1000);
 
@@ -49,12 +53,15 @@ const TrialCountdown = () => {
     return () => clearInterval(interval);
   }, [profile?.plan_expiry, profile?.plan]);
 
-  if (!timeRemaining || profile?.plan !== 'trial') {
+  if (!timeRemaining || profile?.plan !== "trial") {
     return null;
   }
 
-  const isExpired = timeRemaining.days === 0 && timeRemaining.hours === 0 && 
-                    timeRemaining.minutes === 0 && timeRemaining.seconds === 0;
+  const isExpired =
+    timeRemaining.days === 0 &&
+    timeRemaining.hours === 0 &&
+    timeRemaining.minutes === 0 &&
+    timeRemaining.seconds === 0;
 
   if (isExpired) {
     return (
@@ -64,12 +71,19 @@ const TrialCountdown = () => {
             <div className="flex items-center gap-3">
               <Clock className="w-5 h-5 text-orange-600" />
               <div>
-                <p className="font-semibold text-orange-900 dark:text-orange-100">Trial Expired</p>
-                <p className="text-sm text-orange-700 dark:text-orange-300">Upgrade to continue enjoying premium features</p>
+                <p className="font-semibold text-orange-900 dark:text-orange-100">
+                  Trial Expired
+                </p>
+                <p className="text-sm text-orange-700 dark:text-orange-300">
+                  Upgrade to continue enjoying premium features
+                </p>
               </div>
             </div>
-            <Button onClick={() => navigate('/customer/payment/update-plan')} size="sm">
-              Upgrade Now
+            <Button
+              onClick={() => navigate("/customer/payment/update-plan")}
+              size="sm"
+            >
+              {t("billing.upgrade")}
             </Button>
           </div>
         </CardContent>
@@ -87,16 +101,22 @@ const TrialCountdown = () => {
             </div>
             <div>
               <div className="flex items-center gap-2">
-                <p className="font-semibold text-foreground">Free Trial Active</p>
-                <Badge variant="secondary" className="bg-primary/20 text-primary">
-                  {timeRemaining.days} {timeRemaining.days === 1 ? 'day' : 'days'} left
+                <p className="font-semibold text-foreground">
+                  Free Trial Active
+                </p>
+                <Badge
+                  variant="secondary"
+                  className="bg-primary/20 text-primary"
+                >
+                  {timeRemaining.days}{" "}
+                  {timeRemaining.days === 1 ? "day" : "days"} left
                 </Badge>
               </div>
             </div>
           </div>
-          <Button 
-            onClick={() => navigate('/customer/payment/update-plan')} 
-            variant="outline" 
+          <Button
+            onClick={() => navigate("/customer/payment/update-plan")}
+            variant="outline"
             size="sm"
             className="border-primary/20 hover:bg-primary/10"
           >
@@ -109,4 +129,3 @@ const TrialCountdown = () => {
 };
 
 export default TrialCountdown;
-

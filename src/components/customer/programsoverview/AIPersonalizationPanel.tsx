@@ -168,7 +168,7 @@ const AIPersonalizationPanel = ({
           <div className="space-y-3">
             <div className="flex items-center gap-2 text-sm font-semibold uppercase tracking-wide text-indigo-700 dark:text-indigo-300">
               <Bot className="w-4 h-4" />
-              AI Programs
+              {t('ai.programs')}
             </div>
             {plans.length === 0 ? (
               <p className="text-sm text-muted-foreground">

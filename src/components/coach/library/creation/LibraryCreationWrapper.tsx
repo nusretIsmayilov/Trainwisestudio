@@ -106,7 +106,7 @@ const LibraryCreationWrapper: React.FC<CreationWrapperProps> = ({
           className="gap-2 bg-primary hover:bg-primary/90"
         >
           <Save className="h-4 w-4" />{" "}
-          {isEditing ? t("profile.saveChanges") : "Create Item"}
+          {isEditing ? t("profile.saveChanges") : t('common.createItem')}
         </Button>
       </div>
 

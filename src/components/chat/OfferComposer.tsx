@@ -1,25 +1,29 @@
-import React, { useState } from 'react';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Textarea } from '@/components/ui/textarea';
-import { Label } from '@/components/ui/label';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { X, DollarSign, AlertCircle } from 'lucide-react';
-import { z } from 'zod';
-import { toast } from 'sonner';
+import React, { useState } from "react";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+import { Label } from "@/components/ui/label";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { X, DollarSign, AlertCircle } from "lucide-react";
+import { z } from "zod";
+import { toast } from "sonner";
+import { useTranslation } from "react-i18next";
 
 const offerSchema = z.object({
-  price: z.number()
-    .min(50, 'Price must be at least $50')
-    .max(10000, 'Price cannot exceed $10,000'),
-  duration: z.number()
-    .int('Duration must be a whole number')
-    .min(1, 'Duration must be at least 1 month')
-    .max(12, 'Duration cannot exceed 12 months'),
-  message: z.string()
+  price: z
+    .number()
+    .min(50, "Price must be at least $50")
+    .max(10000, "Price cannot exceed $10,000"),
+  duration: z
+    .number()
+    .int("Duration must be a whole number")
+    .min(1, "Duration must be at least 1 month")
+    .max(12, "Duration cannot exceed 12 months"),
+  message: z
+    .string()
     .trim()
-    .min(5, 'Message must be at least 5 characters')
-    .max(1000, 'Message cannot exceed 1000 characters')
+    .min(5, "Message must be at least 5 characters")
+    .max(1000, "Message cannot exceed 1000 characters"),
 });
 
 interface OfferComposerProps {
@@ -31,34 +35,42 @@ interface OfferComposerProps {
 export const OfferComposer: React.FC<OfferComposerProps> = ({
   onSend,
   onCancel,
-  sending = false
+  sending = false,
 }) => {
-  const [price, setPrice] = useState('');
-  const [duration, setDuration] = useState('');
-  const [message, setMessage] = useState('');
-  const [errors, setErrors] = useState<{ price?: string; duration?: string; message?: string }>({});
+  const [price, setPrice] = useState("");
+  const [duration, setDuration] = useState("");
+  const [message, setMessage] = useState("");
+  const [errors, setErrors] = useState<{
+    price?: string;
+    duration?: string;
+    message?: string;
+  }>({});
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    
+
     const priceNum = parseFloat(price);
     const durationNum = parseInt(duration);
-    
+
     // Validate with Zod
     const result = offerSchema.safeParse({
       price: priceNum,
       duration: durationNum,
-      message: message.trim()
+      message: message.trim(),
     });
 
     if (!result.success) {
-      const fieldErrors: { price?: string; duration?: string; message?: string } = {};
+      const fieldErrors: {
+        price?: string;
+        duration?: string;
+        message?: string;
+      } = {};
       result.error.errors.forEach((err) => {
-        const field = err.path[0] as 'price' | 'duration' | 'message';
+        const field = err.path[0] as "price" | "duration" | "message";
         fieldErrors[field] = err.message;
       });
       setErrors(fieldErrors);
-      toast.error('Please fix the validation errors');
+      toast.error("Please fix the validation errors");
       return;
     }
 
@@ -66,9 +78,15 @@ export const OfferComposer: React.FC<OfferComposerProps> = ({
     onSend(priceNum, durationNum, message.trim());
   };
 
-  const isValid = price && duration && message.trim() && 
-                  !isNaN(parseFloat(price)) && !isNaN(parseInt(duration)) &&
-                  message.trim().length >= 5;
+  const { t } = useTranslation();
+
+  const isValid =
+    price &&
+    duration &&
+    message.trim() &&
+    !isNaN(parseFloat(price)) &&
+    !isNaN(parseInt(duration)) &&
+    message.trim().length >= 5;
 
   return (
     <Card>
@@ -76,7 +94,7 @@ export const OfferComposer: React.FC<OfferComposerProps> = ({
         <div className="flex items-center justify-between">
           <CardTitle className="text-base sm:text-lg flex items-center gap-2">
             <DollarSign className="w-4 h-4 sm:w-5 sm:h-5" />
-            Send Coaching Offer
+            {t('coaching.sendOffer')}
           </CardTitle>
           <Button
             variant="ghost"
@@ -88,12 +106,12 @@ export const OfferComposer: React.FC<OfferComposerProps> = ({
           </Button>
         </div>
       </CardHeader>
-      
+
       <CardContent>
         <form onSubmit={handleSubmit} className="space-y-3 sm:space-y-4">
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
             <div>
-              <Label htmlFor="price">Price ($)</Label>
+              <Label htmlFor="price">{t("payment.price")} ($)</Label>
               <Input
                 id="price"
                 type="number"
@@ -107,7 +125,7 @@ export const OfferComposer: React.FC<OfferComposerProps> = ({
                 }}
                 placeholder="0.00"
                 disabled={sending}
-                className={errors.price ? 'border-destructive' : ''}
+                className={errors.price ? "border-destructive" : ""}
               />
               {errors.price && (
                 <p className="text-sm text-destructive mt-1 flex items-center gap-1">
@@ -117,7 +135,7 @@ export const OfferComposer: React.FC<OfferComposerProps> = ({
               )}
             </div>
             <div>
-              <Label htmlFor="duration">Duration (months)</Label>
+              <Label htmlFor="duration">{t('program.durationMonths')}</Label>
               <Input
                 id="duration"
                 type="number"
@@ -130,7 +148,7 @@ export const OfferComposer: React.FC<OfferComposerProps> = ({
                 }}
                 placeholder="3"
                 disabled={sending}
-                className={errors.duration ? 'border-destructive' : ''}
+                className={errors.duration ? "border-destructive" : ""}
               />
               {errors.duration && (
                 <p className="text-sm text-destructive mt-1 flex items-center gap-1">
@@ -140,9 +158,11 @@ export const OfferComposer: React.FC<OfferComposerProps> = ({
               )}
             </div>
           </div>
-          
+
           <div>
-            <Label htmlFor="message" className="text-sm">Message</Label>
+            <Label htmlFor="message" className="text-sm">
+              {t('common.message')}
+            </Label>
             <Textarea
               id="message"
               value={message}
@@ -154,7 +174,7 @@ export const OfferComposer: React.FC<OfferComposerProps> = ({
               rows={3}
               disabled={sending}
               maxLength={1000}
-              className={`text-sm tet-black ${errors.message ? 'border-destructive' : ''}`}
+              className={`text-sm tet-black ${errors.message ? "border-destructive" : ""}`}
             />
             <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-1 mt-1">
               {errors.message && (
@@ -169,13 +189,15 @@ export const OfferComposer: React.FC<OfferComposerProps> = ({
                     {5 - message.trim().length} more
                   </p>
                 )}
-                <p className={`text-xs ${message.length > 900 ? 'text-amber-600' : 'text-muted-foreground'}`}>
+                <p
+                  className={`text-xs ${message.length > 900 ? "text-amber-600" : "text-muted-foreground"}`}
+                >
                   {message.length}/1000
                 </p>
               </div>
             </div>
           </div>
-          
+
           <div className="flex gap-2 justify-end">
             <Button
               type="button"
@@ -183,12 +205,9 @@ export const OfferComposer: React.FC<OfferComposerProps> = ({
               onClick={onCancel}
               disabled={sending}
             >
-              Cancel
+              {t('common.cancel')}
             </Button>
-            <Button
-              type="submit"
-              disabled={!isValid || sending}
-            >
+            <Button type="submit" disabled={!isValid || sending}>
               {sending ? "Sending..." : "Send Offer"}
             </Button>
           </div>

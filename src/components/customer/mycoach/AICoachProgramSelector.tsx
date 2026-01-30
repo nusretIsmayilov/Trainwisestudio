@@ -11,6 +11,7 @@ import { supabase } from '@/integrations/supabase/client';
 import { toast } from 'sonner';
 import { motion } from 'framer-motion';
 import { cn } from '@/lib/utils';
+import { useTranslation } from 'react-i18next';
 
 type ProgramType = 'fitness' | 'nutrition' | 'mental_health';
 
@@ -60,6 +61,7 @@ interface AICoachProgramSelectorProps {
 
 const AICoachProgramSelector: React.FC<AICoachProgramSelectorProps> = ({ onProgramGenerated }) => {
   const { user } = useAuth();
+  const {t}= useTranslation();
   const { planStatus } = usePaymentPlan();
   const [selectedType, setSelectedType] = useState<ProgramType | null>(null);
   const [isGenerating, setIsGenerating] = useState(false);
@@ -169,10 +171,8 @@ const AICoachProgramSelector: React.FC<AICoachProgramSelectorProps> = ({ onProgr
             <Sparkles className="w-6 h-6" />
           </div>
           <div className="flex-1">
-            <CardTitle className="text-xl text-foreground">AI Coach Program Generator</CardTitle>
-            <CardDescription className="text-base text-muted-foreground leading-relaxed">
-              Pick a focus, tap generate, and we’ll build a tailored plan that matches your current journey.
-            </CardDescription>
+            <CardTitle className="text-xl text-foreground">{t('ai.generatorTitle')}</CardTitle>
+            <CardDescription className="text-base text-muted-foreground leading-relaxed">{t('ai.generatorDesc')}</CardDescription>
           </div>
         </div>
         {statusBadge && (
@@ -212,7 +212,7 @@ const AICoachProgramSelector: React.FC<AICoachProgramSelectorProps> = ({ onProgr
                       <p className="text-sm text-muted-foreground leading-relaxed">{type.description}</p>
                     </div>
                     {selectedType === type.id && (
-                      <Badge className="bg-primary text-primary-foreground border-0">Selected</Badge>
+                      <Badge className="bg-primary text-primary-foreground border-0">{t('common.selected')}</Badge>
                     )}
                   </CardContent>
                 </Card>
@@ -234,12 +234,12 @@ const AICoachProgramSelector: React.FC<AICoachProgramSelectorProps> = ({ onProgr
           {isGenerating ? (
             <>
               <Loader2 className="w-4 h-4 mr-2 animate-spin" />
-              Generating Your Program...
+              {t('ai.generating')}
             </>
           ) : (
             <>
               <Sparkles className="w-4 h-4 mr-2" />
-              Generate AI Program
+              {t('ai.generate')}
               <ArrowRight className="w-4 h-4 ml-2" />
             </>
           )}
@@ -252,9 +252,7 @@ const AICoachProgramSelector: React.FC<AICoachProgramSelectorProps> = ({ onProgr
         </div>
 
         {!hasPlanAccess && (
-          <p className="text-xs text-center text-amber-600 dark:text-amber-300">
-            Start your 7-day free trial or subscribe to unlock AI-generated programs.
-          </p>
+          <p className="text-xs text-center text-amber-600 dark:text-amber-300">{t('ai.trialInfo')}</p>
         )}
       </CardContent>
     </Card>

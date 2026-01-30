@@ -258,7 +258,7 @@ const ProgramDetails: React.FC<ProgramDetailsProps> = ({
 
       {/* Program Description */}
       <div className="space-y-2">
-        <Label htmlFor="description">Program Description</Label>
+        <Label htmlFor="description">{t('program.description')}</Label>
         <Textarea
           id="description"
           placeholder="A comprehensive plan..."

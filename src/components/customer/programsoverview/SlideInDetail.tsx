@@ -12,12 +12,12 @@ export default function SlideInDetail({
   task,
   isMobile,
   onClose,
-  showFooter, // ✅ ADDED PROP
+  showFooter,
 }: {
   task: ScheduledTask | null,
   isMobile: boolean,
   onClose: () => void,
-  showFooter?: boolean, // ✅ ADDED PROP TYPE
+  showFooter?: boolean,
 }) {
   const [isVisible, setIsVisible] = useState(false);
 

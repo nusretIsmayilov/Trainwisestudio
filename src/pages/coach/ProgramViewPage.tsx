@@ -44,23 +44,23 @@ const ProgramViewPage = () => {
       case "active":
         return (
           <Badge className="bg-emerald-100 text-emerald-700 hover:bg-emerald-100">
-            <Play className="h-3 w-3 mr-1" /> Active
+            <Play className="h-3 w-3 mr-1" /> {t('status.active')}
           </Badge>
         );
       case "scheduled":
         return (
           <Badge className="bg-blue-100 text-blue-700 hover:bg-blue-100">
-            <Clock className="h-3 w-3 mr-1" /> Scheduled
+            <Clock className="h-3 w-3 mr-1" /> {t('status.scheduled')}
           </Badge>
         );
       case "draft":
         return (
           <Badge className="bg-orange-100 text-orange-700 hover:bg-orange-100">
-            <Pencil className="h-3 w-3 mr-1" /> Draft
+            <Pencil className="h-3 w-3 mr-1" /> {t('status.draft')}
           </Badge>
         );
       default:
-        return <Badge variant="secondary">Normal</Badge>;
+        return <Badge variant="secondary">{t('profile.normal')}</Badge>;
     }
   };
 
@@ -81,7 +81,7 @@ const ProgramViewPage = () => {
     return (
       <div className="flex items-center justify-center min-h-screen">
         <div className="text-center">
-          <div className="text-muted-foreground">Loading program...</div>
+          <div className="text-muted-foreground">{t('program.loadingSingle')}</div>
         </div>
       </div>
     );
@@ -91,13 +91,13 @@ const ProgramViewPage = () => {
     return (
       <div className="flex items-center justify-center min-h-screen">
         <div className="text-center">
-          <div className="text-red-500">Program not found</div>
+          <div className="text-red-500">{t('program.notFound')}</div>
           <Button
             variant="outline"
             className="mt-4"
             onClick={() => navigate("/coach/programs")}
           >
-            Back to Programs
+            {t('program.back')}
           </Button>
         </div>
       </div>
@@ -133,7 +133,7 @@ const ProgramViewPage = () => {
             className="gap-2"
           >
             <Edit className="h-4 w-4" />
-            Edit Program
+            {t('program.edit')}
           </Button>
         </div>
       </div>
@@ -143,18 +143,18 @@ const ProgramViewPage = () => {
         {/* Basic Info */}
         <Card>
           <CardHeader>
-            <CardTitle>Program Information</CardTitle>
+            <CardTitle>{t('program.info')}</CardTitle>
           </CardHeader>
           <CardContent className="space-y-4">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div className="flex items-center gap-2">
                 <User className="h-4 w-4 text-muted-foreground" />
-                <span className="font-medium">Assigned Client:</span>
+                <span className="font-medium">{t('program.assignedClientLabel')}</span>
                 <span>{getClientName(program.assignedTo)}</span>
               </div>
               <div className="flex items-center gap-2">
                 <Calendar className="h-4 w-4 text-muted-foreground" />
-                <span className="font-medium">Scheduled Date:</span>
+                <span className="font-medium">{t('program.scheduledDate')}</span>
                 <span>
                   {program.scheduledDate
                     ? new Date(program.scheduledDate).toLocaleDateString()
@@ -163,11 +163,11 @@ const ProgramViewPage = () => {
               </div>
               <div className="flex items-center gap-2">
                 <Clock className="h-4 w-4 text-muted-foreground" />
-                <span className="font-medium">Category:</span>
+                <span className="font-medium">{t('program.category')}</span>
                 <Badge variant="outline">{program.category}</Badge>
               </div>
               <div className="flex items-center gap-2">
-                <span className="font-medium">AI Generated:</span>
+                <span className="font-medium">{t('program.aiGenerated')}</span>
                 <Badge
                   variant={program.isAIGenerated ? "default" : "secondary"}
                 >
@@ -182,7 +182,7 @@ const ProgramViewPage = () => {
         {program.plan && (
           <Card>
             <CardHeader>
-              <CardTitle>Program Plan</CardTitle>
+              <CardTitle>{t('program.plan')}</CardTitle>
             </CardHeader>
             <CardContent>
               <ProgramPlanViewer
@@ -197,7 +197,7 @@ const ProgramViewPage = () => {
         {program.description && (
           <Card>
             <CardHeader>
-              <CardTitle>Program Description</CardTitle>
+              <CardTitle>{t('program.description')}</CardTitle>
             </CardHeader>
             <CardContent>
               <p className="text-black">{program.description}</p>
@@ -211,26 +211,26 @@ const ProgramViewPage = () => {
           program.allergies) && (
           <Card>
             <CardHeader>
-              <CardTitle>Additional Details</CardTitle>
+              <CardTitle>{t('program.details')}</CardTitle>
             </CardHeader>
             <CardContent className="space-y-3">
               {program.muscleGroups?.length > 0 && (
                 <div>
-                  <span className="font-medium">Muscle Groups:</span>{" "}
+                  <span className="font-medium">{t('program.muscleGroups')}</span>{" "}
                   {program.muscleGroups.join(", ")}
                 </div>
               )}
 
               {program.equipment?.length > 0 && (
                 <div>
-                  <span className="font-medium">Equipment Needed:</span>{" "}
+                  <span className="font-medium">{t('program.equipment')}</span>{" "}
                   {program.equipment.join(", ")}
                 </div>
               )}
 
               {program.benefits && (
                 <div>
-                  <span className="font-medium">Benefits:</span>{" "}
+                  <span className="font-medium">{t('program.benefits')}</span>{" "}
                   {program.benefits}
                 </div>
               )}

@@ -1,19 +1,25 @@
-import { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { Button } from '@/components/ui/button';
-import { ArrowLeft, Globe, Shield, Zap, Clock } from 'lucide-react';
-import PlanSelectionCard from '@/components/customer/payment/PlanSelectionCard';
-import { toast } from 'sonner';
-import { createCheckoutSession } from '@/lib/stripe/api';
-import { useAuth } from '@/contexts/AuthContext';
-import { useCurrencyDetection } from '@/hooks/useCurrencyDetection';
+import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import { Button } from "@/components/ui/button";
+import { ArrowLeft, Globe, Shield, Zap, Clock } from "lucide-react";
+import PlanSelectionCard from "@/components/customer/payment/PlanSelectionCard";
+import { toast } from "sonner";
+import { createCheckoutSession } from "@/lib/stripe/api";
+import { useAuth } from "@/contexts/AuthContext";
+import { useCurrencyDetection } from "@/hooks/useCurrencyDetection";
+import { useTranslation } from "react-i18next";
 
 const UpdatePaymentPlanPage = () => {
   const navigate = useNavigate();
   const { profile } = useAuth();
-  const [selectedPlan, setSelectedPlan] = useState('');
+  const [selectedPlan, setSelectedPlan] = useState("");
   const [isProcessing, setIsProcessing] = useState(false);
-  const { detectedCurrency, getCurrencyOption, loading: currencyLoading } = useCurrencyDetection();
+  const {
+    detectedCurrency,
+    getCurrencyOption,
+    loading: currencyLoading,
+  } = useCurrencyDetection();
+  const { t } = useTranslation();
 
   const handlePlanSelect = (planKey: string) => {
     setSelectedPlan(planKey);
@@ -21,23 +27,26 @@ const UpdatePaymentPlanPage = () => {
 
   useEffect(() => {
     if (!selectedPlan) {
-      setSelectedPlan('all-access');
+      setSelectedPlan("all-access");
     }
   }, [selectedPlan]);
 
   const handleConfirmUpdate = async () => {
     if (!selectedPlan) {
-      toast.error('Please select a plan');
+      toast.error("Please select a plan");
       return;
     }
 
     setIsProcessing(true);
     try {
-      const planKeyMap: Record<string, { priceKey: string; trialDays?: number }> = {
-        'all-access': { priceKey: 'platform_monthly' },
-        premium: { priceKey: 'platform_monthly' },
-        standard: { priceKey: 'platform_monthly', trialDays: 7 },
-        basic: { priceKey: 'platform_monthly' },
+      const planKeyMap: Record<
+        string,
+        { priceKey: string; trialDays?: number }
+      > = {
+        "all-access": { priceKey: "platform_monthly" },
+        premium: { priceKey: "platform_monthly" },
+        standard: { priceKey: "platform_monthly", trialDays: 7 },
+        basic: { priceKey: "platform_monthly" },
       };
       const mapped = planKeyMap[selectedPlan] || { priceKey: selectedPlan };
       const { checkoutUrl } = await createCheckoutSession({
@@ -48,7 +57,7 @@ const UpdatePaymentPlanPage = () => {
       });
       window.location.href = checkoutUrl;
     } catch (e: any) {
-      toast.error(e?.message || 'Failed to start checkout');
+      toast.error(e?.message || "Failed to start checkout");
       setIsProcessing(false);
     }
   };
@@ -62,7 +71,7 @@ const UpdatePaymentPlanPage = () => {
         <div className="max-w-2xl mx-auto px-4 py-4 flex items-center gap-4">
           <Button
             variant="ghost"
-            onClick={() => navigate('/customer/settings')}
+            onClick={() => navigate("/customer/settings")}
             size="icon"
             className="shrink-0"
           >
@@ -83,9 +92,12 @@ const UpdatePaymentPlanPage = () => {
         <div className="relative overflow-hidden rounded-2xl bg-gradient-primary p-6 text-primary-foreground">
           <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHZpZXdCb3g9IjAgMCA2MCA2MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48ZyBmaWxsPSJub25lIiBmaWxsLXJ1bGU9ImV2ZW5vZGQiPjxnIGZpbGw9IiNmZmZmZmYiIGZpbGwtb3BhY2l0eT0iMC4xIj48cGF0aCBkPSJNMzYgMzRjMC0yIDItNCAyLTRzMiAyIDIgNC0yIDQtMiA0LTItMi0yLTR6Ii8+PC9nPjwvZz48L3N2Zz4=')] opacity-30" />
           <div className="relative">
-            <h2 className="text-2xl font-bold mb-2">Transform Your Health Journey</h2>
+            <h2 className="text-2xl font-bold mb-2">
+              Transform Your Health Journey
+            </h2>
             <p className="text-primary-foreground/80 text-sm">
-              Get personalized fitness, nutrition, and mindfulness programs designed just for you.
+              Get personalized fitness, nutrition, and mindfulness programs
+              designed just for you.
             </p>
           </div>
         </div>
@@ -104,19 +116,25 @@ const UpdatePaymentPlanPage = () => {
             <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center">
               <Shield className="w-5 h-5 text-primary" />
             </div>
-            <span className="text-xs text-center text-muted-foreground font-medium">Secure Payment</span>
+            <span className="text-xs text-center text-muted-foreground font-medium">
+              Secure Payment
+            </span>
           </div>
           <div className="flex flex-col items-center gap-2 p-4 rounded-xl bg-card border border-border">
             <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center">
               <Clock className="w-5 h-5 text-primary" />
             </div>
-            <span className="text-xs text-center text-muted-foreground font-medium">Cancel Anytime</span>
+            <span className="text-xs text-center text-muted-foreground font-medium">
+              Cancel Anytime
+            </span>
           </div>
           <div className="flex flex-col items-center gap-2 p-4 rounded-xl bg-card border border-border">
             <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center">
               <Zap className="w-5 h-5 text-primary" />
             </div>
-            <span className="text-xs text-center text-muted-foreground font-medium">Instant Access</span>
+            <span className="text-xs text-center text-muted-foreground font-medium">
+              Instant Access
+            </span>
           </div>
         </div>
       </div>
@@ -145,19 +163,19 @@ const UpdatePaymentPlanPage = () => {
                 <p className="text-xs text-muted-foreground">/month</p>
               </div>
             </div>
-            
+
             <Button
               onClick={handleConfirmUpdate}
               disabled={isProcessing || currencyLoading}
               size="lg"
               className="w-full h-12 text-base font-semibold bg-gradient-primary hover:opacity-90 transition-opacity"
             >
-              {isProcessing ? 'Processing...' : 'Subscribe Now'}
+              {isProcessing ? "Processing..." : t("blog.subscribeNow")}
             </Button>
           </div>
         </div>
       )}
-      
+
       {/* Bottom padding for fixed CTA */}
       <div className="h-36" />
     </div>

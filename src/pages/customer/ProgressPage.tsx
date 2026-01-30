@@ -74,7 +74,7 @@ export default function ProgressPage() {
                 Get access to detailed analytics, progress photos, workout
                 streaks, and personalized insights.
               </p>
-              <Button className="mt-2">Upgrade Now</Button>
+              <Button className="mt-2">{t('billing.upgrade')}</Button>
             </CardContent>
           </Card>
         </div>

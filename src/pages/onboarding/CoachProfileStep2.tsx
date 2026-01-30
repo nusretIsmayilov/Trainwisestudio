@@ -4,6 +4,7 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { useOnboarding } from "@/contexts/OnboardingContext";
+import { useTranslation } from "react-i18next";
 
 const SKILLS = [
   "Strength Training",
@@ -38,6 +39,7 @@ const CoachProfileStep2 = () => {
   const navigate = useNavigate();
   const { state, updateState } = useOnboarding();
   const coach = state.coachProfile;
+  const { t } = useTranslation();
 
   const updateCoach = (patch: Partial<typeof coach>) => {
     updateState("coachProfile", {
@@ -80,12 +82,11 @@ const CoachProfileStep2 = () => {
       nextDisabled={coach.skills.length < 3}
     >
       <div className="max-w-3xl mx-auto space-y-8">
-
         {/* SKILLS */}
         <Card>
           <CardContent className="pt-6 space-y-4">
             <div className="flex items-center justify-between">
-              <h3 className="font-semibold text-lg">Skills & Specialties *</h3>
+              <h3 className="font-semibold text-lg">{t("skills.title")} *</h3>
               <span className="text-sm text-muted-foreground">
                 {coach.skills.length}/8 selected
               </span>

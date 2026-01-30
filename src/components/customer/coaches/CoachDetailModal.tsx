@@ -1,26 +1,41 @@
-import React from 'react';
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
-import { RealTimeCoachData } from '@/hooks/useRealTimeCoachData';
-import { Badge } from '@/components/ui/badge';
-import { Button } from '@/components/ui/button';
-import { Card, CardContent } from '@/components/ui/card';
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import { Star, Award, Globe, Instagram, Linkedin, Youtube, ExternalLink, MessageSquare } from 'lucide-react';
-import { Separator } from '@/components/ui/separator';
+import React from "react";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
+import { RealTimeCoachData } from "@/hooks/useRealTimeCoachData";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent } from "@/components/ui/card";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import {
+  Star,
+  Award,
+  Globe,
+  Instagram,
+  Linkedin,
+  Youtube,
+  ExternalLink,
+  MessageSquare,
+} from "lucide-react";
+import { Separator } from "@/components/ui/separator";
+import { useTranslation } from "react-i18next";
 
 interface CoachDetailModalProps {
   coach: RealTimeCoachData | null;
   isOpen: boolean;
   onClose: () => void;
   onRequest: (coach: RealTimeCoachData) => void;
-  requestStatus?: 'pending' | 'accepted' | 'rejected' | null;
+  requestStatus?: "pending" | "accepted" | "rejected" | null;
 }
 
 const socialIcons = {
   Instagram: Instagram,
   LinkedIn: Linkedin,
   YouTube: Youtube,
-  Website: Globe
+  Website: Globe,
 };
 
 export const CoachDetailModal: React.FC<CoachDetailModalProps> = ({
@@ -28,8 +43,9 @@ export const CoachDetailModal: React.FC<CoachDetailModalProps> = ({
   isOpen,
   onClose,
   onRequest,
-  requestStatus
+  requestStatus,
 }) => {
+  const { t } = useTranslation();
   if (!coach) return null;
 
   return (
@@ -38,25 +54,34 @@ export const CoachDetailModal: React.FC<CoachDetailModalProps> = ({
         <DialogHeader>
           <DialogTitle className="sr-only">Coach Details</DialogTitle>
         </DialogHeader>
-        
+
         <div className="space-y-6">
           {/* Header */}
           <div className="flex flex-col sm:flex-row items-start gap-6">
             <Avatar className="w-24 h-24 ring-2 ring-primary/20">
               <AvatarImage src={coach.avatar_url} alt={coach.name} />
               <AvatarFallback className="text-lg bg-primary/10 text-primary">
-                {coach.name.split(' ').map(n => n[0]).join('')}
+                {coach.name
+                  .split(" ")
+                  .map((n) => n[0])
+                  .join("")}
               </AvatarFallback>
             </Avatar>
-            
+
             <div className="flex-1">
-              <h2 className="text-2xl font-bold text-foreground">{coach.name}</h2>
-              <p className="text-lg text-primary font-medium">{coach.tagline}</p>
-              
+              <h2 className="text-2xl font-bold text-foreground">
+                {coach.name}
+              </h2>
+              <p className="text-lg text-primary font-medium">
+                {coach.tagline}
+              </p>
+
               <div className="flex items-center gap-4 mt-2 text-sm text-muted-foreground">
                 <div className="flex items-center gap-1">
                   <Star className="w-4 h-4 text-yellow-500 fill-yellow-500" />
-                  <span className="font-semibold text-foreground">{coach.rating.toFixed(1)}</span>
+                  <span className="font-semibold text-foreground">
+                    {coach.rating.toFixed(1)}
+                  </span>
                   <span>({coach.reviews} reviews)</span>
                 </div>
                 <span>•</span>
@@ -73,11 +98,11 @@ export const CoachDetailModal: React.FC<CoachDetailModalProps> = ({
 
           {/* Skills */}
           <div>
-            <h3 className="text-lg font-semibold mb-3">Skills & Specialties</h3>
+            <h3 className="text-lg font-semibold mb-3">{t("skills.title")}</h3>
             <div className="flex flex-wrap gap-2">
               {coach.skills.map((skill, idx) => (
-                <Badge 
-                  key={idx} 
+                <Badge
+                  key={idx}
                   variant="secondary"
                   className="bg-primary/10 text-primary border-primary/20"
                 >
@@ -118,14 +143,16 @@ export const CoachDetailModal: React.FC<CoachDetailModalProps> = ({
               <h3 className="text-lg font-semibold mb-3">Connect</h3>
               <div className="flex flex-wrap gap-3">
                 {coach.socials.map((social, idx) => {
-                  const IconComponent = socialIcons[social.platform as keyof typeof socialIcons] || ExternalLink;
+                  const IconComponent =
+                    socialIcons[social.platform as keyof typeof socialIcons] ||
+                    ExternalLink;
                   return (
                     <Button
                       key={idx}
                       variant="outline"
                       size="sm"
                       className="gap-2"
-                      onClick={() => window.open(social.url, '_blank')}
+                      onClick={() => window.open(social.url, "_blank")}
                     >
                       <IconComponent className="w-4 h-4" />
                       {social.platform}
@@ -140,17 +167,19 @@ export const CoachDetailModal: React.FC<CoachDetailModalProps> = ({
 
           {/* Action Button */}
           <div className="flex justify-end">
-            <Button 
-              onClick={() => onRequest(coach)} 
+            <Button
+              onClick={() => onRequest(coach)}
               className="gap-2"
-              disabled={requestStatus === 'pending' || requestStatus === 'accepted'}
-              variant={requestStatus === 'rejected' ? 'outline' : 'default'}
+              disabled={
+                requestStatus === "pending" || requestStatus === "accepted"
+              }
+              variant={requestStatus === "rejected" ? "outline" : "default"}
             >
               <MessageSquare className="w-4 h-4" />
-              {requestStatus === 'pending' && 'Request Sent'}
-              {requestStatus === 'accepted' && 'Coach Assigned'}
-              {requestStatus === 'rejected' && 'Send Request'}
-              {!requestStatus && 'Send Request'}
+              {requestStatus === "pending" && "Request Sent"}
+              {requestStatus === "accepted" && "Coach Assigned"}
+              {requestStatus === "rejected" && "Send Request"}
+              {!requestStatus && "Send Request"}
             </Button>
           </div>
         </div>

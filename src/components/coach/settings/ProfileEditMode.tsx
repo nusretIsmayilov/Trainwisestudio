@@ -244,7 +244,7 @@ export const ProfileEditMode: React.FC<ProfileEditModeProps> = ({
           className="order-2 sm:order-1"
         >
           <X className="h-4 w-4 mr-2" />
-          Cancel
+          {t("common.cancel")}
         </Button>
         <Button
           onClick={onSave}
@@ -255,7 +255,7 @@ export const ProfileEditMode: React.FC<ProfileEditModeProps> = ({
           {isSubmitting ? (
             <>
               <Loader2 className="h-4 w-4 animate-spin" />
-              Saving...
+              {t("saving")}
             </>
           ) : (
             <>
@@ -270,11 +270,9 @@ export const ProfileEditMode: React.FC<ProfileEditModeProps> = ({
       <Card className="shadow-md">
         <CardHeader>
           <CardTitle className="flex items-center gap-2 text-xl">
-            <User className="h-5 w-5" /> Public Identity
+            <User className="h-5 w-5" /> {t("profile.publicIdentity")}
           </CardTitle>
-          <CardDescription>
-            This information is visible to potential clients.
-          </CardDescription>
+          <CardDescription>{t("profile.visibilityInfo")}</CardDescription>
         </CardHeader>
         <CardContent className="space-y-4">
           <div className="flex items-center space-x-4">
@@ -304,7 +302,7 @@ export const ProfileEditMode: React.FC<ProfileEditModeProps> = ({
                 {isUploadingImage ? "Uploading..." : "Change Photo"}
               </Button>
               <p className="text-xs text-muted-foreground">
-                JPG, PNG up to 5MB
+                {t("profile.imageHint")}
               </p>
             </div>
           </div>
@@ -318,7 +316,7 @@ export const ProfileEditMode: React.FC<ProfileEditModeProps> = ({
           />
 
           <div>
-            <Label htmlFor="name">Full Name *</Label>
+            <Label htmlFor="name">{t("profile.fullName")} *</Label>
             <Input
               id="name"
               value={formData.full_name}
@@ -344,7 +342,7 @@ export const ProfileEditMode: React.FC<ProfileEditModeProps> = ({
           </div>
 
           <div>
-            <Label htmlFor="tagline">Tagline</Label>
+            <Label htmlFor="tagline">{t("profile.tagline")}</Label>
             <Input
               id="tagline"
               value={formData.tagline}
@@ -370,7 +368,7 @@ export const ProfileEditMode: React.FC<ProfileEditModeProps> = ({
           </div>
 
           <div>
-            <Label htmlFor="bio">Professional Bio *</Label>
+            <Label htmlFor="bio">{t("profile.bio")} *</Label>
             <Textarea
               id="bio"
               value={formData.bio}
@@ -403,15 +401,13 @@ export const ProfileEditMode: React.FC<ProfileEditModeProps> = ({
       <Card className="shadow-md">
         <CardHeader>
           <CardTitle className="flex items-center gap-2 text-xl">
-            <Tag className="h-5 w-5" /> Price Range (USD)
+            <Tag className="h-5 w-5" /> {t("settings.priceRange")} (USD)
           </CardTitle>
-          <CardDescription>
-            Let customers know your typical coaching package prices.
-          </CardDescription>
+          <CardDescription>{t("pricing.info")}</CardDescription>
         </CardHeader>
         <CardContent className="grid grid-cols-2 gap-4">
           <div>
-            <Label>Minimum (per package)</Label>
+            <Label>{t("pricing.minimum")}</Label>
             <Input
               type="number"
               value={(formData.price_min_cents ?? 0) / 100}
@@ -427,7 +423,7 @@ export const ProfileEditMode: React.FC<ProfileEditModeProps> = ({
             />
           </div>
           <div>
-            <Label>Maximum (per package)</Label>
+            <Label>{t("pricing.maximum")}</Label>
             <Input
               type="number"
               value={(formData.price_max_cents ?? 0) / 100}
@@ -449,11 +445,9 @@ export const ProfileEditMode: React.FC<ProfileEditModeProps> = ({
       <Card className="shadow-md">
         <CardHeader>
           <CardTitle className="flex items-center gap-2 text-xl">
-            <Brain className="h-5 w-5" /> Skills & Specialties *
+            <Brain className="h-5 w-5" /> {t("skills.title")} *
           </CardTitle>
-          <CardDescription>
-            Select at least 3 areas of expertise to help clients find you.
-          </CardDescription>
+          <CardDescription>{t("skills.hint")}</CardDescription>
         </CardHeader>
         <CardContent>
           <SkillsSelector
@@ -476,11 +470,9 @@ export const ProfileEditMode: React.FC<ProfileEditModeProps> = ({
       <Card className="shadow-md">
         <CardHeader>
           <CardTitle className="flex items-center gap-2 text-xl">
-            <Award className="h-5 w-5" /> Certifications & Credentials
+            <Award className="h-5 w-5" /> {t("cert.title")}
           </CardTitle>
-          <CardDescription>
-            Build trust by showcasing your professional certifications.
-          </CardDescription>
+          <CardDescription>{t("cert.trustHint")}</CardDescription>
         </CardHeader>
         <CardContent className="space-y-4">
           {formData.certifications.map((cert) => (
@@ -490,7 +482,7 @@ export const ProfileEditMode: React.FC<ProfileEditModeProps> = ({
             >
               <div className="flex-1 space-y-2">
                 <Label className="text-xs text-muted-foreground">
-                  Certification Name
+                  {t("cert.name")}
                 </Label>
                 <Input
                   value={cert.name}
@@ -528,7 +520,7 @@ export const ProfileEditMode: React.FC<ProfileEditModeProps> = ({
             onClick={addCert}
             className="w-full gap-2 mt-4 border-dashed border-2"
           >
-            <Plus className="h-4 w-4" /> Add Certification
+            <Plus className="h-4 w-4" /> {t("cert.add")}
           </Button>
         </CardContent>
       </Card>
@@ -537,11 +529,9 @@ export const ProfileEditMode: React.FC<ProfileEditModeProps> = ({
       <Card className="shadow-md">
         <CardHeader>
           <CardTitle className="flex items-center gap-2 text-xl">
-            <Globe className="h-5 w-5" /> Social Media & Online Presence
+            <Globe className="h-5 w-5" /> {t("social.title")}
           </CardTitle>
-          <CardDescription>
-            Help clients connect with you and see your content across platforms.
-          </CardDescription>
+          <CardDescription>{t("social.hint")}</CardDescription>
         </CardHeader>
         <CardContent className="space-y-4">
           {formData.socials.map((social) => {
@@ -561,7 +551,7 @@ export const ProfileEditMode: React.FC<ProfileEditModeProps> = ({
                   <div className="grid grid-cols-2 gap-3">
                     <div className="space-y-2">
                       <Label className="text-xs text-muted-foreground">
-                        Platform
+                        {t("social.platform")}
                       </Label>
                       <Select
                         value={social.platform}
@@ -613,7 +603,7 @@ export const ProfileEditMode: React.FC<ProfileEditModeProps> = ({
                       </div>
                       {hasUrl && !isValidUrl && (
                         <p className="text-xs text-destructive">
-                          Invalid URL format for {social.platform}
+                          {t("social.invalidUrl")} {social.platform}
                         </p>
                       )}
                     </div>
@@ -635,7 +625,7 @@ export const ProfileEditMode: React.FC<ProfileEditModeProps> = ({
             onClick={addSocial}
             className="w-full gap-2 mt-4 border-dashed border-2"
           >
-            <Plus className="h-4 w-4" /> Add Social Link
+            <Plus className="h-4 w-4" /> {t("social.add")}
           </Button>
         </CardContent>
       </Card>
@@ -644,19 +634,18 @@ export const ProfileEditMode: React.FC<ProfileEditModeProps> = ({
       <AlertDialog open={showCancelDialog} onOpenChange={setShowCancelDialog}>
         <AlertDialogContent>
           <AlertDialogHeader>
-            <AlertDialogTitle>Discard unsaved changes?</AlertDialogTitle>
+            <AlertDialogTitle>{t("common.discardConfirm")}</AlertDialogTitle>
             <AlertDialogDescription>
-              You have unsaved changes. Are you sure you want to discard them
-              and exit edit mode?
+              {t("common.unsavedWarning")}
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
-            <AlertDialogCancel>Keep Editing</AlertDialogCancel>
+            <AlertDialogCancel>{t("common.keepEditing")}</AlertDialogCancel>
             <AlertDialogAction
               onClick={onCancel}
               className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
             >
-              Discard Changes
+              {t("common.discard")}
             </AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>

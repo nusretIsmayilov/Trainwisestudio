@@ -14,6 +14,7 @@ import { ArrowLeft, Check } from "lucide-react";
 import { useProgramMutations } from "@/hooks/useProgramMutations";
 import { Program, ProgramCategory, ProgramStatus } from "@/types/program";
 import { getBaseUrl } from "@/lib/force-urls";
+import { useTranslation } from "react-i18next";
 
 type Step =
   | "program-details"
@@ -38,6 +39,7 @@ interface ProgramData {
 }
 
 const ProgramBuilder = () => {
+  const { t } = useTranslation();
   const { id } = useParams();
   const navigate = useNavigate();
   const { createProgram, updateProgram, getProgramById, loading } =
@@ -213,7 +215,7 @@ const ProgramBuilder = () => {
       {step === "program-details" && (
         <>
           <h1 className="text-4xl font-bold">
-            {isEditing ? "Edit Program" : "Create New Program"}
+            {isEditing ? t("program.edit") : t("program.createNew")}
           </h1>
           <Separator className="my-8" />
         </>

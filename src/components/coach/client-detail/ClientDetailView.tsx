@@ -279,15 +279,15 @@ const ClientDetailView = ({ client, onClose, loading = false }) => {
                 </p>
                 <div className="bg-white p-3 rounded border">
                   <div className="flex justify-between">
-                    <span className="font-medium">Price:</span>
+                    <span className="font-medium">{t("payment.price")}:</span>
                     <span className="font-bold">
                       ${clientStatus.latest_offer_price}
                     </span>
                   </div>
                   <div className="flex justify-between">
-                    <span className="font-medium">Duration:</span>
+                    <span className="font-medium">{t('programs.duration')}:</span>
                     <span className="font-bold">
-                      {clientStatus.latest_offer_duration} weeks
+                      {clientStatus.latest_offer_duration} {t('time.weeks')}
                     </span>
                   </div>
                   <div className="flex justify-between">
@@ -371,12 +371,12 @@ const ClientDetailView = ({ client, onClose, loading = false }) => {
                     />
                     <StatItem
                       icon={Ruler}
-                      label="Height"
+                      label={t('height.cm')}
                       value={client.personalInfo.height}
                     />
                     <StatItem
                       icon={Weight}
-                      label="Weight"
+                      label={t('weight.kg')}
                       value={client.personalInfo.weight}
                     />
                   </div>
@@ -484,7 +484,7 @@ const ClientDetailView = ({ client, onClose, loading = false }) => {
                   </>
                 ) : (
                   <>
-                    <CheckCircle className="h-5 w-5 mr-2" /> Accept
+                    <CheckCircle className="h-5 w-5 mr-2" /> {t('common.accept')}
                   </>
                 )}
               </Button>
@@ -494,7 +494,7 @@ const ClientDetailView = ({ client, onClose, loading = false }) => {
                 className="w-full text-red-600 border-red-600 font-bold text-base hover:bg-red-50"
                 disabled={isProcessing}
               >
-                <XCircle className="h-5 w-5 mr-2" /> Decline
+                <XCircle className="h-5 w-5 mr-2" /> {t('common.decline')}
               </Button>
             </>
           )}

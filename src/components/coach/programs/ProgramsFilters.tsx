@@ -1,9 +1,9 @@
-'use client';
+"use client";
 
-import React from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import { Input } from '@/components/ui/input';
-import { Button } from '@/components/ui/button';
+import React from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -11,7 +11,7 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu';
+} from "@/components/ui/dropdown-menu";
 import {
   Search,
   ChevronDown,
@@ -23,33 +23,34 @@ import {
   Tag,
   LayoutGrid,
   PlusCircle,
-} from 'lucide-react';
-import { cn } from '@/lib/utils';
-import { Program, ProgramStatus, ProgramCategory } from '@/types/program';
+} from "lucide-react";
+import { cn } from "@/lib/utils";
+import { Program, ProgramStatus, ProgramCategory } from "@/types/program";
+import { useTranslation } from "react-i18next";
 
 interface ProgramsFiltersProps {
   searchQuery: string;
   setSearchQuery: (query: string) => void;
-  activeStatus: ProgramStatus | 'all';
-  setActiveStatus: (status: ProgramStatus | 'all') => void;
-  activeCategory: ProgramCategory | 'all';
-  setActiveCategory: (category: ProgramCategory | 'all') => void;
+  activeStatus: ProgramStatus | "all";
+  setActiveStatus: (status: ProgramStatus | "all") => void;
+  activeCategory: ProgramCategory | "all";
+  setActiveCategory: (category: ProgramCategory | "all") => void;
 }
 
 // Options
 const statusOptions = [
-  { value: 'all', label: 'All', icon: LayoutGrid },
-  { value: 'active', label: 'Active', icon: Play },
-  { value: 'scheduled', label: 'Scheduled', icon: Clock },
-  { value: 'draft', label: 'Draft', icon: Pencil },
-  { value: 'normal', label: 'Normal', icon: PlusCircle },
+  { value: "all", label: "All", icon: LayoutGrid },
+  { value: "active", label: "Active", icon: Play },
+  { value: "scheduled", label: "Scheduled", icon: Clock },
+  { value: "draft", label: "Draft", icon: Pencil },
+  { value: "normal", label: "Normal", icon: PlusCircle },
 ];
 
 const categoryOptions = [
-  { value: 'all', label: 'All Categories' },
-  { value: 'fitness', label: 'Fitness' },
-  { value: 'nutrition', label: 'Nutrition' },
-  { value: 'mental health', label: 'Mental Health' },
+  { value: "all", label: "All Categories" },
+  { value: "fitness", label: "Fitness" },
+  { value: "nutrition", label: "Nutrition" },
+  { value: "mental health", label: "Mental Health" },
 ];
 
 const ProgramsFilters: React.FC<ProgramsFiltersProps> = ({
@@ -60,30 +61,33 @@ const ProgramsFilters: React.FC<ProgramsFiltersProps> = ({
   activeCategory,
   setActiveCategory, // ✅ added here
 }) => {
-  const getStatusLabel = (value: ProgramStatus | 'all') => {
-    return statusOptions.find(opt => opt.value === value)?.label || '';
+  const getStatusLabel = (value: ProgramStatus | "all") => {
+    return statusOptions.find((opt) => opt.value === value)?.label || "";
   };
 
-  const getCategoryLabel = (value: ProgramCategory | 'all') => {
-    return categoryOptions.find(opt => opt.value === value)?.label || '';
+  const getCategoryLabel = (value: ProgramCategory | "all") => {
+    return categoryOptions.find((opt) => opt.value === value)?.label || "";
   };
 
-  const handleClearFilter = (type: 'status' | 'category') => {
-    if (type === 'status') {
-      setActiveStatus('all');
+  const handleClearFilter = (type: "status" | "category") => {
+    if (type === "status") {
+      setActiveStatus("all");
     }
-    if (type === 'category') {
-      setActiveCategory('all');
+    if (type === "category") {
+      setActiveCategory("all");
     }
   };
+
+  const { t } = useTranslation();
 
   const resetAllFilters = () => {
-    setSearchQuery('');
-    setActiveStatus('all');
-    setActiveCategory('all');
+    setSearchQuery("");
+    setActiveStatus("all");
+    setActiveCategory("all");
   };
 
-  const isFiltered = searchQuery || activeStatus !== 'all' || activeCategory !== 'all';
+  const isFiltered =
+    searchQuery || activeStatus !== "all" || activeCategory !== "all";
 
   return (
     <motion.div
@@ -108,22 +112,28 @@ const ProgramsFilters: React.FC<ProgramsFiltersProps> = ({
         {/* Filter Dropdown */}
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
-            <Button variant="outline" className="flex items-center gap-2 rounded-full px-6 py-2">
+            <Button
+              variant="outline"
+              className="flex items-center gap-2 rounded-full px-6 py-2"
+            >
               <Filter className="h-4 w-4" />
               <span>Filters</span>
               <ChevronDown className="h-4 w-4 ml-2 transition-transform duration-200" />
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent className="w-56" align="end">
-            <DropdownMenuLabel>Filter by Status</DropdownMenuLabel>
+            <DropdownMenuLabel>{t('filters.byStatus')}</DropdownMenuLabel>
             <DropdownMenuSeparator />
-            {statusOptions.map(option => (
+            {statusOptions.map((option) => (
               <DropdownMenuItem
                 key={option.value}
-                onSelect={() => setActiveStatus(option.value as typeof activeStatus)}
+                onSelect={() =>
+                  setActiveStatus(option.value as typeof activeStatus)
+                }
                 className={cn(
-                  'flex items-center gap-2',
-                  activeStatus === option.value && 'bg-accent text-accent-foreground'
+                  "flex items-center gap-2",
+                  activeStatus === option.value &&
+                    "bg-accent text-accent-foreground",
                 )}
               >
                 <option.icon className="h-4 w-4" />
@@ -131,15 +141,18 @@ const ProgramsFilters: React.FC<ProgramsFiltersProps> = ({
               </DropdownMenuItem>
             ))}
             <DropdownMenuSeparator />
-            <DropdownMenuLabel>Filter by Category</DropdownMenuLabel>
+            <DropdownMenuLabel>{t('filters.byCategory')}</DropdownMenuLabel>
             <DropdownMenuSeparator />
-            {categoryOptions.map(option => (
+            {categoryOptions.map((option) => (
               <DropdownMenuItem
                 key={option.value}
-                onSelect={() => setActiveCategory(option.value as typeof activeCategory)}
+                onSelect={() =>
+                  setActiveCategory(option.value as typeof activeCategory)
+                }
                 className={cn(
-                  'flex items-center gap-2',
-                  activeCategory === option.value && 'bg-accent text-accent-foreground'
+                  "flex items-center gap-2",
+                  activeCategory === option.value &&
+                    "bg-accent text-accent-foreground",
                 )}
               >
                 <Tag className="h-4 w-4" />
@@ -164,7 +177,7 @@ const ProgramsFilters: React.FC<ProgramsFiltersProps> = ({
                 className="flex items-center gap-2 px-4 py-2 rounded-full text-sm font-medium"
               >
                 <X className="h-4 w-4" />
-                Clear All
+                {t("clients.clearAll")}
               </Button>
             </motion.div>
           )}
@@ -174,7 +187,7 @@ const ProgramsFilters: React.FC<ProgramsFiltersProps> = ({
       {/* Active Filter Chips */}
       <div className="flex flex-wrap gap-2">
         <AnimatePresence>
-          {activeStatus !== 'all' && (
+          {activeStatus !== "all" && (
             <motion.div
               key="status-chip"
               initial={{ opacity: 0, scale: 0.8 }}
@@ -186,15 +199,17 @@ const ProgramsFilters: React.FC<ProgramsFiltersProps> = ({
                 variant="secondary"
                 size="sm"
                 className="rounded-full flex items-center gap-1"
-                onClick={() => handleClearFilter('status')}
+                onClick={() => handleClearFilter("status")}
               >
-                <span className="font-medium">{getStatusLabel(activeStatus)}</span>
+                <span className="font-medium">
+                  {getStatusLabel(activeStatus)}
+                </span>
                 <X className="h-3 w-3" />
               </Button>
             </motion.div>
           )}
 
-          {activeCategory !== 'all' && (
+          {activeCategory !== "all" && (
             <motion.div
               key="category-chip"
               initial={{ opacity: 0, scale: 0.8 }}
@@ -206,9 +221,11 @@ const ProgramsFilters: React.FC<ProgramsFiltersProps> = ({
                 variant="secondary"
                 size="sm"
                 className="rounded-full flex items-center gap-1"
-                onClick={() => handleClearFilter('category')}
+                onClick={() => handleClearFilter("category")}
               >
-                <span className="font-medium">{getCategoryLabel(activeCategory)}</span>
+                <span className="font-medium">
+                  {getCategoryLabel(activeCategory)}
+                </span>
                 <X className="h-3 w-3" />
               </Button>
             </motion.div>
