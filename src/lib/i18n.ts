@@ -247,6 +247,14 @@ const resources = {
       "ai.energyTip": "Your energy levels are directly linked to sleep and nutrition.",
       "ai.workoutConsistencyTip": "Consistent workouts are a great way to boost your mood.",
 
+      "progress.upgradeTitle": "Upgrade to Track Progress",
+      "progress.upgradeDescription": "Get access to detailed analytics, progress photos, workout streaks, and personalized insights.",
+      "progress.loadingTitle": "Loading Progress...",
+      "progress.loadingDescription": "Please wait while we load your data.",
+      "progress.consistencyTip": "Stay consistent with your daily check-ins to track your progress and see your trends grow over time.",
+      "progress.startJourneyTitle": "Start Your Journey",
+      "progress.startJourneyDescription": "Complete your daily check-ins to begin tracking your wellness progress and see meaningful trends.",
+  
 
       // Client Status
       'clientStatus.noStatus': 'No Status',
@@ -933,6 +941,14 @@ const resources = {
       "ai.energy": "Energía",
       "ai.energyTip": "Tus niveles de energía están directamente relacionados con el sueño y la nutrición.",
       "ai.workoutConsistencyTip": "Los entrenamientos constantes son una excelente forma de mejorar tu estado de ánimo.",
+
+      "progress.upgradeTitle": "Actualiza para seguir tu progreso",
+      "progress.upgradeDescription": "Obtén acceso a análisis detallados, fotos de progreso, rachas de entrenamiento y conocimientos personalizados.",
+      "progress.loadingTitle": "Cargando progreso...",
+      "progress.loadingDescription": "Por favor espera mientras cargamos tus datos.",
+      "progress.consistencyTip": "Mantén la constancia con tus registros diarios para seguir tu progreso y ver cómo crecen tus tendencias con el tiempo.",
+      "progress.startJourneyTitle": "Comienza tu viaje",
+      "progress.startJourneyDescription": "Completa tus registros diarios para comenzar a seguir tu progreso de bienestar y ver tendencias significativas.",
       
       // Client Status
       'clientStatus.noStatus': 'Sin Estado',
@@ -1614,7 +1630,15 @@ const resources = {
       "ai.energy": "Énergie",
       "ai.energyTip": "Ton niveau d’énergie est directement lié au sommeil et à la nutrition.",
       "ai.workoutConsistencyTip": "Des entraînements réguliers sont un excellent moyen d’améliorer ton humeur.",
-      
+
+      "progress.upgradeTitle": "Passe à la version supérieure pour suivre ta progression",
+      "progress.upgradeDescription": "Accède à des analyses détaillées, des photos de progression, des séries d’entraînement et des insights personnalisés.",
+      "progress.loadingTitle": "Chargement de la progression...",
+      "progress.loadingDescription": "Veuillez patienter pendant le chargement de vos données.",
+      "progress.consistencyTip": "Reste constant avec tes suivis quotidiens pour suivre ta progression et voir tes tendances évoluer au fil du temps.",
+      "progress.startJourneyTitle": "Commence ton parcours",
+      "progress.startJourneyDescription": "Complète tes suivis quotidiens pour commencer à suivre ta progression bien-être et voir des tendances significatives.",
+         
       
       // Client Status
       'clientStatus.noStatus': 'Aucun Statut',
@@ -2295,6 +2319,14 @@ const resources = {
       "ai.energyTip": "Dein Energielevel hängt direkt mit Schlaf und Ernährung zusammen.",
       "ai.workoutConsistencyTip": "Regelmäßiges Training ist eine großartige Möglichkeit, deine Stimmung zu verbessern.",
 
+      "progress.upgradeTitle": "Upgrade, um deinen Fortschritt zu verfolgen",
+      "progress.upgradeDescription": "Erhalte Zugriff auf detaillierte Analysen, Fortschrittsfotos, Trainingsserien und personalisierte Einblicke.",
+      "progress.loadingTitle": "Fortschritt wird geladen...",
+      "progress.loadingDescription": "Bitte warte, während wir deine Daten laden.",
+      "progress.consistencyTip": "Bleib konsequent bei deinen täglichen Check-ins, um deinen Fortschritt zu verfolgen und deine Trends im Laufe der Zeit zu sehen.",
+      "progress.startJourneyTitle": "Starte deine Reise",
+      "progress.startJourneyDescription": "Schließe deine täglichen Check-ins ab, um mit der Verfolgung deines Wohlbefindens zu beginnen und aussagekräftige Trends zu sehen.",
+
 
       // Client Status
       'clientStatus.noStatus': 'Kein Status',
@@ -2974,6 +3006,14 @@ const resources = {
       "ai.energy": "Energi",
       "ai.energyTip": "Energ nivåene dine er direkte knyttet til søvn og ernæring.",
       "ai.workoutConsistencyTip": "Regelmessig trening er en flott måte å forbedre humøret på.",
+
+      "progress.upgradeTitle": "Oppgrader for å spore fremgang",
+      "progress.upgradeDescription": "Få tilgang til detaljerte analyser, fremdriftsbilder, treningsøkter i rekke og personlige innsikter.",
+      "progress.loadingTitle": "Laster fremgang...",
+      "progress.loadingDescription": "Vennligst vent mens vi laster inn dataene dine.",
+      "progress.consistencyTip": "Vær konsekvent med daglige innsjekker for å spore fremgangen din og se trendene utvikle seg over tid.",
+      "progress.startJourneyTitle": "Start reisen din",
+      "progress.startJourneyDescription": "Fullfør daglige innsjekker for å begynne å spore velvære-fremgangen din og se meningsfulle trender.",
       
       // Client Status
       'clientStatus.noStatus': 'Ingen Status',
@@ -3652,6 +3692,14 @@ const resources = {
       "ai.energy": "Energi",
       "ai.energyTip": "Din energinivå är direkt kopplad till sömn och kost.",
       "ai.workoutConsistencyTip": "Konsekvent träning är ett bra sätt att förbättra ditt humör.",
+
+      "progress.upgradeTitle": "Uppgradera för att följa din utveckling",
+      "progress.upgradeDescription": "Få tillgång till detaljerad analys, framstegsbilder, träningssviter och personliga insikter.",
+      "progress.loadingTitle": "Laddar framsteg...",
+      "progress.loadingDescription": "Vänta medan vi laddar din data.",
+      "progress.consistencyTip": "Håll dig konsekvent med dina dagliga incheckningar för att följa din utveckling och se hur dina trender växer över tid.",
+      "progress.startJourneyTitle": "Starta din resa",
+      "progress.startJourneyDescription": "Slutför dina dagliga incheckningar för att börja följa din hälsoutveckling och se meningsfulla trender.",
       
       // Client Status
       'clientStatus.noStatus': 'Ingen Status',
@@ -4332,6 +4380,14 @@ const resources = {
       "ai.energy": "Energi",
       "ai.energyTip": "Dit energiniveau er direkte forbundet med søvn og ernæring.",
       "ai.workoutConsistencyTip": "Konsekvent træning er en fantastisk måde at forbedre dit humør på.",
+
+      "progress.upgradeTitle": "Opgrader for at spore fremskridt",
+      "progress.upgradeDescription": "Få adgang til detaljerede analyser, fremskridtsbilleder, træningsserier og personlige indsigter.",
+      "progress.loadingTitle": "Indlæser fremskridt...",
+      "progress.loadingDescription": "Vent venligst, mens vi indlæser dine data.",
+      "progress.consistencyTip": "Vær konsekvent med dine daglige check-ins for at spore dine fremskridt og se dine trends udvikle sig over tid.",
+      "progress.startJourneyTitle": "Start din rejse",
+      "progress.startJourneyDescription": "Fuldfør dine daglige check-ins for at begynde at spore din sundhedsudvikling og se meningsfulde trends.",
       
       // Client Status
       'clientStatus.noStatus': 'Ingen Status',

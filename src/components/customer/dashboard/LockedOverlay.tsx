@@ -61,7 +61,7 @@ const LockedOverlay = ({
               className="border-orange-200 text-orange-600 hover:bg-orange-50 dark:border-orange-800 dark:text-orange-300 flex-1"
             >
               <Users className="w-4 h-4 mr-2" />
-              Find a Coach
+              {t('blog.findCoach')}
             </Button>
           </div>
         </CardContent>

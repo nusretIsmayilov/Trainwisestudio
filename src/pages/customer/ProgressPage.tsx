@@ -67,12 +67,11 @@ export default function ProgressPage() {
               <div className="flex items-center justify-center gap-2">
                 <Crown className="w-6 h-6 text-primary" />
                 <h3 className="text-xl font-semibold">
-                  Upgrade to Track Progress
+                  {t("progress.upgradeTitle")}
                 </h3>
               </div>
               <p className="text-muted-foreground">
-                Get access to detailed analytics, progress photos, workout
-                streaks, and personalized insights.
+                {t("progress.upgradeDescription")}
               </p>
               <Button className="mt-2">{t("billing.upgrade")}</Button>
             </CardContent>
@@ -88,10 +87,10 @@ export default function ProgressPage() {
       <div className="w-full max-w-4xl mx-auto px-4 py-8">
         <div className="text-center">
           <h1 className="text-3xl font-bold tracking-tight">
-            Loading Progress...
+            {t("progress.loadingTitle")}
           </h1>
           <p className="text-muted-foreground">
-            Please wait while we load your data.
+            {t("progress.loadingDescription")}
           </p>
         </div>
       </div>
@@ -151,19 +150,19 @@ export default function ProgressPage() {
             {t("progress.yourProgress")}
           </h1>
           <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
-            Stay consistent with your daily check-ins to track your progress and
-            see your trends grow over time.
+            {t("progress.consistencyTip")}
           </p>
 
           <Card className="border-2 border-primary/20 bg-gradient-to-r from-primary/5 to-secondary/5 max-w-md mx-auto">
             <CardContent className="p-6 text-center space-y-4">
               <div className="flex items-center justify-center gap-2">
                 <div className="text-2xl">💪</div>
-                <h3 className="text-xl font-semibold">Start Your Journey</h3>
+                <h3 className="text-xl font-semibold">
+                  {t("progress.startJourneyTitle")}
+                </h3>
               </div>
               <p className="text-muted-foreground">
-                Complete your daily check-ins to begin tracking your wellness
-                progress and see meaningful trends.
+                {t("progress.startJourneyDescription")}
               </p>
             </CardContent>
           </Card>
@@ -208,9 +207,7 @@ export default function ProgressPage() {
           <h1 className="text-3xl font-bold tracking-tight">
             {t("progress.yourProgress")}
           </h1>
-          <p className="text-muted-foreground">
-            {t('progress.profileDesc')}
-          </p>
+          <p className="text-muted-foreground">{t("progress.profileDesc")}</p>
         </div>
 
         {/* 1. Hero Progress Snapshot - Only show if we have minimum data */}
@@ -288,12 +285,15 @@ export default function ProgressPage() {
                   {t("progress.profileTitle")}
                 </h3>
               </div>
-              <p className="text-muted-foreground max-w-2xl mx-auto">{t('progress.encouragement')}</p>
+              <p className="text-muted-foreground max-w-2xl mx-auto">
+                {t("progress.encouragement")}
+              </p>
               <div className="flex items-center justify-center gap-2 text-sm text-blue-600 dark:text-blue-400">
                 <div className="w-2 h-2 bg-blue-500 rounded-full"></div>
                 <span>
-                  {t('progress.continueFor')}{" "}
-                  {7 - Math.min(data.dailyCheckins?.length || 0, 7)} {t('progress.moreDays')}
+                  {t("progress.continueFor")}{" "}
+                  {7 - Math.min(data.dailyCheckins?.length || 0, 7)}{" "}
+                  {t("progress.moreDays")}
                 </span>
               </div>
             </CardContent>
@@ -310,7 +310,7 @@ export default function ProgressPage() {
           <DialogHeader>
             <DialogTitle>{modalData?.title}</DialogTitle>
             <DialogDescription className="sr-only">
-              {t('progress.detailedInfo')}
+              {t("progress.detailedInfo")}
             </DialogDescription>
           </DialogHeader>
           <div className="py-4">{modalData?.content}</div>

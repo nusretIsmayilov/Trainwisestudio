@@ -112,7 +112,7 @@ const AccessDeniedOverlay = ({
             </Button>
             <Button onClick={handleFindCoach} variant="outline">
               <Users className="w-4 h-4 mr-2" />
-              Find a Coach
+              {t('blog.findCoach')}
             </Button>
           </div>
         </div>

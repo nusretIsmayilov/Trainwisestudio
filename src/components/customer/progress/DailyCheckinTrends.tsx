@@ -56,7 +56,7 @@ export default function DailyCheckinTrends({
     {
       title: t('module.mood.title'),
       icon: "😊",
-      value: "Good", // This is simplified, a real app would calculate this
+      value: "Good",
       data: last7Days.map((c) => ({
         ...c,
         moodScore:
