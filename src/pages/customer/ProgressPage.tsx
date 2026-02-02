@@ -74,7 +74,7 @@ export default function ProgressPage() {
                 Get access to detailed analytics, progress photos, workout
                 streaks, and personalized insights.
               </p>
-              <Button className="mt-2">{t('billing.upgrade')}</Button>
+              <Button className="mt-2">{t("billing.upgrade")}</Button>
             </CardContent>
           </Card>
         </div>
@@ -107,7 +107,7 @@ export default function ProgressPage() {
         data.nutrition.macros.length >= 7) ||
       (data.fitnessProgression &&
         Object.values(data.fitnessProgression).some(
-          (progression) => progression.length >= 7
+          (progression) => progression.length >= 7,
         )) ||
       (data.mentalHealth && (data.mentalHealth as any).length >= 7));
 
@@ -136,7 +136,7 @@ export default function ProgressPage() {
         data.nutrition.macros.length > 0) ||
       (data.fitnessProgression &&
         Object.values(data.fitnessProgression).some(
-          (progression) => progression.length > 0
+          (progression) => progression.length > 0,
         )) ||
       (data.mentalHealth && (data.mentalHealth as any).length > 0));
 
@@ -178,7 +178,7 @@ export default function ProgressPage() {
     last7DaysCheckins.length > 0
       ? last7DaysCheckins.reduce(
           (sum, day) => sum + (day.sleep_hours || 0),
-          0
+          0,
         ) / last7DaysCheckins.length
       : 0;
   const avgEnergy =
@@ -209,7 +209,7 @@ export default function ProgressPage() {
             {t("progress.yourProgress")}
           </h1>
           <p className="text-muted-foreground">
-            A detailed overview of your wellness journey.
+            {t('progress.profileDesc')}
           </p>
         </div>
 
@@ -254,7 +254,7 @@ export default function ProgressPage() {
         {/* 4. Fitness Progression - Only show if we have minimum fitness data */}
         {data.fitnessProgression &&
           Object.values(data.fitnessProgression).some(
-            (progression) => progression.length >= 7
+            (progression) => progression.length >= 7,
           ) && <FitnessProgression data={data.fitnessProgression} />}
 
         {/* 5. Nutrition Progression - Only show if we have minimum nutrition data */}
@@ -285,20 +285,15 @@ export default function ProgressPage() {
               <div className="flex items-center justify-center gap-2">
                 <div className="text-2xl">📈</div>
                 <h3 className="text-xl font-semibold">
-                  Building Your Progress Profile
+                  {t("progress.profileTitle")}
                 </h3>
               </div>
-              <p className="text-muted-foreground max-w-2xl mx-auto">
-                You're making great progress! Keep tracking your daily check-ins
-                for at least a week to unlock detailed analytics, AI insights,
-                and comprehensive progress tracking.
-              </p>
+              <p className="text-muted-foreground max-w-2xl mx-auto">{t('progress.encouragement')}</p>
               <div className="flex items-center justify-center gap-2 text-sm text-blue-600 dark:text-blue-400">
                 <div className="w-2 h-2 bg-blue-500 rounded-full"></div>
                 <span>
-                  Continue for{" "}
-                  {7 - Math.min(data.dailyCheckins?.length || 0, 7)} more days
-                  to unlock full insights
+                  {t('progress.continueFor')}{" "}
+                  {7 - Math.min(data.dailyCheckins?.length || 0, 7)} {t('progress.moreDays')}
                 </span>
               </div>
             </CardContent>
@@ -315,7 +310,7 @@ export default function ProgressPage() {
           <DialogHeader>
             <DialogTitle>{modalData?.title}</DialogTitle>
             <DialogDescription className="sr-only">
-              Detailed progress information
+              {t('progress.detailedInfo')}
             </DialogDescription>
           </DialogHeader>
           <div className="py-4">{modalData?.content}</div>

@@ -19,6 +19,7 @@ import { toast } from 'sonner';
 import { useAuth } from '@/contexts/AuthContext';
 import { usePaymentPlan } from '@/hooks/usePaymentPlan';
 import { useNavigate } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
 
 // Define the available filter options
 type FilterOption = 'All' | 'Fitness' | 'Nutrition' | 'Mental Health';

@@ -32,7 +32,7 @@ const AIRecommendations = ({ recommendations, loading }: Props) => {
         <div className="flex items-center gap-2 text-amber-700 dark:text-amber-200">
           <Sparkles className="w-4 h-4" />
           <p className="text-sm font-semibold uppercase tracking-wide">
-            {t("dashboard.recommendations")}
+           {t("ai.recommendations")}
           </p>
         </div>
         <div className="space-y-4">

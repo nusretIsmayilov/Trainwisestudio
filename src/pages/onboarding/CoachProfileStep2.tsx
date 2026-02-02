@@ -118,7 +118,7 @@ const CoachProfileStep2 = () => {
         {/* CERTIFICATIONS */}
         <Card>
           <CardContent className="space-y-4 pt-6">
-            <h3 className="font-semibold">Certifications</h3>
+            <h3 className="font-semibold">{t('settings.certifications')}</h3>
 
             <Input
               placeholder="e.g. NASM CPT"

@@ -37,16 +37,14 @@ const CoachProfileDialog = ({
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
         <DialogHeader>
-          <DialogTitle className="sr-only">Coach Details</DialogTitle>
+          <DialogTitle className="sr-only">{t('coach.details')}</DialogTitle>
         </DialogHeader>
 
         {loading ? (
           <div className="flex items-center justify-center py-12">
             <div className="text-center">
               <div className="w-8 h-8 animate-spin mx-auto mb-4 border-2 border-primary border-t-transparent rounded-full" />
-              <p className="text-muted-foreground">
-                Loading coach information...
-              </p>
+              <p className="text-muted-foreground">{t('coach.loading')}</p>
             </div>
           </div>
         ) : coachData ? (
@@ -74,24 +72,24 @@ const CoachProfileDialog = ({
               <div className="flex-1">
                 <h2 className="text-2xl font-bold">{coachData.full_name}</h2>
                 <p className="text-lg text-primary font-medium">
-                  Fitness & Wellness Coach
+                  {t('coach.title')}
                 </p>
 
                 <div className="flex items-center gap-4 mt-2 text-sm text-muted-foreground">
                   <div className="flex items-center gap-1">
                     <Star className="w-4 h-4 text-yellow-500 fill-yellow-500" />
                     <span className="font-semibold text-foreground">4.8</span>
-                    <span>(127 reviews)</span>
+                    <span>{t('coach.reviewsCount')}</span>
                   </div>
                   <span>•</span>
-                  <span>5+ years experience</span>
+                  <span>{t('coach.experience')}</span>
                 </div>
               </div>
             </div>
 
             {/* Bio */}
             <div>
-              <h3 className="text-lg font-semibold mb-2">About</h3>
+              <h3 className="text-lg font-semibold mb-2">{t('coach.about')}</h3>
               <p className="text-muted-foreground leading-relaxed">
                 {coachData.bio}
               </p>
@@ -122,7 +120,7 @@ const CoachProfileDialog = ({
               <div>
                 <h3 className="text-lg font-semibold mb-3 flex items-center gap-2">
                   <Award className="w-5 h-5" />
-                  Certifications
+                  {t('settings.certifications')}
                 </h3>
                 <div className="space-y-2">
                   {coachData.certifications.map((cert: any, idx: number) => (
@@ -142,7 +140,7 @@ const CoachProfileDialog = ({
             {/* Social Links */}
             {coachData.socials?.length > 0 && (
               <div>
-                <h3 className="text-lg font-semibold mb-3">Connect</h3>
+                <h3 className="text-lg font-semibold mb-3">{t('coach.connect')}</h3>
                 <div className="flex flex-wrap gap-3">
                   {coachData.socials.map((social: any, idx: number) => {
                     const socialIcons: any = {
@@ -173,9 +171,7 @@ const CoachProfileDialog = ({
           </div>
         ) : (
           <div className="text-center py-12">
-            <p className="text-muted-foreground">
-              Coach information not available.
-            </p>
+            <p className="text-muted-foreground">{t('coach.notAvailable')}</p>
           </div>
         )}
       </DialogContent>

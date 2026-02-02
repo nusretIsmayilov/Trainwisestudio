@@ -1,30 +1,31 @@
-import AnimatedOutlet from '@/components/routing/AnimatedOutlet';
-import { SidebarProvider } from '@/components/ui/sidebar';
-import TopNav from './TopNav';
-import SideNav from './SideNav';
-import ErrorBoundary from '@/components/system/ErrorBoundary';
-import CoachProfileBanner from '@/components/coach/CoachProfileBanner';
-import { 
-  NavItem, 
-  coachNavItems, 
-  customerNavItems, 
-  getCustomerNavItems
-} from '@/lib/navItems';
-import { useAuth } from '@/contexts/AuthContext';
-import { useLibraryAccess } from '@/hooks/useLibraryAccess';
-import { AccessLevelProvider } from '@/contexts/AccessLevelContext';
-import { useRoutePrefetch } from '@/hooks/useRoutePrefetch';
+import AnimatedOutlet from "@/components/routing/AnimatedOutlet";
+import { SidebarProvider } from "@/components/ui/sidebar";
+import TopNav from "./TopNav";
+import SideNav from "./SideNav";
+import ErrorBoundary from "@/components/system/ErrorBoundary";
+import CoachProfileBanner from "@/components/coach/CoachProfileBanner";
+import {
+  NavItem,
+  coachNavItems,
+  customerNavItems,
+  getCustomerNavItems,
+} from "@/lib/navItems";
+import { useAuth } from "@/contexts/AuthContext";
+import { useLibraryAccess } from "@/hooks/useLibraryAccess";
+import { AccessLevelProvider } from "@/contexts/AccessLevelContext";
+import { useRoutePrefetch } from "@/hooks/useRoutePrefetch";
+import { useTransition } from "react";
+import { useTranslation } from "react-i18next";
 
 const AppShell = () => {
   const { profile, loading } = useAuth();
   const { shouldShowLink } = useLibraryAccess();
+  const { t } = useTranslation();
 
   // Route prefetching for smoother navigation
-  useRoutePrefetch(profile?.role as 'customer' | 'coach' | null);
-  
+  useRoutePrefetch(profile?.role as "customer" | "coach" | null);
 
-
-  if (loading) return <div>Loading...</div>;
+  if (loading) return <div>{t("common.loading")}</div>;
   if (!profile) return null;
 
   const navByRole = {
@@ -35,7 +36,7 @@ const AppShell = () => {
   const navConfig = navByRole[profile.role as keyof typeof navByRole];
   const navItems: NavItem[] = navConfig.main;
 
-  const isCoach = profile.role === 'coach';
+  const isCoach = profile.role === "coach";
 
   return (
     <AccessLevelProvider>

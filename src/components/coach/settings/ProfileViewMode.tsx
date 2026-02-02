@@ -190,7 +190,7 @@ export const ProfileViewMode: React.FC<ProfileViewModeProps> = ({
           <CardHeader>
             <CardTitle className="flex items-center gap-2 text-xl">
               <Globe className="h-5 w-5" />
-              Connect With Me
+              {t('coach.connectWithMe')}
             </CardTitle>
           </CardHeader>
           <CardContent>

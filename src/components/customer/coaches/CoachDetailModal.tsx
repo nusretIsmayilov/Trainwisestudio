@@ -52,7 +52,7 @@ export const CoachDetailModal: React.FC<CoachDetailModalProps> = ({
     <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
         <DialogHeader>
-          <DialogTitle className="sr-only">Coach Details</DialogTitle>
+          <DialogTitle className="sr-only">{t('coach.details')}</DialogTitle>
         </DialogHeader>
 
         <div className="space-y-6">
@@ -82,17 +82,17 @@ export const CoachDetailModal: React.FC<CoachDetailModalProps> = ({
                   <span className="font-semibold text-foreground">
                     {coach.rating.toFixed(1)}
                   </span>
-                  <span>({coach.reviews} reviews)</span>
+                  <span>({coach.reviews} {t('coach.reviews')})</span>
                 </div>
                 <span>•</span>
-                <span>{coach.yearsExperience}+ years experience</span>
+                <span>{coach.yearsExperience}{t('coach.experience')}</span>
               </div>
             </div>
           </div>
 
           {/* Bio */}
           <div>
-            <h3 className="text-lg font-semibold mb-2">About</h3>
+            <h3 className="text-lg font-semibold mb-2">{t('coach.about')}</h3>
             <p className="text-muted-foreground leading-relaxed">{coach.bio}</p>
           </div>
 
@@ -110,7 +110,7 @@ export const CoachDetailModal: React.FC<CoachDetailModalProps> = ({
                 </Badge>
               ))}
               {coach.skills.length === 0 && (
-                <p className="text-muted-foreground">No skills listed yet.</p>
+                <p className="text-muted-foreground">{t('coach.noSkills')}</p>
               )}
             </div>
           </div>
@@ -120,7 +120,7 @@ export const CoachDetailModal: React.FC<CoachDetailModalProps> = ({
             <div>
               <h3 className="text-lg font-semibold mb-3 flex items-center gap-2">
                 <Award className="w-5 h-5" />
-                Certifications
+                {t('settings.certifications')}
               </h3>
               <div className="space-y-2">
                 {coach.certifications.map((cert, idx) => (
@@ -140,7 +140,7 @@ export const CoachDetailModal: React.FC<CoachDetailModalProps> = ({
           {/* Social Links */}
           {coach.socials.length > 0 && (
             <div>
-              <h3 className="text-lg font-semibold mb-3">Connect</h3>
+              <h3 className="text-lg font-semibold mb-3">{t('coach.connect')}</h3>
               <div className="flex flex-wrap gap-3">
                 {coach.socials.map((social, idx) => {
                   const IconComponent =

@@ -568,7 +568,7 @@ const ProgressProgramsTab: React.FC<DashboardProps> = ({ client }) => {
           selectedRange={selectedRange}
         />
         <DailyTrendCard
-          title="Energy"
+          title={t("ai.energy")}
           data={dailyData}
           dataKey="energy"
           color={colors.energy}
@@ -576,7 +576,7 @@ const ProgressProgramsTab: React.FC<DashboardProps> = ({ client }) => {
           selectedRange={selectedRange}
         />
         <DailyTrendCard
-          title="Mood"
+          title= {t('module.mood.title')}
           data={dailyData}
           dataKey="mood"
           color={colors.mood}
@@ -584,7 +584,7 @@ const ProgressProgramsTab: React.FC<DashboardProps> = ({ client }) => {
           selectedRange={selectedRange}
         />
         <DailyTrendCard
-          title="Stress"
+          title={t("ai.sleep")}
           data={dailyData}
           dataKey="stress"
           color={colors.mentalStress}
@@ -592,7 +592,7 @@ const ProgressProgramsTab: React.FC<DashboardProps> = ({ client }) => {
           selectedRange={selectedRange}
         />
         <DailyTrendCard
-          title="Sleep"
+          title={t("ai.energy")}
           data={dailyData}
           dataKey="sleep"
           color={colors.sleep}

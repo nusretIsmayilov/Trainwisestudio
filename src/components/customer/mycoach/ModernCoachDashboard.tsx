@@ -15,6 +15,7 @@ import { useNavigate } from "react-router-dom";
 
 import CoachProfileDialog from "@/components/coach/CoachProfileDialog";
 import { useCoachProfile } from "@/components/coach/useCoachProfile";
+import { useTranslation } from "react-i18next";
 
 interface CoachInfo {
   name: string;
@@ -44,6 +45,7 @@ const ModernCoachDashboard: React.FC<ModernCoachDashboardProps> = ({
   const { planStatus } = usePaymentPlan();
   const { motivationMessage } = useRealTimeMotivation();
   const navigate = useNavigate();
+  const { t } = useTranslation();
 
   const { open, loading, coachData, openCoach, setOpen } = useCoachProfile();
 
@@ -86,7 +88,7 @@ const ModernCoachDashboard: React.FC<ModernCoachDashboardProps> = ({
                   <div className="flex items-center gap-2 text-muted-foreground">
                     <Star className="w-5 h-5 text-yellow-500 fill-yellow-500" />
                     <span className="text-base font-medium">
-                      Your Personal Coach
+                      {t("coach.yourCoach")}
                     </span>
                   </div>
                 </div>
@@ -111,7 +113,7 @@ const ModernCoachDashboard: React.FC<ModernCoachDashboardProps> = ({
                     className="shadow-md hover:shadow-lg transition-shadow"
                   >
                     <User className="w-4 h-4 mr-2" />
-                    View Full Bio
+                    {t('coach.viewBio')}
                   </Button>
 
                   <Button
@@ -125,7 +127,7 @@ const ModernCoachDashboard: React.FC<ModernCoachDashboardProps> = ({
                     }
                   >
                     <Calendar className="w-4 h-4 mr-2" />
-                    Message Coach
+                    {t('coach.message')}
                   </Button>
                 </div>
               </div>
